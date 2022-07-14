@@ -1,0 +1,137 @@
+[
+  {
+    "inputs": [],
+    "name": "allMachines",
+    "outputs": [
+      {
+        "internalType": "contract Machine[]",
+        "name": "coll",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "slot0",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "slot1",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "slot2",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "slot3",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "slot4",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "slot5",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "slot6",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "slot7",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "slot8",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "slot9",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct MiddleData.SlotStruct",
+        "name": "slots1",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "odds0",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "odds1",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "odds2",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "odds3",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "odds4",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "odds5",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "odds6",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "odds7",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "odds8",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "odds9",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct MiddleData.OddsStruct",
+        "name": "odds1",
+        "type": "tuple"
+      }
+    ],
+    "name": "createMachine",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
