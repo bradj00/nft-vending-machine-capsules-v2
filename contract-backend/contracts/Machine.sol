@@ -120,10 +120,6 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
         return newItemId;
     }
 
-    // function setTokenURI(uint256 tokenId, string memory tokenURI) public { //eventually lock this down
-    //     _setTokenURI(tokenId, tokenURI);
-    // }
-
     function openChest(uint256 chestId) public  returns (bytes32) {
         require(ownerOf(chestId) == msg.sender, "Only callable from your chest");
         require(requestStatusIdByNftId[chestId] == 0x0000000000000000000000000000000000000000000000000000000000000000, "Chest has been opened");
@@ -201,7 +197,7 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
             address tokenOwner = nftContract.ownerOf(theList[x][z]);        //get owner's address for NFT id from contract       
             require (tokenOwner == address(this), "contract does not own this token");  //if this contract owns the NFT...
             for (uint256 i = 0; i < addyArray.length; i++){         //for each slot in vending machine
-                if (addyArray[x] == addyArray[i]){            //if supplied address matches up with a vending slot
+                if (addyArray[x] == addyArray[i]){            //if supplied address matches up with a vending slot...herein lay the problem
                     slotInhabitant memory tempStruct;
                     tempStruct.tokenId = theList[x][z];
 
