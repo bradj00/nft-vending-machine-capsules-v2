@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react'
-import {CapsuleFactoryABI,CapsuleFactoryContractAddress, BuyCapsuleContractABI } from '../../ContractInfo/ContractInfo';
+import {MachineFactoryABI,MachineFactoryContractAddress, BuyCapsuleContractABI } from '../../ContractInfo/ContractInfo';
 import {useNavigate, useLocation, Link } from 'react-router-dom'
 import {useWeb3Contract, useMoralisWeb3Api, useMoralis, useChain } from 'react-moralis';
 import { NftMoreInfoContext } from '../../App';
@@ -19,8 +19,8 @@ const BuyCapsuleContractInfoGrabber = () => {
 }, [web3]);
 
   const GetBuyCapsuleContractAddress = useWeb3Contract({
-    abi: CapsuleFactoryABI,  
-    contractAddress: CapsuleFactoryContractAddress,
+    abi: MachineFactoryABI,  
+    contractAddress: MachineFactoryContractAddress,
     functionName: "BuyCapsulesByMachineAddress",
     params: {
         machineAddress: MachineContractAddress
@@ -47,7 +47,7 @@ const BuyCapsuleContractInfoGrabber = () => {
         console.log('@@@@@@\tfetching BuyCapsuleContractAddress for MachineContractAddress: ',MachineContractAddress)
         GetBuyCapsuleContractAddress.runContractFunction({
             onError: (error) =>{
-            console.log('123123123 big ERROR: ',error,CapsuleFactoryABI,CapsuleFactoryContractAddress,MachineContractAddress); 
+            console.log('123123123 big ERROR: ',error,MachineFactoryABI,MachineFactoryContractAddress,MachineContractAddress); 
         }
 
         });

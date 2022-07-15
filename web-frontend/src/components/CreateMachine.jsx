@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect, useCallback} from 'react'
 import {useWeb3Contract, useMoralisWeb3Api, useNFTBalances , useMoralis, useChain } from 'react-moralis';
-import {CapsuleFactoryABI, CapsuleFactoryContractAddress, contractCrateABI} from '../ContractInfo/ContractInfo.jsx';
+import {MachineFactoryABI, MachineFactoryContractAddress, contractCrateABI} from '../ContractInfo/ContractInfo.jsx';
 import '../styles/grid.css';
 import {useNavigate, useLocation, Link, Navigate   } from 'react-router-dom'
 import { NftMoreInfoContext } from '../App.js';
@@ -10,6 +10,7 @@ import CapsuleIconCreateMachine from './snippet-components/CapsuleIconCreateMach
 import {getEllipsisTxt} from "../helpers/formatters";
 import { ethers } from 'ethers';
 import SlotProbabilitySlider from './snippet-components/SlotProbabilitySlider.jsx';
+import EulaText from './snippet-components/EulaText.jsx';
 
 const CreateMachine = (props, context) => {
     const {Moralis, enableWeb3, web3, isWeb3Enabled, authenticate, isAuthenticated, user, logout} = useMoralis();
@@ -18,6 +19,9 @@ const CreateMachine = (props, context) => {
     const location = useLocation();
 
     const [createMachineStatusMsg, setcreateMachineStatusMsg]           = useState('Create Machine');
+
+    const [signedEula, setsignedEula]                                   = useState(false);
+
 
     const [MachineNameBytes32, setMachineNameBytes32]                   = useState();
     const [MachineTokenQtyCost, setMachineTokenQtyCost]                 = useState();
@@ -359,6 +363,15 @@ const CreateMachine = (props, context) => {
 
      },[LookedUpContractInfoName]);
 
+     const getuserAcceptEula = useWeb3Contract({
+        abi: MachineFactoryABI,
+        contractAddress: MachineFactoryContractAddress,
+        functionName: "getuserAcceptEula", 
+        params: {
+            user: account? account : "0x0000000000000000000000000000000000000000",        
+        }
+      });
+
      useEffect(() => {
         if (!isWeb3Enabled) {
         // console.log('enabling web3...'); 
@@ -380,6 +393,23 @@ const CreateMachine = (props, context) => {
         }
     }, [web3]);
 
+    useEffect(() => {
+        if (account) {
+            getuserAcceptEula.runContractFunction();
+        }
+    }, [account]);
+    useEffect(()=>{
+        if (getuserAcceptEula.data){
+            console.log('returned getuserAcceptEula data: ',getuserAcceptEula.data._hex);
+            if (getuserAcceptEula.data._hex == '0x00'){
+                setsignedEula(false);
+            }
+            if (getuserAcceptEula.data._hex == '0x01'){
+                setsignedEula(true);
+            }
+
+        }
+    },[getuserAcceptEula.data]);
     //{ getNFTBalances, data, error, isLoading, isFetching }
     const getAllUserNfts = useNFTBalances({
         params:{
@@ -501,8 +531,8 @@ const CreateMachine = (props, context) => {
     }
 
     const createNewMachineFromFactory = useWeb3Contract({
-        abi: CapsuleFactoryABI,  
-        contractAddress: CapsuleFactoryContractAddress,
+        abi: MachineFactoryABI,  
+        contractAddress: MachineFactoryContractAddress,
         functionName: "createMachine",
         params:{
             slots1: factoryTupleAddresses,
@@ -521,8 +551,8 @@ const CreateMachine = (props, context) => {
     },[factoryTupleProbabilities])
 
     const getUserRegisteredMachines = useWeb3Contract({
-        abi: CapsuleFactoryABI,  
-        contractAddress: CapsuleFactoryContractAddress,
+        abi: MachineFactoryABI,  
+        contractAddress: MachineFactoryContractAddress,
         functionName: "getMyMachines",    
       });
 
@@ -1467,6 +1497,7 @@ const CreateMachine = (props, context) => {
                 Balance Odds
             </div>: <></>}
 
+            {signedEula? 
             <div style={{display:'flex',justifyContent:'center',position:'absolute',fontSize:'20px', width:'95%',border:'0px dashed #ff00ff'}}>
                     
                     <div style={{display:'flex',justifyContent:'center', color:'#fff', paddingTop:'0.5vh', position:'absolute',top:'0vw',width:'20vw',height:'6vh',backgroundColor:'rgba(50,50,50,0)'}}>
@@ -1874,6 +1905,13 @@ const CreateMachine = (props, context) => {
 
 
             </div>
+            : 
+            <>
+                <EulaText signedEula={signedEula} setSignedEula={setsignedEula}/>
+
+            </>
+            }
+
         </div>
 
 
@@ -1965,8 +2003,8 @@ const CreateMachine = (props, context) => {
         
         </div>
         }
-
-            {TotalPercentageProbabilities < 100 ? 
+            
+            {TotalPercentageProbabilities < 100 && signedEula? 
                 <div style={{width:'15vw', display:'flex',justifyContent:'center',position:'absolute',bottom:'6vh',color:'#ffff00',fontSize:'1vw'}}>
                     <div style={{position:'absolute',top:'0'}}>
                         Slot Percents Must Equal 100%
@@ -1977,7 +2015,7 @@ const CreateMachine = (props, context) => {
                 </div>
         
             :<></>}
-            {TotalPercentageProbabilities > 100 ? 
+            {TotalPercentageProbabilities > 100 && signedEula? 
             <div style={{width:'15vw', display:'flex',justifyContent:'center',position:'absolute',bottom:'6vh',color:'#ff0000',fontSize:'1vw'}}>
                 <div style={{position:'absolute',top:'0'}}>
                     Slot Percents Must Equal 100%
@@ -1987,7 +2025,7 @@ const CreateMachine = (props, context) => {
                 </div>
             </div>
             :<></>}
-            {TotalPercentageProbabilities == 100 ? 
+            {TotalPercentageProbabilities == 100 && signedEula? 
                 <div style={{display:'flex', justifyContent:'center', position:'absolute',bottom:'4vh',color:'#00ff00',fontSize:'1.5vw'}}>
                     
                     {createMachineStatusMsg =='Create Machine'?

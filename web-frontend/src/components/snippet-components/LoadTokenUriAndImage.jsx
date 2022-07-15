@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { OddsAndSlotAddys } from '../../App';
-import { contractCrateABI, CapsuleFactoryContractAddress} from '../../ContractInfo/ContractInfo';
+import { contractCrateABI, MachineFactoryContractAddress} from '../../ContractInfo/ContractInfo';
 import {useMoralis, useWeb3Contract} from 'react-moralis';
 import { NftMoreInfoContext } from '../../App';
 

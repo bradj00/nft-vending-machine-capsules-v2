@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.1;
+// SPDX-License-Identifier: GPL-3.0-only
+pragma solidity 0.8.1;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol"; 
@@ -27,18 +27,18 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
     }
 
 
-    mapping(bytes32 => address) public openChestCaller;         //get persons address from Chainlink requestId
-    mapping(bytes32 => uint256) public openChestStatus;         //get tokenId from ChainLink requestId
-    mapping(uint256 => bytes32) public requestStatusIdByNftId;  //get Chainlink requestId from tokenId
-    mapping(address => slotInhabitant[]) public q;            
+    mapping(bytes32 => address) private openChestCaller;         //get persons address from Chainlink requestId
+    mapping(bytes32 => uint256) private openChestStatus;         //get tokenId from ChainLink requestId
+    mapping(uint256 => bytes32) private requestStatusIdByNftId;  //get Chainlink requestId from tokenId
+    mapping(address => slotInhabitant[]) private q;            
 
-    uint256[] oddsArray;
-    address[] addyArray;
+    uint256[] private oddsArray;
+    address[] private addyArray;
 
-    address owner;
-    address FactoryAddress;
+    address private owner;
+    address private FactoryAddress;
 
-    string MachineString;
+    string private MachineString;
 
     SlotStruct allSlotAddresses;
     OddsStruct allOdds;
@@ -47,15 +47,15 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
     constructor(SlotStruct memory slots1, OddsStruct memory odds1, address theOwner, address _factoryAddress, string memory _MachineString) 
         ERC721("Capsule", "CAPSULE")  
         VRFConsumerBase(
-            0xb3dCcb4Cf7a26f6cf6B120Cf5A73875B7BBc655B,     // VRF Coordinator          //rinkeby
-            0x01BE23585060835E02B77ef475b0Cc51aA1e0709      // LINK Token               //rinkeby
+            0x8C7382F9D8f56b33781fE506E897a4F1e2d17255,     // VRF Coordinator          //mumbai
+            0x326C977E6efc84E512bB9C30f76E30c160eD06FB      // LINK Token               //mumbai
         ) 
     {
         owner = theOwner;
         MachineString = _MachineString;
         FactoryAddress = _factoryAddress;
-        keyHash = 0x2ed0feb3e7fd2022120aa84fab1945545a9f2ffc9076fd6156fa96eaff4c1311; //rinkeby
-        fee = 0.1 * 10 ** 18; // 0.25 LINK (Varies by network) (0.1 for RINKEBY)
+        keyHash = 0x6e75b569a01ef56d18cab6a8e71e6600d6ce853834d4a5748b720d06f878b3a4; //mumbai
+        fee = 0.0001 * 10 ** 18; // 0.0001 LINK (Varies by network) (0.0001 for MUMBAI)
       
         allSlotAddresses = slots1;
         allOdds = odds1;
@@ -146,11 +146,6 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
     }
 
 
-
-
-
-
-
     // function ejectNftArray(uint _tokenId, address tokenAddress, uint _slotNumber) public onlyOwner {
     function ejectNftArray(uint256[][] memory theList) public  onlyOwner {
             for (uint256 x = 0; x < theList.length; x++){
@@ -195,7 +190,6 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
                 }
             }
 
-
     }
 
 
@@ -230,6 +224,7 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
         }
         }
     }
+
 
     function getAllRegisteredForSlot(uint256 slotIndex) public view returns (slotInhabitant[] memory, string[] memory, string memory, string memory, address){
         address slotAddr = addyArray[slotIndex];
@@ -304,7 +299,7 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
         uint256 sender;
         sender = openChestStatus[requestId];
         requestStatusIdByNftId[sender] = 0x0000000000000000000000000000000000000000000000000000000000000000;
-        _burn(sender); //burn the treasure chest
+        _burn(sender); //burn the capsule
 
     }
 

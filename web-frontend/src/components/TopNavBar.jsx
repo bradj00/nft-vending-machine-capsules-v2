@@ -3,7 +3,7 @@ import "../styles/grid.css"
 import {useNavigate, useLocation} from 'react-router-dom'
 import {useChain} from 'react-moralis';
 import { NftMoreInfoContext } from '../App'
-import { CapsuleFactoryContractAddress } from '../ContractInfo/ContractInfo';
+import { MachineFactoryContractAddress } from '../ContractInfo/ContractInfo';
 import {getEllipsisTxt} from "../helpers/formatters";
 
 const TopNavBar = () => {
@@ -38,11 +38,11 @@ const TopNavBar = () => {
         friendlyNameChainId(chainId)
         //set all our global variables related to network dependencies here
 
-        if (chainId == '0x4'){
+        if (chainId == '0x13881'){
           setdisplayNetworkSwitchPrompt(false);
         }
-        if (chainId != '0x4'){
-          console.log('PLEASE SWITCH TO RINKEBY!')
+        if (chainId != '0x13881'){
+          console.log('PLEASE SWITCH TO RINKEBY! Current chain:', chainId)
           setdisplayNetworkSwitchPrompt(true);
         }
     }
@@ -57,7 +57,7 @@ const TopNavBar = () => {
             setActiveNetworkThemeColor("rgba(40,40,120,0.2)");
             setActiveNetworkThemeColorOpaque("rgba(40,40,120,1)");
             setActiveNetworkThemeBoxShadow("inset 0px 0px 0px 0px #000022");
-            setActiveNetworkMachineFactoryAddress(CapsuleFactoryContractAddress.ethmain);
+            setActiveNetworkMachineFactoryAddress(MachineFactoryContractAddress.ethmain);
             setActiveNetworkBorderColor("1px solid #0000ff");
             break;
             
@@ -71,7 +71,7 @@ const TopNavBar = () => {
             setActiveNetworkThemeColorDarker("rgba(80,80,250,0.1)");
 
             setActiveNetworkThemeBoxShadow("inset 0px 0px 0px 0px #000011");
-            setActiveNetworkMachineFactoryAddress(CapsuleFactoryContractAddress.rinkeby);
+            setActiveNetworkMachineFactoryAddress(MachineFactoryContractAddress.rinkeby);
             setActiveNetworkBorderColor("1px solid #ffcc00");
             break;
         case '0x13881': 
@@ -80,7 +80,7 @@ const TopNavBar = () => {
             setActiveNetworkThemeColor("rgba(150,80,40,0.2)");
             setActiveNetworkThemeColorOpaque("rgba(150,80,40,1)");
             setActiveNetworkThemeBoxShadow("inset 0px 0px 0px 0px #221100");
-            setActiveNetworkMachineFactoryAddress(CapsuleFactoryContractAddress.mumbai);
+            setActiveNetworkMachineFactoryAddress(MachineFactoryContractAddress.mumbai);
             setActiveNetworkBorderColor("1px solid #3333aa");
 
             break;

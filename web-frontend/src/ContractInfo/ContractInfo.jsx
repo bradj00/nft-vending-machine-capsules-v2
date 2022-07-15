@@ -18,7 +18,7 @@
 
 
 
-export const CapsuleFactoryContractAddress = "0x1d5741dfd75ecE8880230B7ce058Da7F3a0d325F";
+export const MachineFactoryContractAddress = "0xC2fDbACF42555C09FE911D0a12Ee4246c173dF46";
 
 export const BuyCapsuleContractABI = [
 	{
@@ -205,144 +205,7 @@ export const BuyCapsuleContractABI = [
 	}
 ];
 
-export const CapsuleFactoryABI = [
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "machineAddress",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "bytes32",
-				"name": "requestId",
-				"type": "bytes32"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "theNumber",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "nftTokenId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "winningSlot",
-				"type": "uint256"
-			}
-		],
-		"name": "MachineUsed",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "machineAddress",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "bytes32",
-				"name": "requestId",
-				"type": "bytes32"
-			},
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "requesterAddress",
-				"type": "address"
-			}
-		],
-		"name": "PullRequest",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "contract Machine",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "BuyCapsuleByMachine",
-		"outputs": [
-			{
-				"internalType": "contract BuyCapsules",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "contract Machine",
-				"name": "machineAddress",
-				"type": "address"
-			}
-		],
-		"name": "BuyCapsulesByMachineAddress",
-		"outputs": [
-			{
-				"internalType": "contract BuyCapsules",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "MachinesByOwner",
-		"outputs": [
-			{
-				"internalType": "contract Machine",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "allMachines",
-		"outputs": [
-			{
-				"internalType": "contract Machine[]",
-				"name": "coll",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
+export const MachineFactoryABI = [
 	{
 		"inputs": [
 			{
@@ -537,6 +400,145 @@ export const CapsuleFactoryABI = [
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "machineAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "theNumber",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "nftTokenId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "winningSlot",
+				"type": "uint256"
+			}
+		],
+		"name": "MachineUsed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "machineAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "requesterAddress",
+				"type": "address"
+			}
+		],
+		"name": "PullRequest",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "signTrue",
+				"type": "bool"
+			}
+		],
+		"name": "signEula",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "allMachines",
+		"outputs": [
+			{
+				"internalType": "contract Machine[]",
+				"name": "coll",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract Machine",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "BuyCapsuleByMachine",
+		"outputs": [
+			{
+				"internalType": "contract BuyCapsules",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract Machine",
+				"name": "machineAddress",
+				"type": "address"
+			}
+		],
+		"name": "BuyCapsulesByMachineAddress",
+		"outputs": [
+			{
+				"internalType": "contract BuyCapsules",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getEulaContentId",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "getMyMachines",
 		"outputs": [
@@ -544,6 +546,68 @@ export const CapsuleFactoryABI = [
 				"internalType": "contract Machine[]",
 				"name": "",
 				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			}
+		],
+		"name": "getuserAcceptEula",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "MachinesByOwner",
+		"outputs": [
+			{
+				"internalType": "contract Machine",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "userAcceptEula",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
 			}
 		],
 		"stateMutability": "view",

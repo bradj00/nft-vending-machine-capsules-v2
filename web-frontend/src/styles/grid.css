@@ -823,3 +823,12 @@ input[type="text"]
 .adminButton:hover {
   border: 1px solid #fff;
 }
+
+.signButton{
+  background-color: #115599;
+  border: 1px solid #66ffff;
+}
+.signButton:hover{
+  background-color: #11aaaa;
+  cursor: pointer;
+}
