@@ -339,6 +339,11 @@ const VendingCurrentSlots = () => {
       let filteredArray = TopLevelArray[0].filter((item) => {
         return item.slotIndex == topSlotIndex
       });
+      let filteredUriArray = TopLevelArray[0].filter((item) => {
+        return item.slotIndex == topSlotIndex
+      });
+
+
       return([filteredArray, TopLevelArray[1],TopLevelArray[2],TopLevelArray[3],TopLevelArray[4]])
     } 
 
@@ -346,8 +351,10 @@ const VendingCurrentSlots = () => {
       if (fetchContractInventorySlot1.data != null){
         // sethideExtraInfo(false); //should probably call this somewhere more reliable.
         setcapsuleIconAnimated(false);
-        console.log('COOL DATA 1 : ',fetchContractInventorySlot1.data);
-        console.log('FILTERED COOL DATA 1: ',filterArray(1, fetchContractInventorySlot1.data))
+        console.log('SLOT 1 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED SLOT 1: ',filterArray(1, fetchContractInventorySlot1.data))
+        //fetchContractInventorySlot1.data[1] needs to be filtered the same way because we pull the image src straight from this array
+
         setslotInventory1tokenInfoArray( filterArray(1, fetchContractInventorySlot1.data) );
         setslot1Inventory( filterArray(1, fetchContractInventorySlot1.data)[0].length );
         setslot1Stock( deriveInStockFromRegisteredInventory(  filterArray(1, fetchContractInventorySlot1.data)[0]  ) );
@@ -387,8 +394,8 @@ const VendingCurrentSlots = () => {
 
     useEffect(()=>{
       if (fetchContractInventorySlot2.data != null){
-        console.log('COOL DATA 2 : ',fetchContractInventorySlot1.data);
-        console.log('FILTERED COOL DATA 2: ',filterArray(2, fetchContractInventorySlot1.data))
+        console.log('SLOT 2 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED SLOT 2: ',filterArray(2, fetchContractInventorySlot1.data))
        
         setslot2Inventory( filterArray(2, fetchContractInventorySlot2.data)[0].length );
         setslot2Stock( deriveInStockFromRegisteredInventory(  filterArray(2, fetchContractInventorySlot2.data)[0]  ) );
@@ -421,8 +428,8 @@ const VendingCurrentSlots = () => {
     useEffect(()=>{
       if (fetchContractInventorySlot3.data != null){
         
-        console.log('COOL DATA 3 : ',fetchContractInventorySlot1.data);
-        console.log('FILTERED COOL DATA 3: ',filterArray(2, fetchContractInventorySlot1.data))
+        console.log('SLOT 3 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED SLOT 3: ',filterArray(2, fetchContractInventorySlot1.data))
         setslot3Inventory( filterArray(3, fetchContractInventorySlot3.data)[0].length );
         setslot3Stock( deriveInStockFromRegisteredInventory(  filterArray(3, fetchContractInventorySlot3.data)[0]  ) );
         
@@ -457,8 +464,8 @@ const VendingCurrentSlots = () => {
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
-        console.log('COOL DATA 4 : ',fetchContractInventorySlot4.data);
-        console.log('FILTERED COOL DATA 4: ',filterArray(4, fetchContractInventorySlot1.data))
+        console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
+        console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot1.data))
         setslotInventory4tokenInfoArray( filterArray(4, fetchContractInventorySlot1.data) );
         setslot4Inventory( filterArray(4, fetchContractInventorySlot4.data)[0].length );
         setslot4Stock( deriveInStockFromRegisteredInventory(  filterArray(4, fetchContractInventorySlot4.data)[0]  ) );
@@ -488,8 +495,8 @@ const VendingCurrentSlots = () => {
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
-        console.log('COOL DATA 5 : ',fetchContractInventorySlot5.data);
-        console.log('FILTERED COOL DATA 5: ',filterArray(5, fetchContractInventorySlot5.data))
+        console.log('SLOT 5 : ',fetchContractInventorySlot5.data);
+        console.log('FILTERED SLOT 5: ',filterArray(5, fetchContractInventorySlot5.data))
         setslotInventory5tokenInfoArray( filterArray(5, fetchContractInventorySlot5.data) );
         setslot5Inventory( filterArray(5, fetchContractInventorySlot5.data)[0].length );
         setslot5Stock( deriveInStockFromRegisteredInventory(  filterArray(5, fetchContractInventorySlot5.data)[0]  ) );
@@ -522,8 +529,8 @@ const VendingCurrentSlots = () => {
           ...oldValue, ...updated1
         })    );
 
-        console.log('COOL DATA 6 : ',fetchContractInventorySlot6.data);
-        console.log('FILTERED COOL DATA 6: ',filterArray(6, fetchContractInventorySlot6.data))
+        console.log('SLOT 6 : ',fetchContractInventorySlot6.data);
+        console.log('FILTERED SLOT 6: ',filterArray(6, fetchContractInventorySlot6.data))
         setslotInventory6tokenInfoArray( filterArray(6, fetchContractInventorySlot6.data) );
         setslot6Inventory( filterArray(6, fetchContractInventorySlot6.data)[0].length );
         setslot6Stock( deriveInStockFromRegisteredInventory(  filterArray(6, fetchContractInventorySlot6.data)[0]  ) );
@@ -554,8 +561,8 @@ const VendingCurrentSlots = () => {
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
-        console.log('COOL DATA 7 : ',fetchContractInventorySlot1.data);
-        console.log('FILTERED COOL DATA 7: ',filterArray(7, fetchContractInventorySlot7.data))
+        console.log('SLOT 7 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED SLOT 7: ',filterArray(7, fetchContractInventorySlot7.data))
         setslotInventory7tokenInfoArray( filterArray(7, fetchContractInventorySlot7.data) );
         setslot7Inventory( filterArray(7, fetchContractInventorySlot7.data)[0].length );
         setslot7Stock( deriveInStockFromRegisteredInventory(  filterArray(7, fetchContractInventorySlot7.data)[0]  ) );
@@ -585,8 +592,8 @@ const VendingCurrentSlots = () => {
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
-        console.log('COOL DATA 8 : ',fetchContractInventorySlot1.data);
-        console.log('FILTERED COOL DATA 8: ',filterArray(8, fetchContractInventorySlot8.data))
+        console.log('SLOT 8 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED SLOT 8: ',filterArray(8, fetchContractInventorySlot8.data))
         setslotInventory8tokenInfoArray( filterArray(8, fetchContractInventorySlot8.data) );
         setslot8Inventory( filterArray(8, fetchContractInventorySlot8.data)[0].length );
         setslot8Stock( deriveInStockFromRegisteredInventory(  filterArray(8, fetchContractInventorySlot8.data)[0]  ) );
@@ -616,8 +623,8 @@ const VendingCurrentSlots = () => {
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
-        console.log('COOL DATA 9 : ',fetchContractInventorySlot9.data);
-        console.log('FILTERED COOL DATA 9: ',filterArray(9, fetchContractInventorySlot9.data))
+        console.log('SLOT 9 : ',fetchContractInventorySlot9.data);
+        console.log('FILTERED SLOT 9: ',filterArray(9, fetchContractInventorySlot9.data))
         setslotInventory9tokenInfoArray( filterArray(9, fetchContractInventorySlot9.data) );
         setslot9Inventory( filterArray(9, fetchContractInventorySlot9.data)[0].length );
         setslot9Stock( deriveInStockFromRegisteredInventory(  filterArray(9, fetchContractInventorySlot9.data)[0]  ) );
@@ -648,8 +655,8 @@ const VendingCurrentSlots = () => {
           ...oldValue, ...updated1
         })    );
 
-        console.log('COOL DATA 10 : ',fetchContractInventorySlot1.data);
-        console.log('FILTERED COOL DATA 10: ',filterArray(10, fetchContractInventorySlot10.data))
+        console.log('SLOT 10 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED SLOT 10: ',filterArray(10, fetchContractInventorySlot10.data))
         setslotInventory10tokenInfoArray( filterArray(10, fetchContractInventorySlot10.data) );
         setslot10Inventory( filterArray(10, fetchContractInventorySlot10.data)[0].length );
         setslot10Stock( deriveInStockFromRegisteredInventory(  filterArray(10, fetchContractInventorySlot10.data)[0]  ) );

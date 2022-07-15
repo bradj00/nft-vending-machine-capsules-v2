@@ -31,7 +31,7 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
     mapping(bytes32 => address) private openChestCaller;                        //get persons address from Chainlink requestId
     mapping(bytes32 => uint256) private openChestStatus;                        //get tokenId from ChainLink requestId
     mapping(uint256 => bytes32) private requestStatusIdByNftId;                 //get Chainlink requestId from tokenId
-    mapping(address => slotInhabitant[]) private NftTokensRegisteredInMachine;  //input contract address, get all registered tokens and what slot they're in
+    mapping(address => slotInhabitant[]) public NftTokensRegisteredInMachine;  //input contract address, get all registered tokens and what slot they're in
 
     uint256[] private oddsArray;
     address[] private addyArray;
@@ -144,50 +144,50 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
 
 
     // function ejectNftArray(uint _tokenId, address tokenAddress, uint _slotNumber) public onlyOwner {
-    function ejectNftArray(uint256[][] memory theList) public  onlyOwner {
-            for (uint256 x = 0; x < theList.length; x++){
-                for (uint256 z = 0; z < theList[x].length; z++){
-                    ERC721 nftContract;
-                    nftContract = ERC721(addyArray[x]);
+    // function ejectNftArray(uint256[][] memory theList) public  onlyOwner {
+    //         for (uint256 x = 0; x < theList.length; x++){
+    //             for (uint256 z = 0; z < theList[x].length; z++){
+    //                 ERC721 nftContract;
+    //                 nftContract = ERC721(addyArray[x]);
                     
-                    address tokenOwner = nftContract.ownerOf(theList[x][z]);        //get owner's address for NFT id from contract       
-                    require (tokenOwner == address(this), "contract does not own this token");  //if this contract owns the NFT...
+    //                 address tokenOwner = nftContract.ownerOf(theList[x][z]);        //get owner's address for NFT id from contract       
+    //                 require (tokenOwner == address(this), "contract does not own this token");  //if this contract owns the NFT...
                     
-                    nftContract.safeTransferFrom(address(this), owner, theList[x][z]);
-                    emit EjectNft(theList[x][z], addyArray[x]);
+    //                 nftContract.safeTransferFrom(address(this), owner, theList[x][z]);
+    //                 emit EjectNft(theList[x][z], addyArray[x]);
                     
-                    //MUST ALSO DE-REGISTER NFT ID FROM ANY SLOT HERE.
-                    //////////////////////////////////////////////////
-                    uint m = 99999999;
-                    for (uint k = 0; k < NftTokensRegisteredInMachine[addyArray[x]].length; k++){
-                        if (NftTokensRegisteredInMachine[addyArray[x]][k].tokenId==theList[x][z]){        //search for tokenId match from unordered array
-                            m = k;
-                            break;
-                        }
-                    }
+    //                 //MUST ALSO DE-REGISTER NFT ID FROM ANY SLOT HERE.
+    //                 //////////////////////////////////////////////////
+    //                 uint m = 99999999;
+    //                 for (uint k = 0; k < NftTokensRegisteredInMachine[addyArray[x]].length; k++){
+    //                     if (NftTokensRegisteredInMachine[addyArray[x]][k].tokenId==theList[x][z]){        //search for tokenId match from unordered array
+    //                         m = k;
+    //                         break;
+    //                     }
+    //                 }
 
-                    if (m != 99999999){                       //indicating we found a match in our unordered array. If not, this token was never registered only deposited
-                        NftTokensRegisteredInMachine[ addyArray[x] ][m].index = 0; //set index to zero, indicating de-activation in array since we are ejecting it
-                    }
+    //                 if (m != 99999999){                       //indicating we found a match in our unordered array. If not, this token was never registered only deposited
+    //                     NftTokensRegisteredInMachine[ addyArray[x] ][m].index = 0; //set index to zero, indicating de-activation in array since we are ejecting it
+    //                 }
                     
-                    uint lastSlot = NftTokensRegisteredInMachine[addyArray[x] ].length;
+    //                 uint lastSlot = NftTokensRegisteredInMachine[addyArray[x] ].length;
 
-                    for (uint r = lastSlot-1; r> 0; r--){
-                        if (NftTokensRegisteredInMachine[ addyArray[x] ][r].index == 0){
-                            continue;
-                        }
-                        lastSlot = r;
-                    }
-                    if (lastSlot == NftTokensRegisteredInMachine[addyArray[x] ].length){ //if it's still the same untouched value the tube must be empty
-                        // emptyTube[x] = true;
-                    }else {
-                        NftTokensRegisteredInMachine[ addyArray[x] ][ lastSlot ].index = 1;
-                    }
-                    //////////////////////////////////////////////////
-                }
-            }
+    //                 for (uint r = lastSlot-1; r> 0; r--){
+    //                     if (NftTokensRegisteredInMachine[ addyArray[x] ][r].index == 0){
+    //                         continue;
+    //                     }
+    //                     lastSlot = r;
+    //                 }
+    //                 if (lastSlot == NftTokensRegisteredInMachine[addyArray[x] ].length){ //if it's still the same untouched value the tube must be empty
+    //                     // emptyTube[x] = true;
+    //                 }else {
+    //                     NftTokensRegisteredInMachine[ addyArray[x] ][ lastSlot ].index = 1;
+    //                 }
+    //                 //////////////////////////////////////////////////
+    //             }
+    //         }
 
-    }
+    // }
 
 
     function RegisterListOfNftIds(uint256[][] memory theList) public  onlyOwner {   
@@ -210,6 +210,7 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
                         }
                     }
 
+                    tempStruct.slotIndex = x+1;
                     tempStruct.index   = NftTokensRegisteredInMachine[addyArray[i]].length+1-zeroCount; //zeroCount allows empty tube to be refilled and work again
 
                     NftTokensRegisteredInMachine[addyArray[i]].push(tempStruct);                    //add nftId to mapping

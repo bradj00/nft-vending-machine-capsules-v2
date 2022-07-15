@@ -21,7 +21,8 @@ const CarouselNftSlot = (props) => {
         setselectedSlotContractName(props.contractName);
         setselectedSlotContractSymbol(props.contractSymbol);
       }
-      useEffect(()=>{  //...cant handle an empty slot lol fix this
+
+      useEffect(()=>{ 
         if (props.tokenId){
             //pick the tokenId of (the lowest index that is not zero AND matches the props.slotIndex)
             //setdisplayedTokenId() 
@@ -45,7 +46,18 @@ const CarouselNftSlot = (props) => {
  
             temp = temp.sort((a, b) => a.index - b.index)
 
-            if (temp[0]){console.log("displayed token in slot:",props.slotIndex,"\t",temp[0],);}
+            
+            if (temp[0]){
+                console.log("displayed token in slot:",props.slotIndex,"\t",temp[0],);
+            
+                if (temp[0].tokenId){
+                    setdisplayedTokenId(temp[0].tokenId)
+                }
+            }
+            else{
+                setdisplayedTokenId(0)
+            }
+        
         } 
       },[props.tokenId])
 
@@ -59,14 +71,19 @@ const CarouselNftSlot = (props) => {
                     <div className="unformatted" style={{color:'gold', border:'1px solid gold',display:'flex', justifyContent:'center', fontSize:'2vw', position:'absolute', width:'40%', height:"20%",  top:'-40%', left: '27%', backgroundColor:'rgba(120,120,120,0.2)', borderRadius:'10px', padding:'5px', }}>
                         {props.NftSlotOdds? <>{props.NftSlotOdds[props.slotIndex-1]>=1?parseInt(props.NftSlotOdds[props.slotIndex-1]): 1} <div style={{fontSize:"1.5vw"}}>%</div></>: "0%"} <br></br>
                     </div>
+                    
+                    {displayedTokenId?<>
                     <div className="unformatted" style={{color:'cyan', border:'1px solid cyan',display:'flex', justifyContent:'center', fontSize:'1vw', position:'absolute', width:'15%', height:"8%",  top:'-68%', left: '27%', backgroundColor:'rgba(120,120,120,0.2)', borderRadius:'10px', padding:'5px', }}>
                     <div style={{position:'absolute', fontSize:'0.8vh', top:'0'}}>Slot</div>
                         {props.slotIndex? props.slotIndex:<></>} <br></br>
                     </div>
                     <div className="unformatted" style={{color:'magenta', border:'1px solid magenta',display:'flex', justifyContent:'center', fontSize:'1vw', position:'absolute', width:'15%', height:"8%",  top:'-68%', left: '50%', backgroundColor:'rgba(120,120,120,0.2)', borderRadius:'10px', padding:'5px', }}>
                         <div style={{position:'absolute', fontSize:'0.8vh', top:'0'}}>Token ID</div>
-                        {props.tokenId && props.tokenId[0]? parseInt(props.tokenId[0].tokenId._hex):<></>} <br></br>
+                        {displayedTokenId? displayedTokenId:<></>} <br></br>
                     </div>
+                    </>
+                    :<></>
+                    }
 
                     <div style={{position:'absolute', top:'-40%',right:'-3%',color:'#fff',fontSize:'1.5vw'}}>
                     <div style={{position:'absolute', fontSize:'0.8vw', left:'-40%',}}>x</div>{props.slotStock? props.slotStock : "..."}
