@@ -25,6 +25,7 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
         uint256 tokenId;    //id of single token
         uint256 index;      //index of single token within a slot
         uint256 slotIndex;  //slot index
+        string tokenURI;    //should live here for easier tracking client-side
     }
 
 
@@ -213,8 +214,10 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
                     tempStruct.slotIndex = x+1;
                     tempStruct.index   = NftTokensRegisteredInMachine[addyArray[i]].length+1-zeroCount; //zeroCount allows empty tube to be refilled and work again
 
-                    NftTokensRegisteredInMachine[addyArray[i]].push(tempStruct);                    //add nftId to mapping
-                    // emptyTube[i] = false;                                //tube is no longer empty
+                    tempStruct.tokenURI = nftContract.tokenURI(tempStruct.tokenId);
+
+                    NftTokensRegisteredInMachine[addyArray[i]].push(tempStruct);    //add nftId to mapping
+                    // emptyTube[i] = false;                                        //tube is no longer empty
                     
                 }
             }
@@ -230,6 +233,8 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
         ERC721 nftContract;
         
         nftContract = ERC721(slotAddr);
+
+        //[1]array of strings is not properly populating here...
         for (uint256 i = 0; i < NftTokensRegisteredInMachine[slotAddr].length; i++){
             if ((NftTokensRegisteredInMachine[slotAddr][i].index != 0) && (i == slotIndex) ){ //if it isnt a used-up tokenId and it's the slot we requested
                 tokenUriArray[i] = nftContract.tokenURI(NftTokensRegisteredInMachine[slotAddr][i].tokenId);
