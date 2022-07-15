@@ -113,7 +113,7 @@ const TreasureChestCount = () => {
     
     // const fetchContractLinkBalance = async () => {
     // const options = {
-    //     chain: "rinkeby",
+    //     chain: "mumbai",
     //     address: contractAddressTreasureChest
     // };
 
@@ -124,7 +124,7 @@ const TreasureChestCount = () => {
 
       const fetchOwnedCrates = async () => { 
         const options = {
-            chain: "rinkeby",
+            chain: "mumbai",
             address: account? account: '0x0000000000000000000000000000000000000000', //make this whoever is signed in to Moralis.auth()
             token_address: contractAddressTreasureChest, //treasure chest
         };

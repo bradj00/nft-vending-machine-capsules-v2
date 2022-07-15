@@ -148,7 +148,7 @@ const RegisterInventory = () => {
 
   const fetchAccountNFTsForSlot1 = async () => {
     const options = {
-      chain: "rinkeby",
+      chain: "mumbai",
       address: MachineContractAddress&&MachineContractAddress!='0x0000000000000000000000000000000000000000'? MachineContractAddress: '0x0000000000000000000000000000000000000000',
       token_address: NftSlotContractAddresses[0],
     };
@@ -182,7 +182,7 @@ const RegisterInventory = () => {
   };
   const fetchAccountNFTsForSlot2 = async () => {
     const options = {
-      chain: "rinkeby",
+      chain: "mumbai",
       address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
       token_address: NftSlotContractAddresses[1],
     };
@@ -217,7 +217,7 @@ const RegisterInventory = () => {
   };
   const fetchAccountNFTsForSlot3 = async () => {
     const options = {
-      chain: "rinkeby",
+      chain: "mumbai",
       address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
       token_address: NftSlotContractAddresses[2],
     };
@@ -250,7 +250,7 @@ const RegisterInventory = () => {
   };
   const fetchAccountNFTsForSlot4 = async () => {
     const options = {
-      chain: "rinkeby",
+      chain: "mumbai",
       address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
       token_address: NftSlotContractAddresses[3],
     };
@@ -283,7 +283,7 @@ const RegisterInventory = () => {
   };
   const fetchAccountNFTsForSlot5 = async () => {
     const options = {
-      chain: "rinkeby",
+      chain: "mumbai",
       address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
       token_address: NftSlotContractAddresses[4],
     };
@@ -316,7 +316,7 @@ const RegisterInventory = () => {
   };
   const fetchAccountNFTsForSlot6 = async () => {
     const options = {
-      chain: "rinkeby",
+      chain: "mumbai",
       address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
       token_address: NftSlotContractAddresses[5],
     };
@@ -349,7 +349,7 @@ const RegisterInventory = () => {
   };
   const fetchAccountNFTsForSlot7 = async () => {
     const options = {
-      chain: "rinkeby",
+      chain: "mumbai",
       address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
       token_address: NftSlotContractAddresses[6],
     };
@@ -382,7 +382,7 @@ const RegisterInventory = () => {
   };
   const fetchAccountNFTsForSlot8 = async () => {
     const options = {
-      chain: "rinkeby",
+      chain: "mumbai",
       address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
       token_address: NftSlotContractAddresses[7],
     };
@@ -415,7 +415,7 @@ const RegisterInventory = () => {
   };
   const fetchAccountNFTsForSlot9 = async () => {
     const options = {
-      chain: "rinkeby",
+      chain: "mumbai",
       address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
       token_address: NftSlotContractAddresses[8],
     };
@@ -448,7 +448,7 @@ const RegisterInventory = () => {
   };
   const fetchAccountNFTsForSlot10 = async () => {
     const options = {
-      chain: "rinkeby",
+      chain: "mumbai",
       address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
       token_address: NftSlotContractAddresses[9],
     };

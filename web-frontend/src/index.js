@@ -23,7 +23,7 @@ import JudgePanel from './components/JudgePanel';
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-    <MoralisProvider appId="1hFLCQEQW1BR1vgJ1hyAivIuHzlnD0GSPPiLhajv" serverUrl="https://y1gpn8k7i4ta.usemoralis.com:2053/server">
+    <MoralisProvider appId="kreKARXprW3IYBat5R5ti68WbGpCtknL9dr7cU5M" serverUrl="https://8knzigrtie7l.usemoralis.com:2053/server">
       <Routes>
         <Route path="/machine/:machineContractAddress" element={<App showManager={false} creatingMachine={false}/>} />
         <Route path='/manage/'     element={<App showManager={true}  creatingMachine={false}/>}/>
