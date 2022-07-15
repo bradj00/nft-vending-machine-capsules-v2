@@ -3,7 +3,7 @@ import { NftMoreInfoContext } from '../../../App';
 import '../../../styles/grid.css';
 import {useERC20Balances, useWeb3Contract, useMoralisWeb3Api, useMoralis,useNFTBalances } from 'react-moralis';
 import { useEffect } from 'react';
-import {contractCrateABI} from '../../../ContractInfo/ContractInfo.jsx';
+import {MachineABI} from '../../../ContractInfo/ContractInfo.jsx';
 import { OddsAndSlotAddys } from '../../../App';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import {
@@ -305,7 +305,7 @@ const UnregisteredNftSlot = (props) => {
               {props.SlotAccountUnregisteredNFTs? props.SlotAccountUnregisteredNFTs.map((singleImage, index)=>{
                 // console.log('SSSSSSSSS\t single image: ',singleImage);
                 //replace pinata with moralis ipfs domain temporarily
-                singleImage.metadata? singleImage.metadata.image = singleImage.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'):<></>;
+                singleImage.metadata? singleImage.metadata.image = singleImage.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'):<></>;
 
                 
                 if ((index == slot1MaxLoad)&&(props.SlotAccountUnregisteredNFTs.length > index) && ((slotIdFilter[props.slotIndex] != '-1') || (slotIdFilter[props.slotIndex] != '')) && ( !singleImage.token_id.toString().includes(slotIdFilter[props.slotIndex])) )  {

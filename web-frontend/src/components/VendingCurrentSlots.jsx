@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import '../styles/grid.css';
 import {useWeb3Contract, useMoralisWeb3Api, useMoralis} from 'react-moralis';
-import {contractCrateABI} from '../ContractInfo/ContractInfo.jsx';
+import {MachineABI} from '../ContractInfo/ContractInfo.jsx';
 import { useContext, useEffect } from 'react';
 import { OddsAndSlotAddys } from "../App.js"
 import {getEllipsisTxt} from "../helpers/formatters";
@@ -133,13 +133,13 @@ const VendingCurrentSlots = () => {
 
 
     const fetchMachineOwner = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getOwner",
     });
     
     const fetchContractInventorySlot1 = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -147,7 +147,7 @@ const VendingCurrentSlots = () => {
       }
     });
     const fetchContractInventorySlot2 = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -155,7 +155,7 @@ const VendingCurrentSlots = () => {
       }
     });
     const fetchContractInventorySlot3 = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -163,7 +163,7 @@ const VendingCurrentSlots = () => {
       }
     });
     const fetchContractInventorySlot4 = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -171,7 +171,7 @@ const VendingCurrentSlots = () => {
       }
     });
     const fetchContractInventorySlot5 = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -180,7 +180,7 @@ const VendingCurrentSlots = () => {
     });
     
     const fetchContractInventorySlot6 = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -189,7 +189,7 @@ const VendingCurrentSlots = () => {
     });
     
     const fetchContractInventorySlot7 = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -198,7 +198,7 @@ const VendingCurrentSlots = () => {
     });
     
     const fetchContractInventorySlot8 = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -207,7 +207,7 @@ const VendingCurrentSlots = () => {
     });
     
     const fetchContractInventorySlot9 = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -216,7 +216,7 @@ const VendingCurrentSlots = () => {
     });
     
     const fetchContractInventorySlot10 = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -318,27 +318,39 @@ const VendingCurrentSlots = () => {
 
     useEffect(()=>{
       if ((fetchMachineOwner.data != null)&&(account)){
-        console.log(typeof fetchMachineOwner.data,'~~~~~~~~~~~~~~~~fetchMachineOwner is: ',fetchMachineOwner.data.toLowerCase());
-        console.log(typeof account,'~~~~~~~~~~~~~~~~~~~~~~~~~~account is: ',account.toLowerCase());
+        // console.log(typeof fetchMachineOwner.data,'~~~~~~~~~~~~~~~~fetchMachineOwner is: ',fetchMachineOwner.data.toLowerCase());
+        // console.log(typeof account,'~~~~~~~~~~~~~~~~~~~~~~~~~~account is: ',account.toLowerCase());
         if (fetchMachineOwner.data.toLowerCase() == account.toLowerCase()) {
-          console.log('MATCH!') 
+          // console.log('MATCH!') 
           setOwnerMatch(true);
         }
         else {
-          console.log('NOT match')
+          // console.log('NOT match')
           setOwnerMatch(false);
         }
       }
     },[fetchMachineOwner.data, account]);
 
+
+
+
+    function filterArray(topSlotIndex, TopLevelArray) {
+      if (!TopLevelArray){return}
+      let filteredArray = TopLevelArray[0].filter((item) => {
+        return item.slotIndex == topSlotIndex
+      });
+      return([filteredArray, TopLevelArray[1],TopLevelArray[2],TopLevelArray[3],TopLevelArray[4]])
+    } 
+
     useEffect(()=>{
       if (fetchContractInventorySlot1.data != null){
         // sethideExtraInfo(false); //should probably call this somewhere more reliable.
         setcapsuleIconAnimated(false);
-        // console.log('COOL DATA 1 : ',fetchContractInventorySlot1.data)
-        setslotInventory1tokenInfoArray(fetchContractInventorySlot1.data);
-        setslot1Inventory(fetchContractInventorySlot1.data[0].length);
-        setslot1Stock( deriveInStockFromRegisteredInventory( fetchContractInventorySlot1.data[0] ) );
+        console.log('COOL DATA 1 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED COOL DATA 1: ',filterArray(1, fetchContractInventorySlot1.data))
+        setslotInventory1tokenInfoArray( filterArray(1, fetchContractInventorySlot1.data) );
+        setslot1Inventory( filterArray(1, fetchContractInventorySlot1.data)[0].length );
+        setslot1Stock( deriveInStockFromRegisteredInventory(  filterArray(1, fetchContractInventorySlot1.data)[0]  ) );
 
         let updated1 = {"1":  {name: fetchContractInventorySlot1.data[2], symbol: fetchContractInventorySlot1.data[3], contract: fetchContractInventorySlot1.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
@@ -354,10 +366,10 @@ const VendingCurrentSlots = () => {
             setFrontSlotId1(parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
             // console.log('__________________\t',fetchContractInventorySlot1.data[1][i]);
             
-            fetch( fetchContractInventorySlot1.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.ipfs.io')) 
+            fetch( fetchContractInventorySlot1.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud')) 
             .then(response => response.json())
             .then(data => {
-              setslot1ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'));
+              setslot1ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
               setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
               
               let updated = {"1": data.image} 
@@ -375,22 +387,25 @@ const VendingCurrentSlots = () => {
 
     useEffect(()=>{
       if (fetchContractInventorySlot2.data != null){
-        // console.log('COOL DATA 2 : ',fetchContractInventorySlot2.data)
-        setslot2Inventory(fetchContractInventorySlot2.data[0].length);
-        setslot2Stock( deriveInStockFromRegisteredInventory( fetchContractInventorySlot2.data[0] ) );
-
+        console.log('COOL DATA 2 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED COOL DATA 2: ',filterArray(2, fetchContractInventorySlot1.data))
+       
+        setslot2Inventory( filterArray(2, fetchContractInventorySlot2.data)[0].length );
+        setslot2Stock( deriveInStockFromRegisteredInventory(  filterArray(2, fetchContractInventorySlot2.data)[0]  ) );
+        
         let updated1 = {"2":  {name: fetchContractInventorySlot2.data[2], symbol: fetchContractInventorySlot2.data[3], contract: fetchContractInventorySlot2.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
-        setslotInventory2tokenInfoArray(fetchContractInventorySlot2.data);
+        
+        setslotInventory2tokenInfoArray( filterArray(2, fetchContractInventorySlot2.data) );
         for (let i = 0; i < fetchContractInventorySlot2.data[0].length; i++){
           if (parseInt(fetchContractInventorySlot2.data[0][i][1]._hex, 16) == 1){
             setFrontSlotId2(parseInt(fetchContractInventorySlot2.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot2.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.ipfs.io') )
+            fetch( fetchContractInventorySlot2.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud') )
             .then(response => response.json())
             .then(data => {
-              setslot2ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'));
+              setslot2ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
               setslot2Obj({data: data, slotOdds: NftSlotOdds[1], id: parseInt(fetchContractInventorySlot2.data[0][i][0]._hex, 16)});
               
               let updated = {"2": data.image} 
@@ -405,22 +420,25 @@ const VendingCurrentSlots = () => {
 
     useEffect(()=>{
       if (fetchContractInventorySlot3.data != null){
-        // console.log('COOL DATA 3 : ',fetchContractInventorySlot3.data)
-        setslot3Inventory(fetchContractInventorySlot3.data[0].length);
-        setslot3Stock( deriveInStockFromRegisteredInventory( fetchContractInventorySlot3.data[0] ) );
+        
+        console.log('COOL DATA 3 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED COOL DATA 3: ',filterArray(2, fetchContractInventorySlot1.data))
+        setslot3Inventory( filterArray(3, fetchContractInventorySlot3.data)[0].length );
+        setslot3Stock( deriveInStockFromRegisteredInventory(  filterArray(3, fetchContractInventorySlot3.data)[0]  ) );
         
         let updated1 = {"3":  {name: fetchContractInventorySlot3.data[2], symbol: fetchContractInventorySlot3.data[3], contract: fetchContractInventorySlot3.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
-        setslotInventory3tokenInfoArray(fetchContractInventorySlot3.data);
+        
+        setslotInventory3tokenInfoArray( filterArray(2, fetchContractInventorySlot3.data) );
         for (let i = 0; i < fetchContractInventorySlot3.data[0].length; i++){
           if (parseInt(fetchContractInventorySlot3.data[0][i][1]._hex, 16) == 1){
             setFrontSlotId3(parseInt(fetchContractInventorySlot3.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot3.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.ipfs.io') )
+            fetch( fetchContractInventorySlot3.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud') )
             .then(response => response.json())
             .then(data => {
-              setslot3ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'));
+              setslot3ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
               setslot3Obj({data: data, slotOdds: NftSlotOdds[2], id: parseInt(fetchContractInventorySlot3.data[0][i][0]._hex, 16)});
               
               let updated = {"3": data.image} 
@@ -435,23 +453,23 @@ const VendingCurrentSlots = () => {
  
     useEffect(()=>{ 
       if (fetchContractInventorySlot4.data != null){
-        // console.log('COOL DATA 4 : ',fetchContractInventorySlot4.data)
-        setslot4Inventory(fetchContractInventorySlot4.data[0].length);
-        
         let updated1 = {"4":  {name: fetchContractInventorySlot4.data[2], symbol: fetchContractInventorySlot4.data[3], contract: fetchContractInventorySlot4.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
+        console.log('COOL DATA 4 : ',fetchContractInventorySlot4.data);
+        console.log('FILTERED COOL DATA 4: ',filterArray(4, fetchContractInventorySlot1.data))
+        setslotInventory4tokenInfoArray( filterArray(4, fetchContractInventorySlot1.data) );
+        setslot4Inventory( filterArray(4, fetchContractInventorySlot4.data)[0].length );
+        setslot4Stock( deriveInStockFromRegisteredInventory(  filterArray(4, fetchContractInventorySlot4.data)[0]  ) );
 
-        setslot4Stock( deriveInStockFromRegisteredInventory( fetchContractInventorySlot4.data[0] ) );
-        setslotInventory4tokenInfoArray(fetchContractInventorySlot4.data);
         for (let i = 0; i < fetchContractInventorySlot4.data[0].length; i++){
           if (parseInt(fetchContractInventorySlot4.data[0][i][1]._hex, 16) == 1){
             setFrontSlotId4(parseInt(fetchContractInventorySlot4.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot4.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'))
+            fetch( fetchContractInventorySlot4.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'))
             .then(response => response.json())
             .then(data => {
-              setslot4ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'));
+              setslot4ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
               setslot4Obj({data: data, slotOdds: NftSlotOdds[3], id: parseInt(fetchContractInventorySlot4.data[0][i][0]._hex, 16)});
               
               let updated = {"4": data.image} 
@@ -466,23 +484,23 @@ const VendingCurrentSlots = () => {
 
     useEffect(()=>{
       if (fetchContractInventorySlot5.data != null){
-        // console.log('COOL DATA 5 : ',fetchContractInventorySlot5.data)
-        setslot5Inventory(fetchContractInventorySlot5.data[0].length);
-        
         let updated1 = {"5": {name: fetchContractInventorySlot5.data[2], symbol: fetchContractInventorySlot5.data[3], contract: fetchContractInventorySlot5.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
+        console.log('COOL DATA 5 : ',fetchContractInventorySlot5.data);
+        console.log('FILTERED COOL DATA 5: ',filterArray(5, fetchContractInventorySlot5.data))
+        setslotInventory5tokenInfoArray( filterArray(5, fetchContractInventorySlot5.data) );
+        setslot5Inventory( filterArray(5, fetchContractInventorySlot5.data)[0].length );
+        setslot5Stock( deriveInStockFromRegisteredInventory(  filterArray(5, fetchContractInventorySlot5.data)[0]  ) );
 
-        setslot5Stock( deriveInStockFromRegisteredInventory( fetchContractInventorySlot5.data[0] ) );
-        setslotInventory5tokenInfoArray(fetchContractInventorySlot5.data);
         for (let i = 0; i < fetchContractInventorySlot5.data[0].length; i++){
           if (parseInt(fetchContractInventorySlot5.data[0][i][1]._hex, 16) == 1){
             setFrontSlotId5(parseInt(fetchContractInventorySlot5.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot5.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'))
+            fetch( fetchContractInventorySlot5.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'))
             .then(response => response.json())
             .then(data => {
-              setslot5ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'));
+              setslot5ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
               setslot5Obj({data: data, slotOdds: NftSlotOdds[4], id: parseInt(fetchContractInventorySlot5.data[0][i][0]._hex, 16)});
               
               let updated = {"5": data.image} 
@@ -499,24 +517,24 @@ const VendingCurrentSlots = () => {
       if (fetchContractInventorySlot6.data != null){
         // sethideExtraInfo(false); //should probably call this somewhere more reliable.
         setcapsuleIconAnimated(false);
-
-        // console.log('COOL DATA 6 : ',fetchContractInventorySlot6.data)
-        setslot6Inventory(fetchContractInventorySlot6.data[0].length);
-        
         let updated1 = {"6": {name: fetchContractInventorySlot6.data[2], symbol: fetchContractInventorySlot6.data[3], contract: fetchContractInventorySlot6.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
 
-        setslot6Stock( deriveInStockFromRegisteredInventory( fetchContractInventorySlot6.data[0] ) );
-        setslotInventory6tokenInfoArray(fetchContractInventorySlot6.data);
+        console.log('COOL DATA 6 : ',fetchContractInventorySlot6.data);
+        console.log('FILTERED COOL DATA 6: ',filterArray(6, fetchContractInventorySlot6.data))
+        setslotInventory6tokenInfoArray( filterArray(6, fetchContractInventorySlot6.data) );
+        setslot6Inventory( filterArray(6, fetchContractInventorySlot6.data)[0].length );
+        setslot6Stock( deriveInStockFromRegisteredInventory(  filterArray(6, fetchContractInventorySlot6.data)[0]  ) );
+
         for (let i = 0; i < fetchContractInventorySlot6.data[0].length; i++){
           if (parseInt(fetchContractInventorySlot6.data[0][i][1]._hex, 16) == 1){
             setFrontSlotId6(parseInt(fetchContractInventorySlot6.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot6.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'))
+            fetch( fetchContractInventorySlot6.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'))
             .then(response => response.json())
             .then(data => {
-              setslot6ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'));
+              setslot6ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
               setslot6Obj({data: data, slotOdds: NftSlotOdds[5], id: parseInt(fetchContractInventorySlot6.data[0][i][0]._hex, 16)});
               
               let updated = {"6": data.image} 
@@ -532,23 +550,23 @@ const VendingCurrentSlots = () => {
 
     useEffect(()=>{
       if (fetchContractInventorySlot7.data != null){
-        // console.log('COOL DATA 7 : ',fetchContractInventorySlot7.data)
-        setslot7Inventory(fetchContractInventorySlot7.data[0].length);
-        
         let updated1 = {"7": {name: fetchContractInventorySlot7.data[2], symbol: fetchContractInventorySlot7.data[3], contract: fetchContractInventorySlot7.data[4] } } 
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
+        console.log('COOL DATA 7 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED COOL DATA 7: ',filterArray(7, fetchContractInventorySlot7.data))
+        setslotInventory7tokenInfoArray( filterArray(7, fetchContractInventorySlot7.data) );
+        setslot7Inventory( filterArray(7, fetchContractInventorySlot7.data)[0].length );
+        setslot7Stock( deriveInStockFromRegisteredInventory(  filterArray(7, fetchContractInventorySlot7.data)[0]  ) );
 
-        setslot7Stock( deriveInStockFromRegisteredInventory( fetchContractInventorySlot7.data[0] ) );
-        setslotInventory7tokenInfoArray(fetchContractInventorySlot7.data);
         for (let i = 0; i < fetchContractInventorySlot7.data[0].length; i++){
           if (parseInt(fetchContractInventorySlot7.data[0][i][1]._hex, 16) == 1){
             setFrontSlotId7(parseInt(fetchContractInventorySlot7.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot7.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.ipfs.io') )
+            fetch( fetchContractInventorySlot7.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud') )
             .then(response => response.json())
             .then(data => {
-              setslot7ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'));
+              setslot7ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
               setslot7Obj({data: data, slotOdds: NftSlotOdds[6], id: parseInt(fetchContractInventorySlot7.data[0][i][0]._hex, 16)});
               
               let updated = {"7": data.image} 
@@ -563,23 +581,23 @@ const VendingCurrentSlots = () => {
 
     useEffect(()=>{
       if (fetchContractInventorySlot8.data != null){
-        // console.log('COOL DATA 8 : ',fetchContractInventorySlot8.data)
-        setslot8Inventory(fetchContractInventorySlot8.data[0].length);
-        
         let updated1 = {"8": {name: fetchContractInventorySlot8.data[2], symbol: fetchContractInventorySlot8.data[3], contract: fetchContractInventorySlot8.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
+        console.log('COOL DATA 8 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED COOL DATA 8: ',filterArray(8, fetchContractInventorySlot8.data))
+        setslotInventory8tokenInfoArray( filterArray(8, fetchContractInventorySlot8.data) );
+        setslot8Inventory( filterArray(8, fetchContractInventorySlot8.data)[0].length );
+        setslot8Stock( deriveInStockFromRegisteredInventory(  filterArray(8, fetchContractInventorySlot8.data)[0]  ) );
 
-        setslot8Stock( deriveInStockFromRegisteredInventory( fetchContractInventorySlot8.data[0] ) );
-        setslotInventory8tokenInfoArray(fetchContractInventorySlot8.data);
         for (let i = 0; i < fetchContractInventorySlot8.data[0].length; i++){
           if (parseInt(fetchContractInventorySlot8.data[0][i][1]._hex, 16) == 1){
             setFrontSlotId8(parseInt(fetchContractInventorySlot8.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot8.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.ipfs.io')  )
+            fetch( fetchContractInventorySlot8.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud')  )
             .then(response => response.json())
             .then(data => {
-              setslot8ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'));
+              setslot8ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
               setslot8Obj({data: data, slotOdds: NftSlotOdds[7], id: parseInt(fetchContractInventorySlot8.data[0][i][0]._hex, 16)});
               
               let updated = {"8": data.image} 
@@ -594,23 +612,23 @@ const VendingCurrentSlots = () => {
 
     useEffect(()=>{
       if (fetchContractInventorySlot9.data != null){
-        // console.log('COOL DATA 9 : ',fetchContractInventorySlot9.data)
-        setslot9Inventory(fetchContractInventorySlot9.data[0].length);
-        
         let updated1 = {"9": {name: fetchContractInventorySlot9.data[2], symbol: fetchContractInventorySlot9.data[3], contract: fetchContractInventorySlot9.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
+        console.log('COOL DATA 9 : ',fetchContractInventorySlot9.data);
+        console.log('FILTERED COOL DATA 9: ',filterArray(9, fetchContractInventorySlot9.data))
+        setslotInventory9tokenInfoArray( filterArray(9, fetchContractInventorySlot9.data) );
+        setslot9Inventory( filterArray(9, fetchContractInventorySlot9.data)[0].length );
+        setslot9Stock( deriveInStockFromRegisteredInventory(  filterArray(9, fetchContractInventorySlot9.data)[0]  ) );
 
-        setslot9Stock( deriveInStockFromRegisteredInventory( fetchContractInventorySlot9.data[0] ) );
-        setslotInventory9tokenInfoArray(fetchContractInventorySlot9.data);
         for (let i = 0; i < fetchContractInventorySlot9.data[0].length; i++){
           if (parseInt(fetchContractInventorySlot9.data[0][i][1]._hex, 16) == 1){
             setFrontSlotId9(parseInt(fetchContractInventorySlot9.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot9.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'))
+            fetch( fetchContractInventorySlot9.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'))
             .then(response => response.json())
             .then(data => {
-              setslot9ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'));
+              setslot9ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
               setslot9Obj({data: data, slotOdds: NftSlotOdds[8], id: parseInt(fetchContractInventorySlot9.data[0][i][0]._hex, 16)});
               
               let updated = {"9": data.image} 
@@ -625,23 +643,25 @@ const VendingCurrentSlots = () => {
 
     useEffect(()=>{
       if (fetchContractInventorySlot10.data != null){
-        // console.log('COOL DATA 10 : ',fetchContractInventorySlot10.data)
-        setslot10Inventory(fetchContractInventorySlot10.data[0].length);
-        
         let updated1 = {"10": {name: fetchContractInventorySlot10.data[2], symbol: fetchContractInventorySlot10.data[3], contract: fetchContractInventorySlot10.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
 
-        setslot10Stock( deriveInStockFromRegisteredInventory( fetchContractInventorySlot10.data[0] ) );
+        console.log('COOL DATA 10 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED COOL DATA 10: ',filterArray(10, fetchContractInventorySlot10.data))
+        setslotInventory10tokenInfoArray( filterArray(10, fetchContractInventorySlot10.data) );
+        setslot10Inventory( filterArray(10, fetchContractInventorySlot10.data)[0].length );
+        setslot10Stock( deriveInStockFromRegisteredInventory(  filterArray(10, fetchContractInventorySlot10.data)[0]  ) );
+
         setslotInventory10tokenInfoArray(fetchContractInventorySlot10.data);
         for (let i = 0; i < fetchContractInventorySlot10.data[0].length; i++){
           if (parseInt(fetchContractInventorySlot10.data[0][i][1]._hex, 16) == 1){
             setFrontSlotId10(parseInt(fetchContractInventorySlot10.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot10.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'))
+            fetch( fetchContractInventorySlot10.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'))
             .then(response => response.json())
             .then(data => {
-              setslot10ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'));
+              setslot10ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
               setslot10Obj({data: data, slotOdds: NftSlotOdds[9], id: parseInt(fetchContractInventorySlot10.data[0][i][0]._hex, 16)});
               
               let updated = {"10": data.image} 
@@ -727,16 +747,16 @@ const VendingCurrentSlots = () => {
           
 
         
-         {fetchContractInventorySlot1.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[0]} slotObj={slot1Obj} contractName={fetchContractInventorySlot1.data[2]}  contractSymbol={fetchContractInventorySlot1.data[3]}  thisStyle={style1}  slotIndex={1}  slotImageUrl={slot1ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot1Stock}  styleEmpty={style1Empty}/> : <CarouselNftSlot thisStyle={style1}  slotIndex={1}  styleEmpty={style1Empty}/> }                   
-         {fetchContractInventorySlot2.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[1]} slotObj={slot2Obj} contractName={fetchContractInventorySlot2.data[2]}  contractSymbol={fetchContractInventorySlot2.data[3]}  thisStyle={style2}  slotIndex={2}  slotImageUrl={slot2ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot2Stock}  styleEmpty={style2Empty}/> : <CarouselNftSlot thisStyle={style2}  slotIndex={2}  styleEmpty={style2Empty}/> }
-         {fetchContractInventorySlot3.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[2]} slotObj={slot3Obj} contractName={fetchContractInventorySlot3.data[2]}  contractSymbol={fetchContractInventorySlot3.data[3]}  thisStyle={style3}  slotIndex={3}  slotImageUrl={slot3ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot3Stock}  styleEmpty={style3Empty}/> : <CarouselNftSlot thisStyle={style3}  slotIndex={3}  styleEmpty={style3Empty}/>}
-         {fetchContractInventorySlot4.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[3]} slotObj={slot4Obj} contractName={fetchContractInventorySlot4.data[2]}  contractSymbol={fetchContractInventorySlot4.data[3]}  thisStyle={style4}  slotIndex={4}  slotImageUrl={slot4ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot4Stock}  styleEmpty={style4Empty}/> : <CarouselNftSlot thisStyle={style4}  slotIndex={4}  styleEmpty={style4Empty}/>}
-         {fetchContractInventorySlot5.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[4]} slotObj={slot5Obj} contractName={fetchContractInventorySlot5.data[2]}  contractSymbol={fetchContractInventorySlot5.data[3]}  thisStyle={style5}  slotIndex={5}  slotImageUrl={slot5ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot5Stock}  styleEmpty={style5Empty}/> : <CarouselNftSlot thisStyle={style5}  slotIndex={5}  styleEmpty={style5Empty}/> }
-         {fetchContractInventorySlot6.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[5]} slotObj={slot6Obj} contractName={fetchContractInventorySlot6.data[2]}  contractSymbol={fetchContractInventorySlot6.data[3]}  thisStyle={style6}  slotIndex={6}  slotImageUrl={slot6ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot6Stock}  styleEmpty={style6Empty}/> : <CarouselNftSlot thisStyle={style6}  slotIndex={6}  styleEmpty={style6Empty}/>}
-         {fetchContractInventorySlot7.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[6]} slotObj={slot7Obj} contractName={fetchContractInventorySlot7.data[2]}  contractSymbol={fetchContractInventorySlot7.data[3]}  thisStyle={style7}  slotIndex={7}  slotImageUrl={slot7ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot7Stock}  styleEmpty={style7Empty}/> : <CarouselNftSlot thisStyle={style7}  slotIndex={7}  styleEmpty={style7Empty}/> }
-         {fetchContractInventorySlot8.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[7]} slotObj={slot8Obj} contractName={fetchContractInventorySlot8.data[2]}  contractSymbol={fetchContractInventorySlot8.data[3]}  thisStyle={style8}  slotIndex={8}  slotImageUrl={slot8ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot8Stock}  styleEmpty={style8Empty}/> : <CarouselNftSlot thisStyle={style8}  slotIndex={8}  styleEmpty={style8Empty}/> }
-         {fetchContractInventorySlot9.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[8]} slotObj={slot9Obj} contractName={fetchContractInventorySlot9.data[2]}  contractSymbol={fetchContractInventorySlot9.data[3]}  thisStyle={style9}  slotIndex={9}  slotImageUrl={slot9ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot9Stock}  styleEmpty={style9Empty}/> : <CarouselNftSlot thisStyle={style9}  slotIndex={9}  styleEmpty={style9Empty}/> }
-         {fetchContractInventorySlot10.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[9]} slotObj={slot10Obj} contractName={fetchContractInventorySlot10.data[2]} contractSymbol={fetchContractInventorySlot10.data[3]} thisStyle={style10} slotIndex={10} slotImageUrl={slot10ImageUrl} NftSlotOdds={NftSlotOdds} slotStock={slot10Stock} styleEmpty={style10Empty}/> : <CarouselNftSlot thisStyle={style10}  slotIndex={10}  styleEmpty={style10Empty}/>}
+         {fetchContractInventorySlot1.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[0]} slotObj={slot1Obj} contractName={fetchContractInventorySlot1.data[2]}  contractSymbol={fetchContractInventorySlot1.data[3]}    tokenId={fetchContractInventorySlot1.data[0]}  thisStyle={style1}  slotIndex={1}  slotImageUrl={slot1ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot1Stock}  styleEmpty={style1Empty}/> : <CarouselNftSlot thisStyle={style1}  slotIndex={1}  styleEmpty={style1Empty}/> }                   
+         {fetchContractInventorySlot2.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[1]} slotObj={slot2Obj} contractName={fetchContractInventorySlot2.data[2]}  contractSymbol={fetchContractInventorySlot2.data[3]}    tokenId={fetchContractInventorySlot2.data[0]} thisStyle={style2}  slotIndex={2}  slotImageUrl={slot2ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot2Stock}  styleEmpty={style2Empty}/> : <CarouselNftSlot thisStyle={style2}  slotIndex={2}  styleEmpty={style2Empty}/> }
+         {fetchContractInventorySlot3.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[2]} slotObj={slot3Obj} contractName={fetchContractInventorySlot3.data[2]}  contractSymbol={fetchContractInventorySlot3.data[3]}    tokenId={fetchContractInventorySlot3.data[0]} thisStyle={style3}  slotIndex={3}  slotImageUrl={slot3ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot3Stock}  styleEmpty={style3Empty}/> : <CarouselNftSlot thisStyle={style3}  slotIndex={3}  styleEmpty={style3Empty}/>}
+         {fetchContractInventorySlot4.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[3]} slotObj={slot4Obj} contractName={fetchContractInventorySlot4.data[2]}  contractSymbol={fetchContractInventorySlot4.data[3]}    tokenId={fetchContractInventorySlot4.data[0]} thisStyle={style4}  slotIndex={4}  slotImageUrl={slot4ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot4Stock}  styleEmpty={style4Empty}/> : <CarouselNftSlot thisStyle={style4}  slotIndex={4}  styleEmpty={style4Empty}/>}
+         {fetchContractInventorySlot5.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[4]} slotObj={slot5Obj} contractName={fetchContractInventorySlot5.data[2]}  contractSymbol={fetchContractInventorySlot5.data[3]}    tokenId={fetchContractInventorySlot5.data[0]} thisStyle={style5}  slotIndex={5}  slotImageUrl={slot5ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot5Stock}  styleEmpty={style5Empty}/> : <CarouselNftSlot thisStyle={style5}  slotIndex={5}  styleEmpty={style5Empty}/> }
+         {fetchContractInventorySlot6.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[5]} slotObj={slot6Obj} contractName={fetchContractInventorySlot6.data[2]}  contractSymbol={fetchContractInventorySlot6.data[3]}    tokenId={fetchContractInventorySlot6.data[0]} thisStyle={style6}  slotIndex={6}  slotImageUrl={slot6ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot6Stock}  styleEmpty={style6Empty}/> : <CarouselNftSlot thisStyle={style6}  slotIndex={6}  styleEmpty={style6Empty}/>}
+         {fetchContractInventorySlot7.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[6]} slotObj={slot7Obj} contractName={fetchContractInventorySlot7.data[2]}  contractSymbol={fetchContractInventorySlot7.data[3]}    tokenId={fetchContractInventorySlot7.data[0]} thisStyle={style7}  slotIndex={7}  slotImageUrl={slot7ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot7Stock}  styleEmpty={style7Empty}/> : <CarouselNftSlot thisStyle={style7}  slotIndex={7}  styleEmpty={style7Empty}/> }
+         {fetchContractInventorySlot8.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[7]} slotObj={slot8Obj} contractName={fetchContractInventorySlot8.data[2]}  contractSymbol={fetchContractInventorySlot8.data[3]}    tokenId={fetchContractInventorySlot8.data[0]} thisStyle={style8}  slotIndex={8}  slotImageUrl={slot8ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot8Stock}  styleEmpty={style8Empty}/> : <CarouselNftSlot thisStyle={style8}  slotIndex={8}  styleEmpty={style8Empty}/> }
+         {fetchContractInventorySlot9.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[8]} slotObj={slot9Obj} contractName={fetchContractInventorySlot9.data[2]}  contractSymbol={fetchContractInventorySlot9.data[3]}    tokenId={fetchContractInventorySlot9.data[0]} thisStyle={style9}  slotIndex={9}  slotImageUrl={slot9ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot9Stock}  styleEmpty={style9Empty}/> : <CarouselNftSlot thisStyle={style9}  slotIndex={9}  styleEmpty={style9Empty}/> }
+         {fetchContractInventorySlot10.data? <CarouselNftSlot slotContractAddress={NftSlotContractAddresses[9]} slotObj={slot10Obj} contractName={fetchContractInventorySlot10.data[2]} contractSymbol={fetchContractInventorySlot10.data[3]} tokenId={fetchContractInventorySlot10.data[0]}thisStyle={style10} slotIndex={10} slotImageUrl={slot10ImageUrl} NftSlotOdds={NftSlotOdds} slotStock={slot10Stock} styleEmpty={style10Empty}/> : <CarouselNftSlot thisStyle={style10}  slotIndex={10}  styleEmpty={style10Empty}/>}
             
             
 

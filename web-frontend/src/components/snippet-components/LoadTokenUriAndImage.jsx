@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { OddsAndSlotAddys } from '../../App';
-import { contractCrateABI, MachineFactoryContractAddress} from '../../ContractInfo/ContractInfo';
+import { MachineABI, MachineFactoryContractAddress} from '../../ContractInfo/ContractInfo';
 import {useMoralis, useWeb3Contract} from 'react-moralis';
 import { NftMoreInfoContext } from '../../App';
 
@@ -12,7 +12,7 @@ const LoadTokenUriAndImage = (props) => {
     const [imageObj, setimageObj] = useState();
 
     const fetchTokenUri = useWeb3Contract({
-        abi: contractCrateABI, //ERC721 ABI   
+        abi: MachineABI, //ERC721 ABI   
         contractAddress: NftSlotContractAddresses[props.winningSlot],
         functionName: "tokenURI",
         params: {
@@ -40,7 +40,7 @@ const LoadTokenUriAndImage = (props) => {
 
     useEffect(()=>{
         if (fetchTokenUri.data){
-            let temp = fetchTokenUri.data.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io')
+            let temp = fetchTokenUri.data.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud')
             console.log('\t\t\t*********** token URI is: ',temp)
             LoadImageWithFetch(temp);
         }
@@ -50,7 +50,7 @@ const LoadTokenUriAndImage = (props) => {
     function LoadImageWithFetch(thisUrl) {    
         const accountInfoReq = fetch(thisUrl).then(res => res.json() );
         accountInfoReq.then(accountInfo => {                                
-          let temp = accountInfo.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io')
+          let temp = accountInfo.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud')
           const second = fetch(temp)
           const third = second.then(res => res.blob())
           third.then(actualImage =>{

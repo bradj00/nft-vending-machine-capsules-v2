@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react'
 import { useEffect } from 'react';
 import {useERC20Balances, useWeb3Contract, useMoralisWeb3Api, useMoralis} from 'react-moralis';
-import {contractCrateABI} from '../ContractInfo/ContractInfo.jsx';
+import {MachineABI} from '../ContractInfo/ContractInfo.jsx';
 import { NftMoreInfoContext } from '../App.js';
 import CapsuleIcon from './snippet-components/CapsuleIcon.jsx';
 import CapsuleIconInventory from './snippet-components/CapsuleIconInventory.jsx';
@@ -33,12 +33,12 @@ const TreasureChestCount = () => {
     const Web3Api = useMoralisWeb3Api();
     // const { data, error, runContractFunction, isFetching, isLoading } =
     const getAllCrateSlotAddresses = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllAddys",
     });
     const getAllSlotOdds = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllOdds",
     });
@@ -153,7 +153,7 @@ const TreasureChestCount = () => {
 
     const openLootCrate = useWeb3Contract({
         
-        abi: contractCrateABI,
+        abi: MachineABI,
         contractAddress: contractAddressTreasureChest,
         functionName: "openChest",
         params: {

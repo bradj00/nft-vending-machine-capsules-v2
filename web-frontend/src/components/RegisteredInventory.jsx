@@ -3,7 +3,7 @@ import { NftMoreInfoContext } from '../App';
 import '../styles/grid.css';
 import {useERC20Balances, useWeb3Contract, useMoralisWeb3Api, useMoralis,useNFTBalances } from 'react-moralis';
 import { useEffect } from 'react';
-import {contractCrateABI} from '../ContractInfo/ContractInfo.jsx';
+import {MachineABI} from '../ContractInfo/ContractInfo.jsx';
 import { OddsAndSlotAddys } from '../App';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import {
@@ -626,7 +626,7 @@ const RegisterInventory = () => {
 
 
   const ejectTokensFromSlots = useWeb3Contract({
-    abi: contractCrateABI,
+    abi: MachineABI,
     contractAddress: contractAddressTreasureChest,
     functionName: "ejectNftArray",
     params: {
@@ -643,7 +643,7 @@ const RegisterInventory = () => {
     },
     contractAddress: TokenAddressToDepositToContract,
 
-    abi: contractCrateABI, //erc721 abi
+    abi: MachineABI, //erc721 abi
     functionName: "transferFrom",
     chain: 'rinkeby'
   });

@@ -3,7 +3,7 @@ import { NftMoreInfoContext } from '../../../App';
 import '../../../styles/grid.css';
 import {useERC20Balances, useWeb3Contract, useMoralisWeb3Api, useMoralis,useNFTBalances, useWeb3Transfer } from 'react-moralis';
 import { useEffect } from 'react';
-import {contractCrateABI} from '../../../ContractInfo/ContractInfo.jsx';
+import {MachineABI} from '../../../ContractInfo/ContractInfo.jsx';
 import { OddsAndSlotAddys } from '../../../App';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import {
@@ -184,7 +184,7 @@ const DepositNftToMachine = (props) => {
 
 
     const depositTokenToMachine = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: NftSlotContractAddresses[props.slotIndex-1],
       functionName: "transferFrom", //TODO: add machine contract IERC721 interface to support SAFEtransferfrom. We have compensating controls but standards exist for a reason.
       params:{
@@ -351,7 +351,7 @@ const DepositNftToMachine = (props) => {
                 }else{ 
                   
                   //replace pinata with moralis ipfs domain temporarily
-                  singleImage.metadata? singleImage.metadata.image = singleImage.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.ipfs.io'):<></>;
+                  singleImage.metadata? singleImage.metadata.image = singleImage.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'):<></>;
 
                   
                   if ((index == slot1MaxLoad)&&(props.SlotAccountUnregisteredNFTs.length > index) && ((slotIdFilter[props.slotIndex] != '-1') || (slotIdFilter[props.slotIndex] != '')) && ( !singleImage.token_id.toString().includes(slotIdFilter[props.slotIndex])) )  {

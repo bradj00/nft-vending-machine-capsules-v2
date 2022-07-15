@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {contractCrateABI, contractAddressTreasureChest, contractAddressChainLinkTokenABI} from '../ContractInfo/ContractInfo.jsx';
+import {MachineABI, contractAddressTreasureChest, contractAddressChainLinkTokenABI} from '../ContractInfo/ContractInfo.jsx';
 import VendingCurrentSlots from './VendingCurrentSlots';
 import TreasureChestCount from './TreasureChestCount';
 import Moralis, {useWeb3Contract, useMoralis, MoralisProvider, useERC20Balances} from "react-moralis";
@@ -31,12 +31,12 @@ const ContractInfoGrabber = () => {
     const {Moralis, enableWeb3, web3, isWeb3Enabled, authenticate, isAuthenticated, user, logout} = useMoralis();
   
     const getAllCrateSlotAddresses = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllAddys",
     });
     const getAllSlotOdds = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllOdds",
     });
@@ -50,7 +50,7 @@ const ContractInfoGrabber = () => {
     });
   
     const getMachineNameString = useWeb3Contract({
-      abi: contractCrateABI,
+      abi: MachineABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getMachineString",
     });
@@ -98,7 +98,7 @@ const ContractInfoGrabber = () => {
 
         // },400);
       }
-    },[isWeb3Enabled, contractAddressTreasureChest, contractCrateABI])
+    },[isWeb3Enabled, contractAddressTreasureChest, MachineABI])
 
 
     useEffect(()=>{
@@ -142,7 +142,7 @@ const ContractInfoGrabber = () => {
 
     const checkEvents = async() => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      let libcContract = new ethers.Contract(contractAddressTreasureChest, contractCrateABI, provider);
+      let libcContract = new ethers.Contract(contractAddressTreasureChest, MachineABI, provider);
 
       libcContract.on("NewRandomItem", (requestId, vrfRandomNumber, nftTokenId, slotWinner) => {
         console.log('NewRandomItem: ', requestId, parseInt(vrfRandomNumber._hex, 16), parseInt(nftTokenId._hex, 16), parseInt(slotWinner._hex, 16) );

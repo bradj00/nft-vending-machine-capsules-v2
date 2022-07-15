@@ -4,7 +4,7 @@ import { OddsAndSlotAddys } from '../App';
 import { useMoralisQuery, useMoralis } from 'react-moralis';
 import { useEffect } from 'react';
 import '../styles/grid.css';
-import { contractCrateABI } from '../ContractInfo/ContractInfo';
+import { MachineABI } from '../ContractInfo/ContractInfo';
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en.json'
 import ReactTimeAgo from 'react-time-ago'

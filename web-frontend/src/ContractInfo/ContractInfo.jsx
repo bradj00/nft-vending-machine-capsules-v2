@@ -1,24 +1,25 @@
-// Rinkeby Test NFT addresses (for easy reference)
-//0xB5fe4FA23d661efA35155bC7661A052A0ef4AE45  common gray
-//0xa277Dd3Af4E3ED61636d5B2117658f886BB3d682  uncommon green
-//0x0aDA8a96c7c592fd04CC0c71404D02982a9711e3  rare blue
-//0x8aA0B84Ca4B0a3FBCb6e7Dea1156f419bd7663B2  epic purple
-//0xFB956a542a2eA527B6dd826A80e323718C867dc6  legendary gold
-//0x4C019b7aD626fEe05d312AD130cc584bD07056E6  chat bubble
-//0xf23183F094C09adD12b7C21cb68733DbfF926309  squiggle line
-//0xb32E3dE5E6da9aaC9680393a78eb735e3dbA3aa5  triangle
-//0x23283cb354139a3d119DAefc6640a61D9687a48E  star
-//0x830821Deb0d2877513E12241eB3f59D2dAE8c5DB  square
+//MCP testnet ERC721 token contract for modeling: 0x7C0fE03d75AA6C653C49176fcB88F3D948998838
 
-//0x9DA7aa4C375bb40F71Ccb75BC74f47A278d9eCde 			FILL MACHINE WITH 5 TEST TOKENS
-
-//0x18d5C20bEa1d40d02642C033bf6C7044Ebd6dFEB			shiny new Emeralds (500 mil balance to ganache3. Faucet has 500k)
-
-//0x86FaA55f6F340F226b651DB81887F9f8742C1B81			FAUCET ADDRESS FOR EMERALDS
+// Polygon Main Net NFT addresses (for easy reference)
+//0xfa17a2751576277176627c1f525f1eda94575555 MCPA
+	//token ids to clone for random test data
+		//9500 red air conditioner
+		//3644 fire alarm
+		//3644 fire alarm
+		//3632 Router
+		
+//0x726e1b4841968c0c3eebeef880e60875b745b3c0 MCPC
+	//token ids to clone for random test data
+		//46000 gen C male executive
 
 
+		
 
-export const MachineFactoryContractAddress = "0xC2fDbACF42555C09FE911D0a12Ee4246c173dF46";
+
+
+
+
+export const MachineFactoryContractAddress = "0xC759Aa246E8422fcEC4a675D6509700Cd6e2DF40";
 
 export const BuyCapsuleContractABI = [
 	{
@@ -615,7 +616,7 @@ export const MachineFactoryABI = [
 	}
 ];
 
-export const contractCrateABI = [
+export const MachineABI = [
 	{
 		"inputs": [
 			{
@@ -898,6 +899,40 @@ export const contractCrateABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "NftTokensRegisteredInMachine",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "slotIndex",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256[][]",
 				"name": "theList",
 				"type": "uint256[][]"
@@ -943,19 +978,6 @@ export const contractCrateABI = [
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256[][]",
-				"name": "theList",
-				"type": "uint256[][]"
-			}
-		],
-		"name": "ejectNftArray",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -1108,6 +1130,11 @@ export const contractCrateABI = [
 					{
 						"internalType": "uint256",
 						"name": "index",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "slotIndex",
 						"type": "uint256"
 					}
 				],
@@ -1267,44 +1294,6 @@ export const contractCrateABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"name": "openChestCaller",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"name": "openChestStatus",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "uint256",
 				"name": "tokenId",
 				"type": "uint256"
@@ -1316,35 +1305,6 @@ export const contractCrateABI = [
 				"internalType": "address",
 				"name": "",
 				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "q",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "index",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -1371,25 +1331,6 @@ export const contractCrateABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "requestStatusIdByNftId",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "from",
 				"type": "address"
@@ -1410,7 +1351,34 @@ export const contractCrateABI = [
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
-	
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
 	{
 		"inputs": [
 			{

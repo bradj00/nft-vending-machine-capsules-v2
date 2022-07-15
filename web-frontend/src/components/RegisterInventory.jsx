@@ -3,7 +3,7 @@ import { NftMoreInfoContext } from '../App';
 import '../styles/grid.css';
 import {useERC20Balances, useWeb3Contract, useMoralisWeb3Api, useMoralis,useNFTBalances } from 'react-moralis';
 import { useEffect } from 'react';
-import {contractCrateABI} from '../ContractInfo/ContractInfo.jsx';
+import {MachineABI} from '../ContractInfo/ContractInfo.jsx';
 import { OddsAndSlotAddys } from '../App';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import {
@@ -538,7 +538,7 @@ const RegisterInventory = () => {
 
   
   const registerTokensForSlot = useWeb3Contract({
-    abi: contractCrateABI,
+    abi: MachineABI,
     contractAddress: contractAddressTreasureChest,
     functionName: "RegisterListOfNftIds",
     params: {
@@ -554,7 +554,7 @@ const RegisterInventory = () => {
     },
     contractAddress: TokenAddressToDepositToContract,
 
-    abi: contractCrateABI, //erc721 abi
+    abi: MachineABI, //erc721 abi
     functionName: "transferFrom",
     chain: 'rinkeby'
   });
@@ -640,7 +640,7 @@ function registerTokens(){
       setregisterTokensInfoButton('Awaiting chain confirmation...');
     },
     onError: (error) =>{
-    console.log('frrrr big ERROR: ',error,"_____",contractCrateABI,contractAddressTreasureChest,AllSlotsSelectedArr); 
+    console.log('frrrr big ERROR: ',error,"_____",MachineABI,contractAddressTreasureChest,AllSlotsSelectedArr); 
     },
   });
 
@@ -664,6 +664,7 @@ useEffect(()=>{
 
 useEffect(()=>{
   setAllSlotsSelectedArr([Slot1SelectedArr, Slot2SelectedArr, Slot3SelectedArr, Slot4SelectedArr, Slot5SelectedArr, Slot6SelectedArr, Slot7SelectedArr, Slot8SelectedArr, Slot9SelectedArr, Slot10SelectedArr ]);
+  console.log('---------> ',AllSlotsSelectedArr);
 },[Slot1SelectedArr, Slot2SelectedArr, Slot3SelectedArr, Slot4SelectedArr, Slot5SelectedArr, Slot6SelectedArr, Slot7SelectedArr, Slot8SelectedArr, Slot9SelectedArr, Slot10SelectedArr ]);
 
 useEffect(()=>{

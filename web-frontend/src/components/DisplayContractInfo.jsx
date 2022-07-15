@@ -3,7 +3,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { NftMoreInfoContext } from '../App';
 import "../styles/grid.css"
 import {useWeb3Contract, useMoralisWeb3Api, useMoralis, useChain } from 'react-moralis';
-import {MachineFactoryABI, MachineFactoryContractAddress, contractCrateABI} from '../ContractInfo/ContractInfo.jsx';
+import {MachineFactoryABI, MachineFactoryContractAddress, MachineABI} from '../ContractInfo/ContractInfo.jsx';
 import {getEllipsisTxt} from "../helpers/formatters";
 import { FaBeer, FaDiscord,FaBars, FaBroom } from 'react-icons/fa';
 

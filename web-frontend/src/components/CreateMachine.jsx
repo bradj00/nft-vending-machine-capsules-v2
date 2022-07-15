@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect, useCallback} from 'react'
 import {useWeb3Contract, useMoralisWeb3Api, useNFTBalances , useMoralis, useChain } from 'react-moralis';
-import {MachineFactoryABI, MachineFactoryContractAddress, contractCrateABI} from '../ContractInfo/ContractInfo.jsx';
+import {MachineFactoryABI, MachineFactoryContractAddress, MachineABI} from '../ContractInfo/ContractInfo.jsx';
 import '../styles/grid.css';
 import {useNavigate, useLocation, Link, Navigate   } from 'react-router-dom'
 import { NftMoreInfoContext } from '../App.js';
@@ -333,12 +333,12 @@ const CreateMachine = (props, context) => {
     );
 
     const LookedUpContractInfoSymbol = useWeb3Contract({
-        abi: contractCrateABI,
+        abi: MachineABI,
         contractAddress: SelectedLookupNftAddress,
         functionName: "symbol",
       });
     const LookedUpContractInfoName = useWeb3Contract({
-        abi: contractCrateABI,
+        abi: MachineABI,
         contractAddress: SelectedLookupNftAddress,
         functionName: "name",
       });
@@ -644,70 +644,70 @@ const CreateMachine = (props, context) => {
 
     //defaults to whatever chain METAMASK is currently set to
     const fetchContractCreateNewInventorySlot1 = useWeb3Contract({
-        abi: contractCrateABI,  
+        abi: MachineABI,  
         contractAddress: slot1NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot2 = useWeb3Contract({
-        abi: contractCrateABI,  
+        abi: MachineABI,  
         contractAddress: slot2NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot3 = useWeb3Contract({
-        abi: contractCrateABI,  
+        abi: MachineABI,  
         contractAddress: slot3NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot4 = useWeb3Contract({
-        abi: contractCrateABI,  
+        abi: MachineABI,  
         contractAddress: slot4NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot5 = useWeb3Contract({
-        abi: contractCrateABI,  
+        abi: MachineABI,  
         contractAddress: slot5NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot6 = useWeb3Contract({
-        abi: contractCrateABI,  
+        abi: MachineABI,  
         contractAddress: slot6NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot7 = useWeb3Contract({
-        abi: contractCrateABI,  
+        abi: MachineABI,  
         contractAddress: slot7NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot8 = useWeb3Contract({
-        abi: contractCrateABI,  
+        abi: MachineABI,  
         contractAddress: slot8NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot9 = useWeb3Contract({
-        abi: contractCrateABI,  
+        abi: MachineABI,  
         contractAddress: slot9NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot10 = useWeb3Contract({
-        abi: contractCrateABI,  
+        abi: MachineABI,  
         contractAddress: slot10NewContractLookup,
         functionName: "name",
     });
@@ -1502,7 +1502,7 @@ const CreateMachine = (props, context) => {
                     
                     <div style={{display:'flex',justifyContent:'center', color:'#fff', paddingTop:'0.5vh', position:'absolute',top:'0vw',width:'20vw',height:'6vh',backgroundColor:'rgba(50,50,50,0)'}}>
                         {/* <input  autoComplete='off' type="text" maxLength="32" size="32" placeholder="(Max 32 Characters)" style={{ backgroundColor:'#333', color:'#fff', paddingLeft:'8px',paddingTop:'5px',paddingBottom:'5px'}} name="name" /> */}
-                        <input autoComplete='off' onChange={checkMachineName} value={MachineNameBytes32? MachineNameBytes32 :""} maxLength="42" size="45" placeholder="Give your Machine a public name" name="name"  style={{height:'5vh', fontSize:'1vw',color:'#fff',backgroundColor:ActiveNetworkThemeColorDarker? ActiveNetworkThemeColorDarker: 'rgba(0,0,0,0)',border:'0.5px solid #ccc', borderRadius:'15px',paddingLeft:'1vw', outline:'none'}}></input>
+                        <input autoComplete='off' onChange={checkMachineName} value={MachineNameBytes32? MachineNameBytes32 :""} maxLength="42" size="45" placeholder="Give your Machine a public name" name="name"  style={{height:'5vh', fontSize:'1vw',color:'#000',backgroundColor:ActiveNetworkThemeColorDarker? ActiveNetworkThemeColorDarker: 'rgba(0,0,0,0)',border:'0.5px solid #ccc', borderRadius:'15px',paddingLeft:'1vw', outline:'none'}}></input>
                     </div>
                     <div style={{position:'absolute',top:'20vh',}}>
                         Select up to 10 contracts to use:
