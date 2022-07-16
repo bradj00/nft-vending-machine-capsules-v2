@@ -38,10 +38,10 @@ const TopNavBar = () => {
         friendlyNameChainId(chainId)
         //set all our global variables related to network dependencies here
 
-        if (chainId == '0x13881'){
+        if (chainId == '0x4'){
           setdisplayNetworkSwitchPrompt(false);
         }
-        if (chainId != '0x13881'){
+        if (chainId != '0x4'){
           console.log('PLEASE SWITCH TO RINKEBY! Current chain:', chainId)
           setdisplayNetworkSwitchPrompt(true);
         }

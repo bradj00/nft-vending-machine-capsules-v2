@@ -69,10 +69,10 @@ const CarouselNftSlot = (props) => {
                         <img className="imgBorder" style={{objectFit:'scale-down'}} onClick={()=>{clickedThisImage(props.slotImageUrl, props.slotIndex)}}  src={props.slotImageUrl? props.slotImageUrl : "https://i.imgur.com/4lpxSNZ.png"}></img>
                         <br></br>
                         <div style={{display:'flex', fontFamily:'Roboto',justifyContent:'center', color:'#fff', fontSize:'2vh', zIndex:'-1',position:'absolute',borderRadius:'10px', width:'100%', height:'150%', backgroundColor:'rgba(100,100,150,0.1)', top:'-50%'}}>
-                            <div style={{position:'absolute', display:'flex', justifyContent:'center', paddingTop:'5%', backgroundColor:'rgba(255,255,255,0.05)',width:'75%',height:'30%',top:'2%', borderRadius:'10px',}}>
+                            <div style={{position:'absolute', display:'flex', justifyContent:'center', paddingTop:'5%', backgroundColor:'rgba(255,255,255,0.05)',width:'95%',height:'30%',top:'2%', borderRadius:'10px',}}>
                                 <div style={{width:'100%',paddingLeft:'5%', position:'absolute',height:'100%',  top:'35%', border:'0px solid #ff00ff' }}>
      
-                                    <div style={{position:'relative', margin:'1%', width:'80%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
+                                    <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
                                         <div style={{ position:'absolute',float:'left', width:'80%', height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
                                         </div>
                                         <div style={{position:'absolute',top:'-40%',left:'-5%',float:'right', fontSize:'0.8vh'}}>
@@ -83,7 +83,7 @@ const CarouselNftSlot = (props) => {
                                         </div>
 
                                     </div>
-                                    <div style={{position:'relative', margin:'1%', width:'80%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
+                                    <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
                                         <div style={{ position:'absolute',float:'left', width:'80%', height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
                                         </div>
                                         <div style={{position:'absolute',top:'-40%',left:'-6%',float:'right', fontSize:'0.8vh'}}>
@@ -93,7 +93,7 @@ const CarouselNftSlot = (props) => {
                                         8
                                         </div>
                                     </div>
-                                    <div style={{position:'relative', margin:'1%', width:'80%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
+                                    <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
                                         <div style={{ position:'absolute',float:'left', width:'80%', height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
                                         </div>
                                         <div style={{position:'absolute',top:'-40%',left:'-6%',float:'right', fontSize:'0.8vh'}}>
@@ -103,7 +103,7 @@ const CarouselNftSlot = (props) => {
                                         8
                                         </div>
                                     </div>
-                                    <div style={{position:'relative', margin:'1%', width:'80%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
+                                    <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
                                         <div style={{ position:'absolute',float:'left', width:'80%', height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
                                         </div>
                                         <div style={{position:'absolute',top:'-40%',left:'-6%',float:'right', fontSize:'0.8vh'}}>
@@ -113,7 +113,7 @@ const CarouselNftSlot = (props) => {
                                         8
                                         </div>
                                     </div>
-                                    <div style={{position:'relative', margin:'1%', width:'80%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
+                                    <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
                                         <div style={{ position:'absolute',float:'left', width:'80%', height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
                                         </div>
                                         <div style={{position:'absolute',top:'-40%',left:'-6%',float:'right', fontSize:'0.8vh'}}>
@@ -123,7 +123,7 @@ const CarouselNftSlot = (props) => {
                                         8
                                         </div>
                                     </div>
-                                    <div style={{position:'relative', margin:'1%', width:'80%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
+                                    <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
                                         <div style={{ position:'absolute',float:'left', width:'80%', height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
                                         </div>
                                         <div style={{position:'absolute',top:'-40%',left:'-6%',float:'right', fontSize:'0.8vh'}}>
@@ -136,6 +136,10 @@ const CarouselNftSlot = (props) => {
                                 
                                    
                                 
+                                </div>
+                                <div className="unformatted" style={{color:'magenta', display:'flex', justifyContent:'center', fontSize:'1vw', position:'absolute', width:'15%', height:"15%",  top:'1%', right: '1%',  borderRadius:'10px', padding:'5px', }}>
+                                    <div style={{position:'absolute', fontSize:'0.8vh', top:'0'}}>Token ID</div>
+                                    {displayedTokenId? displayedTokenId:<></>} <br></br>
                                 </div>
                                 
                             </div>

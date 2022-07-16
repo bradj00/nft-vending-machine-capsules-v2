@@ -41,14 +41,9 @@ const EulaText = (props) => {
         }
     },[getuserAcceptEula.data]);
 
-
-    useEffect(()=>{
-        console.log('aaaaaccount: ',account)
-    },[account]);
     useEffect(()=>{
         if (web3 && account){
             console.log('account: ',account)
-            props.setSignedEula(false);
             getuserAcceptEula.runContractFunction({
                 onError: (error) =>{
                     console.log('getuserAcceptEula lookup ERROR: ',error);

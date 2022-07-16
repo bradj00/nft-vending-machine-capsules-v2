@@ -305,7 +305,7 @@ const UnregisteredNftSlot = (props) => {
               {props.SlotAccountUnregisteredNFTs? props.SlotAccountUnregisteredNFTs.map((singleImage, index)=>{
                 // console.log('SSSSSSSSS\t single image: ',singleImage);
                 //replace pinata with moralis ipfs domain temporarily
-                singleImage.metadata? singleImage.metadata.image = singleImage.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'):<></>;
+                singleImage.metadata? singleImage.metadata.image = singleImage.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>;
 
                 
                 if ((index == slot1MaxLoad)&&(props.SlotAccountUnregisteredNFTs.length > index) && ((slotIdFilter[props.slotIndex] != '-1') || (slotIdFilter[props.slotIndex] != '')) && ( !singleImage.token_id.toString().includes(slotIdFilter[props.slotIndex])) )  {

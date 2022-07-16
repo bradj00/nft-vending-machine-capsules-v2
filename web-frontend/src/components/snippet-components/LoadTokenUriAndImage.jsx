@@ -40,7 +40,7 @@ const LoadTokenUriAndImage = (props) => {
 
     useEffect(()=>{
         if (fetchTokenUri.data){
-            let temp = fetchTokenUri.data.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud')
+            let temp = fetchTokenUri.data.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com')
             console.log('\t\t\t*********** token URI is: ',temp)
             LoadImageWithFetch(temp);
         }
@@ -50,7 +50,7 @@ const LoadTokenUriAndImage = (props) => {
     function LoadImageWithFetch(thisUrl) {    
         const accountInfoReq = fetch(thisUrl).then(res => res.json() );
         accountInfoReq.then(accountInfo => {                                
-          let temp = accountInfo.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud')
+          let temp = accountInfo.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com')
           const second = fetch(temp)
           const third = second.then(res => res.blob())
           third.then(actualImage =>{

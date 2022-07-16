@@ -369,7 +369,7 @@ const VendingCurrentSlots = () => {
           fetch( filterArray(1, fetchContractInventorySlot1.data)[0][0].tokenURI ) 
           .then(response => response.json())
           .then(data => {
-            setslot1ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            setslot1ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
             // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
             let updated = {"1": data.image} 
             setslotImageObj(oldValue => ({
@@ -403,7 +403,7 @@ const VendingCurrentSlots = () => {
           fetch( filterArray(2, fetchContractInventorySlot2.data)[0][0].tokenURI ) 
           .then(response => response.json())
           .then(data => {
-            setslot2ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            setslot2ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
             // setslot2Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot2.data[0][i][0]._hex, 16)});
             let updated = {"2": data.image} 
             setslotImageObj(oldValue => ({
@@ -434,7 +434,7 @@ const VendingCurrentSlots = () => {
           fetch( filterArray(3, fetchContractInventorySlot3.data)[0][0].tokenURI ) 
           .then(response => response.json())
           .then(data => {
-            setslot3ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            setslot3ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
             // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
             let updated = {"3": data.image} 
             setslotImageObj(oldValue => ({
@@ -465,7 +465,7 @@ const VendingCurrentSlots = () => {
           fetch( filterArray(4, fetchContractInventorySlot4.data)[0][0].tokenURI ) 
           .then(response => response.json())
           .then(data => {
-            setslot4ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            setslot4ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
             // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
             let updated = {"4": data.image} 
             setslotImageObj(oldValue => ({
@@ -498,7 +498,7 @@ const VendingCurrentSlots = () => {
           fetch( filterArray(5, fetchContractInventorySlot5.data)[0][0].tokenURI ) 
           .then(response => response.json())
           .then(data => {
-            setslot5ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            setslot5ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
             // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
             let updated = {"5": data.image} 
             setslotImageObj(oldValue => ({
@@ -531,7 +531,7 @@ const VendingCurrentSlots = () => {
           fetch( filterArray(6, fetchContractInventorySlot6.data)[0][0].tokenURI ) 
           .then(response => response.json())
           .then(data => {
-            setslot6ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            setslot6ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
             // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
             let updated = {"6": data.image} 
             setslotImageObj(oldValue => ({
@@ -563,7 +563,7 @@ const VendingCurrentSlots = () => {
           fetch( filterArray(7, fetchContractInventorySlot7.data)[0][0].tokenURI ) 
           .then(response => response.json())
           .then(data => {
-            setslot7ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            setslot7ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
             // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
             let updated = {"7": data.image} 
             setslotImageObj(oldValue => ({
@@ -596,7 +596,7 @@ const VendingCurrentSlots = () => {
           fetch( filterArray(8, fetchContractInventorySlot8.data)[0][0].tokenURI ) 
           .then(response => response.json())
           .then(data => {
-            setslot8ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            setslot8ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
             // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
             let updated = {"8": data.image} 
             setslotImageObj(oldValue => ({
@@ -628,7 +628,7 @@ const VendingCurrentSlots = () => {
           fetch( filterArray(9, fetchContractInventorySlot9.data)[0][0].tokenURI ) 
           .then(response => response.json())
           .then(data => {
-            setslot9ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            setslot9ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
             // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
             let updated = {"9": data.image} 
             setslotImageObj(oldValue => ({
@@ -660,7 +660,7 @@ const VendingCurrentSlots = () => {
           fetch( filterArray(10, fetchContractInventorySlot10.data)[0][0].tokenURI ) 
           .then(response => response.json())
           .then(data => {
-            setslot10ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            setslot10ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
             // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
             let updated = {"10": data.image} 
             setslotImageObj(oldValue => ({
@@ -755,16 +755,16 @@ const VendingCurrentSlots = () => {
           
 
         
-         {fetchContractInventorySlot1.data? <CarouselNftSlot contractAddress={'MCPC contract'} slotContractAddress={NftSlotContractAddresses[0]} slotObj={slot1Obj} contractName={fetchContractInventorySlot1.data[2]}  contractSymbol={fetchContractInventorySlot1.data[3]}    tokenId={fetchContractInventorySlot1.data[0]}  thisStyle={style1}  slotIndex={1}  slotImageUrl={slot1ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot1Stock}  styleEmpty={style1Empty}/> : <CarouselNftSlot thisStyle={style1}  slotIndex={1}  styleEmpty={style1Empty}/> }                   
-         {fetchContractInventorySlot2.data? <CarouselNftSlot contractAddress={'MCPC contract'} slotContractAddress={NftSlotContractAddresses[1]} slotObj={slot2Obj} contractName={fetchContractInventorySlot2.data[2]}  contractSymbol={fetchContractInventorySlot2.data[3]}    tokenId={fetchContractInventorySlot2.data[0]} thisStyle={style2}  slotIndex={2}  slotImageUrl={slot2ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot2Stock}  styleEmpty={style2Empty}/> : <CarouselNftSlot thisStyle={style2}  slotIndex={2}  styleEmpty={style2Empty}/> }
-         {fetchContractInventorySlot3.data? <CarouselNftSlot contractAddress={'MCPC contract'} slotContractAddress={NftSlotContractAddresses[2]} slotObj={slot3Obj} contractName={fetchContractInventorySlot3.data[2]}  contractSymbol={fetchContractInventorySlot3.data[3]}    tokenId={fetchContractInventorySlot3.data[0]} thisStyle={style3}  slotIndex={3}  slotImageUrl={slot3ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot3Stock}  styleEmpty={style3Empty}/> : <CarouselNftSlot thisStyle={style3}  slotIndex={3}  styleEmpty={style3Empty}/>}
-         {fetchContractInventorySlot4.data? <CarouselNftSlot contractAddress={'MCPC contract'} slotContractAddress={NftSlotContractAddresses[3]} slotObj={slot4Obj} contractName={fetchContractInventorySlot4.data[2]}  contractSymbol={fetchContractInventorySlot4.data[3]}    tokenId={fetchContractInventorySlot4.data[0]} thisStyle={style4}  slotIndex={4}  slotImageUrl={slot4ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot4Stock}  styleEmpty={style4Empty}/> : <CarouselNftSlot thisStyle={style4}  slotIndex={4}  styleEmpty={style4Empty}/>}
-         {fetchContractInventorySlot5.data? <CarouselNftSlot contractAddress={'MCPC contract'} slotContractAddress={NftSlotContractAddresses[4]} slotObj={slot5Obj} contractName={fetchContractInventorySlot5.data[2]}  contractSymbol={fetchContractInventorySlot5.data[3]}    tokenId={fetchContractInventorySlot5.data[0]} thisStyle={style5}  slotIndex={5}  slotImageUrl={slot5ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot5Stock}  styleEmpty={style5Empty}/> : <CarouselNftSlot thisStyle={style5}  slotIndex={5}  styleEmpty={style5Empty}/> }
-         {fetchContractInventorySlot6.data? <CarouselNftSlot contractAddress={'MCPC contract'} slotContractAddress={NftSlotContractAddresses[5]} slotObj={slot6Obj} contractName={fetchContractInventorySlot6.data[2]}  contractSymbol={fetchContractInventorySlot6.data[3]}    tokenId={fetchContractInventorySlot6.data[0]} thisStyle={style6}  slotIndex={6}  slotImageUrl={slot6ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot6Stock}  styleEmpty={style6Empty}/> : <CarouselNftSlot thisStyle={style6}  slotIndex={6}  styleEmpty={style6Empty}/>}
-         {fetchContractInventorySlot7.data? <CarouselNftSlot contractAddress={'MCPC contract'} slotContractAddress={NftSlotContractAddresses[6]} slotObj={slot7Obj} contractName={fetchContractInventorySlot7.data[2]}  contractSymbol={fetchContractInventorySlot7.data[3]}    tokenId={fetchContractInventorySlot7.data[0]} thisStyle={style7}  slotIndex={7}  slotImageUrl={slot7ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot7Stock}  styleEmpty={style7Empty}/> : <CarouselNftSlot thisStyle={style7}  slotIndex={7}  styleEmpty={style7Empty}/> }
-         {fetchContractInventorySlot8.data? <CarouselNftSlot contractAddress={'MCPC contract'} slotContractAddress={NftSlotContractAddresses[7]} slotObj={slot8Obj} contractName={fetchContractInventorySlot8.data[2]}  contractSymbol={fetchContractInventorySlot8.data[3]}    tokenId={fetchContractInventorySlot8.data[0]} thisStyle={style8}  slotIndex={8}  slotImageUrl={slot8ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot8Stock}  styleEmpty={style8Empty}/> : <CarouselNftSlot thisStyle={style8}  slotIndex={8}  styleEmpty={style8Empty}/> }
-         {fetchContractInventorySlot9.data? <CarouselNftSlot contractAddress={'MCPC contract'} slotContractAddress={NftSlotContractAddresses[8]} slotObj={slot9Obj} contractName={fetchContractInventorySlot9.data[2]}  contractSymbol={fetchContractInventorySlot9.data[3]}    tokenId={fetchContractInventorySlot9.data[0]} thisStyle={style9}  slotIndex={9}  slotImageUrl={slot9ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot9Stock}  styleEmpty={style9Empty}/> : <CarouselNftSlot thisStyle={style9}  slotIndex={9}  styleEmpty={style9Empty}/> }
-         {fetchContractInventorySlot10.data? <CarouselNftSlot contractAddress={'MCPC contract'} slotContractAddress={NftSlotContractAddresses[9]} slotObj={slot10Obj} contractName={fetchContractInventorySlot10.data[2]} contractSymbol={fetchContractInventorySlot10.data[3]} tokenId={fetchContractInventorySlot10.data[0]}thisStyle={style10} slotIndex={10} slotImageUrl={slot10ImageUrl} NftSlotOdds={NftSlotOdds} slotStock={slot10Stock} styleEmpty={style10Empty}/> : <CarouselNftSlot thisStyle={style10}  slotIndex={10}  styleEmpty={style10Empty}/>}
+         {fetchContractInventorySlot1.data? <CarouselNftSlot contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[0]} slotObj={slot1Obj} contractName={fetchContractInventorySlot1.data[2]}  contractSymbol={fetchContractInventorySlot1.data[3]}    tokenId={fetchContractInventorySlot1.data[0]}  thisStyle={style1}  slotIndex={1}  slotImageUrl={slot1ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot1Stock}  styleEmpty={style1Empty}/> : <CarouselNftSlot thisStyle={style1}  slotIndex={1}  styleEmpty={style1Empty}/> }                   
+         {fetchContractInventorySlot2.data? <CarouselNftSlot contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[1]} slotObj={slot2Obj} contractName={fetchContractInventorySlot2.data[2]}  contractSymbol={fetchContractInventorySlot2.data[3]}    tokenId={fetchContractInventorySlot2.data[0]} thisStyle={style2}  slotIndex={2}  slotImageUrl={slot2ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot2Stock}  styleEmpty={style2Empty}/> : <CarouselNftSlot thisStyle={style2}  slotIndex={2}  styleEmpty={style2Empty}/> }
+         {fetchContractInventorySlot3.data? <CarouselNftSlot contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[2]} slotObj={slot3Obj} contractName={fetchContractInventorySlot3.data[2]}  contractSymbol={fetchContractInventorySlot3.data[3]}    tokenId={fetchContractInventorySlot3.data[0]} thisStyle={style3}  slotIndex={3}  slotImageUrl={slot3ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot3Stock}  styleEmpty={style3Empty}/> : <CarouselNftSlot thisStyle={style3}  slotIndex={3}  styleEmpty={style3Empty}/>}
+         {fetchContractInventorySlot4.data? <CarouselNftSlot contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[3]} slotObj={slot4Obj} contractName={fetchContractInventorySlot4.data[2]}  contractSymbol={fetchContractInventorySlot4.data[3]}    tokenId={fetchContractInventorySlot4.data[0]} thisStyle={style4}  slotIndex={4}  slotImageUrl={slot4ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot4Stock}  styleEmpty={style4Empty}/> : <CarouselNftSlot thisStyle={style4}  slotIndex={4}  styleEmpty={style4Empty}/>}
+         {fetchContractInventorySlot5.data? <CarouselNftSlot contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[4]} slotObj={slot5Obj} contractName={fetchContractInventorySlot5.data[2]}  contractSymbol={fetchContractInventorySlot5.data[3]}    tokenId={fetchContractInventorySlot5.data[0]} thisStyle={style5}  slotIndex={5}  slotImageUrl={slot5ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot5Stock}  styleEmpty={style5Empty}/> : <CarouselNftSlot thisStyle={style5}  slotIndex={5}  styleEmpty={style5Empty}/> }
+         {fetchContractInventorySlot6.data? <CarouselNftSlot contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[5]} slotObj={slot6Obj} contractName={fetchContractInventorySlot6.data[2]}  contractSymbol={fetchContractInventorySlot6.data[3]}    tokenId={fetchContractInventorySlot6.data[0]} thisStyle={style6}  slotIndex={6}  slotImageUrl={slot6ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot6Stock}  styleEmpty={style6Empty}/> : <CarouselNftSlot thisStyle={style6}  slotIndex={6}  styleEmpty={style6Empty}/>}
+         {fetchContractInventorySlot7.data? <CarouselNftSlot contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[6]} slotObj={slot7Obj} contractName={fetchContractInventorySlot7.data[2]}  contractSymbol={fetchContractInventorySlot7.data[3]}    tokenId={fetchContractInventorySlot7.data[0]} thisStyle={style7}  slotIndex={7}  slotImageUrl={slot7ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot7Stock}  styleEmpty={style7Empty}/> : <CarouselNftSlot thisStyle={style7}  slotIndex={7}  styleEmpty={style7Empty}/> }
+         {fetchContractInventorySlot8.data? <CarouselNftSlot contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[7]} slotObj={slot8Obj} contractName={fetchContractInventorySlot8.data[2]}  contractSymbol={fetchContractInventorySlot8.data[3]}    tokenId={fetchContractInventorySlot8.data[0]} thisStyle={style8}  slotIndex={8}  slotImageUrl={slot8ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot8Stock}  styleEmpty={style8Empty}/> : <CarouselNftSlot thisStyle={style8}  slotIndex={8}  styleEmpty={style8Empty}/> }
+         {fetchContractInventorySlot9.data? <CarouselNftSlot contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[8]} slotObj={slot9Obj} contractName={fetchContractInventorySlot9.data[2]}  contractSymbol={fetchContractInventorySlot9.data[3]}    tokenId={fetchContractInventorySlot9.data[0]} thisStyle={style9}  slotIndex={9}  slotImageUrl={slot9ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot9Stock}  styleEmpty={style9Empty}/> : <CarouselNftSlot thisStyle={style9}  slotIndex={9}  styleEmpty={style9Empty}/> }
+         {fetchContractInventorySlot10.data? <CarouselNftSlot contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[9]} slotObj={slot10Obj} contractName={fetchContractInventorySlot10.data[2]} contractSymbol={fetchContractInventorySlot10.data[3]} tokenId={fetchContractInventorySlot10.data[0]}thisStyle={style10} slotIndex={10} slotImageUrl={slot10ImageUrl} NftSlotOdds={NftSlotOdds} slotStock={slot10Stock} styleEmpty={style10Empty}/> : <CarouselNftSlot thisStyle={style10}  slotIndex={10}  styleEmpty={style10Empty}/>}
             
             
 

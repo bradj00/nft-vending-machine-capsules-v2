@@ -227,23 +227,23 @@ contract Machine is MiddleData, ERC721URIStorage, VRFConsumerBase{
     }
 
 
-    function getAllRegisteredForSlot(uint256 slotIndex) public view returns (slotInhabitant[] memory, string[] memory, string memory, string memory, address){
+    function getAllRegisteredForSlot(uint256 slotIndex) public view returns (slotInhabitant[] memory,  string memory, string memory, address){
         address slotAddr = addyArray[slotIndex];
-        string[] memory tokenUriArray = new string[](NftTokensRegisteredInMachine[slotAddr].length);
+        // string[] memory tokenUriArray = new string[](NftTokensRegisteredInMachine[slotAddr].length);
         ERC721 nftContract;
         
         nftContract = ERC721(slotAddr);
 
         //[1]array of strings is not properly populating here...
-        for (uint256 i = 0; i < NftTokensRegisteredInMachine[slotAddr].length; i++){
-            if ((NftTokensRegisteredInMachine[slotAddr][i].index != 0) && (i == slotIndex) ){ //if it isnt a used-up tokenId and it's the slot we requested
-                tokenUriArray[i] = nftContract.tokenURI(NftTokensRegisteredInMachine[slotAddr][i].tokenId);
-            }
-        }
+        // for (uint256 i = 0; i < NftTokensRegisteredInMachine[slotAddr].length; i++){
+        //     if ((NftTokensRegisteredInMachine[slotAddr][i].index != 0) && (i == slotIndex) ){ //if it isnt a used-up tokenId and it's the slot we requested
+        //         tokenUriArray[i] = nftContract.tokenURI(NftTokensRegisteredInMachine[slotAddr][i].tokenId);
+        //     }
+        // }
         string memory _name   = nftContract.name();
         string memory _symbol = nftContract.symbol();
 
-        return( NftTokensRegisteredInMachine[addyArray[slotIndex]], tokenUriArray, _name, _symbol, addyArray[slotIndex]);
+        return( NftTokensRegisteredInMachine[addyArray[slotIndex]], _name, _symbol, addyArray[slotIndex]);
     }
 
 

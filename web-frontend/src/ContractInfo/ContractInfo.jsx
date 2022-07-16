@@ -12,14 +12,17 @@
 	//token ids to clone for random test data
 		//46000 gen C male executive
 
-
+//rinkeby MCP testnet addressess:
+//0x9CA82D971ACebd276c2290E917CcE441E04Be449	citizens
+//0x75E1817c8B16F29995eD9De9cAe2bD08A9244fC2	land
+//0x775752df06Df60a3Bb4FA32A12B3fd592328CA71	appliance
 		
 
 
 
 
 
-export const MachineFactoryContractAddress = "0x4f84FC87e240C12a0644c0b555F473e9d37CECe8";
+export const MachineFactoryContractAddress = "0x4905fA79f1621e54Cb68EDe9498Aa708745d8c83";
 
 export const BuyCapsuleContractABI = [
 	{
@@ -1265,11 +1268,6 @@ export const MachineABI = [
 				"internalType": "struct Machine.slotInhabitant[]",
 				"name": "",
 				"type": "tuple[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "",
-				"type": "string[]"
 			},
 			{
 				"internalType": "string",

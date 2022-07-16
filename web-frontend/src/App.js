@@ -770,9 +770,9 @@ useEffect(() => {
           :<></>}
           {displayNetworkSwitchPrompt? 
         <div style={{fontSize:'1.2vw', textAlign:'center', borderRadius:'10px', color:'#fff', zIndex:'9999', width:'25vw', height:'57vh', position:'fixed', top:'25%',left:'38%',border:'1px dashed #ffcc00', backgroundColor:'rgba(10,10,10,.99)',display:'flex',justifyContent:'center',alignItems:'center'}}>
-          This dapp runs on <span style={{color:'#ffff00'}}>&nbsp;Mumbai&nbsp;</span> Ethereum testnet!
+          This dapp runs on <span style={{color:'#ffff00'}}>&nbsp;Rinkeby&nbsp;</span> Ethereum testnet!
           <div onClick={() => switchNetwork("0x80001")} className="selectTokenButtonEmpty" style={{cursor:'pointer', borderRadius:'10px', padding:'0.3vw', border:'1px solid #ccc', position:'absolute', bottom:'35%',}}>
-            Switch to Mumbai
+            Switch to Rinkeby
           </div>
         </div>
         

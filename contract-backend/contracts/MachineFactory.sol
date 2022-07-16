@@ -8,6 +8,7 @@ import "./BuyCapsules.sol";
 contract MachineFactory is MiddleData {
     Machine[] private _machines;
     mapping(address => Machine[]) public MachinesByOwner;
+    mapping(address => uint8) public userAcceptEula;
     event MachineUsed(address machineAddress, bytes32 requestId, uint256 theNumber, uint256 nftTokenId, uint256 winningSlot);   
     event PullRequest(address machineAddress, bytes32 requestId, address requesterAddress); 
 
@@ -24,9 +25,23 @@ contract MachineFactory is MiddleData {
    }
    /////////////////////////////////////////////////
 
+   function getuserAcceptEula(address user) public view returns (uint){
+       return userAcceptEula[user];
+   }
+
+   function getEulaContentId () public pure returns(string memory){
+       return("some content ID for an IPFS text file"); //content ID to pull from IPFS node
+   }
+
+   function signEula(bool signTrue) public {
+       if ( (signTrue == true)&&(userAcceptEula[msg.sender] == 0) ){
+        userAcceptEula[msg.sender] = 1;
+       }
+   }
 
    function createMachine(SlotStruct memory slots1, OddsStruct memory odds1, string memory MachineName, uint256 CapsuleCost, address CapsuleTokenAddress) public 
     {
+        require (userAcceptEula[msg.sender] == 1, "creator must accept terms");
         Machine machine = new Machine(
             slots1,
             odds1,
