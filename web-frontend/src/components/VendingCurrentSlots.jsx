@@ -351,349 +351,350 @@ const VendingCurrentSlots = () => {
       if (fetchContractInventorySlot1.data != null){
         // sethideExtraInfo(false); //should probably call this somewhere more reliable.
         setcapsuleIconAnimated(false);
-        console.log('SLOT 1 : ',fetchContractInventorySlot1.data);
-        console.log('FILTERED SLOT 1: ',filterArray(1, fetchContractInventorySlot1.data))
-        //fetchContractInventorySlot1.data[1] needs to be filtered the same way because we pull the image src straight from this array
+        // console.log('SLOT 1 : ',fetchContractInventorySlot1.data);
+        // console.log('FILTERED SLOT 1: ',filterArray(1, fetchContractInventorySlot1.data))
 
         setslotInventory1tokenInfoArray( filterArray(1, fetchContractInventorySlot1.data) );
         setslot1Inventory( filterArray(1, fetchContractInventorySlot1.data)[0].length );
         setslot1Stock( deriveInStockFromRegisteredInventory(  filterArray(1, fetchContractInventorySlot1.data)[0]  ) );
 
+        //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...
         let updated1 = {"1":  {name: fetchContractInventorySlot1.data[2], symbol: fetchContractInventorySlot1.data[3], contract: fetchContractInventorySlot1.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
 
-
-        for (let i = 0; i < fetchContractInventorySlot1.data[0].length; i++){
-
-          
-
-          if (parseInt(fetchContractInventorySlot1.data[0][i][1]._hex, 16) == 1){ //only if this is the first NFT in the slot
-            setFrontSlotId1(parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            // console.log('__________________\t',fetchContractInventorySlot1.data[1][i]);
-            
-            fetch( fetchContractInventorySlot1.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud')) 
-            .then(response => response.json())
-            .then(data => {
-              setslot1ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
-              setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
-              
-              let updated = {"1": data.image} 
-              setslotImageObj(oldValue => ({
-                ...oldValue, ...updated
-              })    );
-            });
-          }
-
-
+        if ( filterArray(1, fetchContractInventorySlot1.data)[0].length > 0 ){
+         setFrontSlotId1( filterArray(1, fetchContractInventorySlot1.data)[0][0] ); //NFT in this slot, at the front
+          fetch( filterArray(1, fetchContractInventorySlot1.data)[0][0].tokenURI ) 
+          .then(response => response.json())
+          .then(data => {
+            setslot1ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
+            let updated = {"1": data.image} 
+            setslotImageObj(oldValue => ({
+              ...oldValue, ...updated
+            })    );
+          });
         }
-
       }
     },[fetchContractInventorySlot1.data])
 
+
     useEffect(()=>{
       if (fetchContractInventorySlot2.data != null){
-        console.log('SLOT 2 : ',fetchContractInventorySlot1.data);
-        console.log('FILTERED SLOT 2: ',filterArray(2, fetchContractInventorySlot1.data))
-       
+        // sethideExtraInfo(false); //should probably call this somewhere more reliable.
+        setcapsuleIconAnimated(false);
+        // console.log('SLOT 2 : ',fetchContractInventorySlot1.data);
+        // console.log('FILTERED SLOT 2: ',filterArray(2, fetchContractInventorySlot1.data))
+
+        setslotInventory2tokenInfoArray( filterArray(2, fetchContractInventorySlot2.data) );
         setslot2Inventory( filterArray(2, fetchContractInventorySlot2.data)[0].length );
         setslot2Stock( deriveInStockFromRegisteredInventory(  filterArray(2, fetchContractInventorySlot2.data)[0]  ) );
-        
-        let updated1 = {"2":  {name: fetchContractInventorySlot2.data[2], symbol: fetchContractInventorySlot2.data[3], contract: fetchContractInventorySlot2.data[4]} } 
+
+        //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...
+        let updated2 = {"2":  {name: fetchContractInventorySlot2.data[2], symbol: fetchContractInventorySlot2.data[3], contract: fetchContractInventorySlot2.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
-          ...oldValue, ...updated1
+          ...oldValue, ...updated2
         })    );
-        
-        setslotInventory2tokenInfoArray( filterArray(2, fetchContractInventorySlot2.data) );
-        for (let i = 0; i < fetchContractInventorySlot2.data[0].length; i++){
-          if (parseInt(fetchContractInventorySlot2.data[0][i][1]._hex, 16) == 1){
-            setFrontSlotId2(parseInt(fetchContractInventorySlot2.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot2.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud') )
-            .then(response => response.json())
-            .then(data => {
-              setslot2ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
-              setslot2Obj({data: data, slotOdds: NftSlotOdds[1], id: parseInt(fetchContractInventorySlot2.data[0][i][0]._hex, 16)});
-              
-              let updated = {"2": data.image} 
-              setslotImageObj(oldValue => ({
-                ...oldValue, ...updated
-              })    );
-            });
-          }
+
+        if ( filterArray(2, fetchContractInventorySlot2.data)[0].length > 0 ){
+         setFrontSlotId2( filterArray(2, fetchContractInventorySlot2.data)[0][0] ); //NFT in this slot, at the front
+          fetch( filterArray(2, fetchContractInventorySlot2.data)[0][0].tokenURI ) 
+          .then(response => response.json())
+          .then(data => {
+            setslot2ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            // setslot2Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot2.data[0][i][0]._hex, 16)});
+            let updated = {"2": data.image} 
+            setslotImageObj(oldValue => ({
+              ...oldValue, ...updated
+            })    );
+          });
         }
       }
     },[fetchContractInventorySlot2.data])
 
     useEffect(()=>{
       if (fetchContractInventorySlot3.data != null){
-        
-        console.log('SLOT 3 : ',fetchContractInventorySlot1.data);
-        console.log('FILTERED SLOT 3: ',filterArray(2, fetchContractInventorySlot1.data))
+        // console.log('SLOT 3 : ',fetchContractInventorySlot1.data);
+        // console.log('FILTERED SLOT 3: ',filterArray(3, fetchContractInventorySlot3.data))
+
+        setslotInventory3tokenInfoArray( filterArray(3, fetchContractInventorySlot3.data) );
         setslot3Inventory( filterArray(3, fetchContractInventorySlot3.data)[0].length );
         setslot3Stock( deriveInStockFromRegisteredInventory(  filterArray(3, fetchContractInventorySlot3.data)[0]  ) );
-        
-        let updated1 = {"3":  {name: fetchContractInventorySlot3.data[2], symbol: fetchContractInventorySlot3.data[3], contract: fetchContractInventorySlot3.data[4]} } 
+
+        //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...
+        let updated3 = {"3":  {name: fetchContractInventorySlot3.data[2], symbol: fetchContractInventorySlot3.data[3], contract: fetchContractInventorySlot3.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
-          ...oldValue, ...updated1
+          ...oldValue, ...updated3
         })    );
-        
-        setslotInventory3tokenInfoArray( filterArray(2, fetchContractInventorySlot3.data) );
-        for (let i = 0; i < fetchContractInventorySlot3.data[0].length; i++){
-          if (parseInt(fetchContractInventorySlot3.data[0][i][1]._hex, 16) == 1){
-            setFrontSlotId3(parseInt(fetchContractInventorySlot3.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot3.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud') )
-            .then(response => response.json())
-            .then(data => {
-              setslot3ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
-              setslot3Obj({data: data, slotOdds: NftSlotOdds[2], id: parseInt(fetchContractInventorySlot3.data[0][i][0]._hex, 16)});
-              
-              let updated = {"3": data.image} 
-              setslotImageObj(oldValue => ({
-                ...oldValue, ...updated
-              })    );
-            });
-          }
+
+        if ( filterArray(3, fetchContractInventorySlot3.data)[0].length > 0 ){
+         setFrontSlotId3( filterArray(3, fetchContractInventorySlot3.data)[0][0] ); //NFT in this slot, at the front
+          fetch( filterArray(3, fetchContractInventorySlot3.data)[0][0].tokenURI ) 
+          .then(response => response.json())
+          .then(data => {
+            setslot3ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
+            let updated = {"3": data.image} 
+            setslotImageObj(oldValue => ({
+              ...oldValue, ...updated
+            })    );
+          });
         }
       }
     },[fetchContractInventorySlot3.data])
- 
-    useEffect(()=>{ 
+
+    useEffect(()=>{
       if (fetchContractInventorySlot4.data != null){
-        let updated1 = {"4":  {name: fetchContractInventorySlot4.data[2], symbol: fetchContractInventorySlot4.data[3], contract: fetchContractInventorySlot4.data[4]} } 
-        setslotNameAndSymbol(oldValue => ({
-          ...oldValue, ...updated1
-        })    );
-        console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
-        console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot1.data))
-        setslotInventory4tokenInfoArray( filterArray(4, fetchContractInventorySlot1.data) );
+        // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
+        // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
+
+        setslotInventory4tokenInfoArray( filterArray(4, fetchContractInventorySlot4.data) );
         setslot4Inventory( filterArray(4, fetchContractInventorySlot4.data)[0].length );
         setslot4Stock( deriveInStockFromRegisteredInventory(  filterArray(4, fetchContractInventorySlot4.data)[0]  ) );
 
-        for (let i = 0; i < fetchContractInventorySlot4.data[0].length; i++){
-          if (parseInt(fetchContractInventorySlot4.data[0][i][1]._hex, 16) == 1){
-            setFrontSlotId4(parseInt(fetchContractInventorySlot4.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot4.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'))
-            .then(response => response.json())
-            .then(data => {
-              setslot4ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
-              setslot4Obj({data: data, slotOdds: NftSlotOdds[3], id: parseInt(fetchContractInventorySlot4.data[0][i][0]._hex, 16)});
-              
-              let updated = {"4": data.image} 
-              setslotImageObj(oldValue => ({
-                ...oldValue, ...updated
-              })    );
-            });
-          }
+        //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...
+        let updated4 = {"4":  {name: fetchContractInventorySlot4.data[2], symbol: fetchContractInventorySlot4.data[3], contract: fetchContractInventorySlot4.data[4]} } 
+        setslotNameAndSymbol(oldValue => ({
+          ...oldValue, ...updated4
+        })    );
+
+        if ( filterArray(4, fetchContractInventorySlot4.data)[0].length > 0 ){
+         setFrontSlotId4( filterArray(4, fetchContractInventorySlot4.data)[0][0] ); //NFT in this slot, at the front
+          fetch( filterArray(4, fetchContractInventorySlot4.data)[0][0].tokenURI ) 
+          .then(response => response.json())
+          .then(data => {
+            setslot4ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
+            let updated = {"4": data.image} 
+            setslotImageObj(oldValue => ({
+              ...oldValue, ...updated
+            })    );
+          });
         }
-      } 
-    },[fetchContractInventorySlot4.data]) 
+      }
+    },[fetchContractInventorySlot4.data])
+
+
 
     useEffect(()=>{
       if (fetchContractInventorySlot5.data != null){
-        let updated1 = {"5": {name: fetchContractInventorySlot5.data[2], symbol: fetchContractInventorySlot5.data[3], contract: fetchContractInventorySlot5.data[4]} } 
-        setslotNameAndSymbol(oldValue => ({
-          ...oldValue, ...updated1
-        })    );
-        console.log('SLOT 5 : ',fetchContractInventorySlot5.data);
-        console.log('FILTERED SLOT 5: ',filterArray(5, fetchContractInventorySlot5.data))
-        setslotInventory5tokenInfoArray( filterArray(5, fetchContractInventorySlot5.data) );
+        // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
+        // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
+
+        setslotInventory5tokenInfoArray( filterArray(5, fetchContractInventorySlot4.data) );
         setslot5Inventory( filterArray(5, fetchContractInventorySlot5.data)[0].length );
         setslot5Stock( deriveInStockFromRegisteredInventory(  filterArray(5, fetchContractInventorySlot5.data)[0]  ) );
 
-        for (let i = 0; i < fetchContractInventorySlot5.data[0].length; i++){
-          if (parseInt(fetchContractInventorySlot5.data[0][i][1]._hex, 16) == 1){
-            setFrontSlotId5(parseInt(fetchContractInventorySlot5.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot5.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'))
-            .then(response => response.json())
-            .then(data => {
-              setslot5ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
-              setslot5Obj({data: data, slotOdds: NftSlotOdds[4], id: parseInt(fetchContractInventorySlot5.data[0][i][0]._hex, 16)});
-              
-              let updated = {"5": data.image} 
-              setslotImageObj(oldValue => ({
-                ...oldValue, ...updated
-              })    );
-            });
-          } 
+        //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...
+        let updated5 = {"5":  {name: fetchContractInventorySlot5.data[2], symbol: fetchContractInventorySlot5.data[3], contract: fetchContractInventorySlot5.data[4]} } 
+        setslotNameAndSymbol(oldValue => ({
+          ...oldValue, ...updated5
+        })    );
+
+        if ( filterArray(5, fetchContractInventorySlot5.data)[0].length > 0 ){
+         setFrontSlotId5( filterArray(5, fetchContractInventorySlot5.data)[0][0] ); //NFT in this slot, at the front
+          fetch( filterArray(5, fetchContractInventorySlot5.data)[0][0].tokenURI ) 
+          .then(response => response.json())
+          .then(data => {
+            setslot5ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
+            let updated = {"5": data.image} 
+            setslotImageObj(oldValue => ({
+              ...oldValue, ...updated
+            })    );
+          });
         }
       }
     },[fetchContractInventorySlot5.data])
 
+
+
     useEffect(()=>{
       if (fetchContractInventorySlot6.data != null){
-        // sethideExtraInfo(false); //should probably call this somewhere more reliable.
-        setcapsuleIconAnimated(false);
-        let updated1 = {"6": {name: fetchContractInventorySlot6.data[2], symbol: fetchContractInventorySlot6.data[3], contract: fetchContractInventorySlot6.data[4]} } 
-        setslotNameAndSymbol(oldValue => ({
-          ...oldValue, ...updated1
-        })    );
+        // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
+        // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
 
-        console.log('SLOT 6 : ',fetchContractInventorySlot6.data);
-        console.log('FILTERED SLOT 6: ',filterArray(6, fetchContractInventorySlot6.data))
         setslotInventory6tokenInfoArray( filterArray(6, fetchContractInventorySlot6.data) );
         setslot6Inventory( filterArray(6, fetchContractInventorySlot6.data)[0].length );
         setslot6Stock( deriveInStockFromRegisteredInventory(  filterArray(6, fetchContractInventorySlot6.data)[0]  ) );
 
-        for (let i = 0; i < fetchContractInventorySlot6.data[0].length; i++){
-          if (parseInt(fetchContractInventorySlot6.data[0][i][1]._hex, 16) == 1){
-            setFrontSlotId6(parseInt(fetchContractInventorySlot6.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot6.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'))
-            .then(response => response.json())
-            .then(data => {
-              setslot6ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
-              setslot6Obj({data: data, slotOdds: NftSlotOdds[5], id: parseInt(fetchContractInventorySlot6.data[0][i][0]._hex, 16)});
-              
-              let updated = {"6": data.image} 
-              setslotImageObj(oldValue => ({
-                ...oldValue, ...updated
-              })    );
-            });
-          }
-        }
+        //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...
+        let updated6 = {"6":  {name: fetchContractInventorySlot6.data[2], symbol: fetchContractInventorySlot6.data[3], contract: fetchContractInventorySlot6.data[4]} } 
+        setslotNameAndSymbol(oldValue => ({
+          ...oldValue, ...updated6
+        })    );
 
+        if ( filterArray(6, fetchContractInventorySlot6.data)[0].length > 0 ){
+         setFrontSlotId6( filterArray(6, fetchContractInventorySlot6.data)[0][0] ); //NFT in this slot, at the front
+          fetch( filterArray(6, fetchContractInventorySlot6.data)[0][0].tokenURI ) 
+          .then(response => response.json())
+          .then(data => {
+            setslot6ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
+            let updated = {"6": data.image} 
+            setslotImageObj(oldValue => ({
+              ...oldValue, ...updated
+            })    );
+          });
+        }
       }
     },[fetchContractInventorySlot6.data])
 
+
     useEffect(()=>{
       if (fetchContractInventorySlot7.data != null){
-        let updated1 = {"7": {name: fetchContractInventorySlot7.data[2], symbol: fetchContractInventorySlot7.data[3], contract: fetchContractInventorySlot7.data[4] } } 
-        setslotNameAndSymbol(oldValue => ({
-          ...oldValue, ...updated1
-        })    );
-        console.log('SLOT 7 : ',fetchContractInventorySlot1.data);
-        console.log('FILTERED SLOT 7: ',filterArray(7, fetchContractInventorySlot7.data))
+        // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
+        // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
+
         setslotInventory7tokenInfoArray( filterArray(7, fetchContractInventorySlot7.data) );
         setslot7Inventory( filterArray(7, fetchContractInventorySlot7.data)[0].length );
         setslot7Stock( deriveInStockFromRegisteredInventory(  filterArray(7, fetchContractInventorySlot7.data)[0]  ) );
 
-        for (let i = 0; i < fetchContractInventorySlot7.data[0].length; i++){
-          if (parseInt(fetchContractInventorySlot7.data[0][i][1]._hex, 16) == 1){
-            setFrontSlotId7(parseInt(fetchContractInventorySlot7.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot7.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud') )
-            .then(response => response.json())
-            .then(data => {
-              setslot7ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
-              setslot7Obj({data: data, slotOdds: NftSlotOdds[6], id: parseInt(fetchContractInventorySlot7.data[0][i][0]._hex, 16)});
-              
-              let updated = {"7": data.image} 
-              setslotImageObj(oldValue => ({
-                ...oldValue, ...updated
-              })    );
-            });
-          }
+        //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...
+        let updated7 = {"7":  {name: fetchContractInventorySlot7.data[2], symbol: fetchContractInventorySlot7.data[3], contract: fetchContractInventorySlot7.data[4]} } 
+        setslotNameAndSymbol(oldValue => ({
+          ...oldValue, ...updated7
+        })    );
+
+        if ( filterArray(7, fetchContractInventorySlot7.data)[0].length > 0 ){
+         setFrontSlotId7( filterArray(7, fetchContractInventorySlot7.data)[0][0] ); //NFT in this slot, at the front
+          fetch( filterArray(7, fetchContractInventorySlot7.data)[0][0].tokenURI ) 
+          .then(response => response.json())
+          .then(data => {
+            setslot7ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
+            let updated = {"7": data.image} 
+            setslotImageObj(oldValue => ({
+              ...oldValue, ...updated
+            })    );
+          });
         }
       }
     },[fetchContractInventorySlot7.data])
 
+
+
     useEffect(()=>{
       if (fetchContractInventorySlot8.data != null){
-        let updated1 = {"8": {name: fetchContractInventorySlot8.data[2], symbol: fetchContractInventorySlot8.data[3], contract: fetchContractInventorySlot8.data[4]} } 
-        setslotNameAndSymbol(oldValue => ({
-          ...oldValue, ...updated1
-        })    );
-        console.log('SLOT 8 : ',fetchContractInventorySlot1.data);
-        console.log('FILTERED SLOT 8: ',filterArray(8, fetchContractInventorySlot8.data))
+        // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
+        // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
+
         setslotInventory8tokenInfoArray( filterArray(8, fetchContractInventorySlot8.data) );
         setslot8Inventory( filterArray(8, fetchContractInventorySlot8.data)[0].length );
         setslot8Stock( deriveInStockFromRegisteredInventory(  filterArray(8, fetchContractInventorySlot8.data)[0]  ) );
 
-        for (let i = 0; i < fetchContractInventorySlot8.data[0].length; i++){
-          if (parseInt(fetchContractInventorySlot8.data[0][i][1]._hex, 16) == 1){
-            setFrontSlotId8(parseInt(fetchContractInventorySlot8.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot8.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud')  )
-            .then(response => response.json())
-            .then(data => {
-              setslot8ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
-              setslot8Obj({data: data, slotOdds: NftSlotOdds[7], id: parseInt(fetchContractInventorySlot8.data[0][i][0]._hex, 16)});
-              
-              let updated = {"8": data.image} 
-              setslotImageObj(oldValue => ({
-                ...oldValue, ...updated
-              })    );
-            });
-          }
+        //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...
+        let updated8 = {"8":  {name: fetchContractInventorySlot8.data[2], symbol: fetchContractInventorySlot8.data[3], contract: fetchContractInventorySlot8.data[4]} } 
+        setslotNameAndSymbol(oldValue => ({
+          ...oldValue, ...updated8
+        })    );
+
+        if ( filterArray(8, fetchContractInventorySlot8.data)[0].length > 0 ){
+         setFrontSlotId8( filterArray(8, fetchContractInventorySlot8.data)[0][0] ); //NFT in this slot, at the front
+          fetch( filterArray(8, fetchContractInventorySlot8.data)[0][0].tokenURI ) 
+          .then(response => response.json())
+          .then(data => {
+            setslot8ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
+            let updated = {"8": data.image} 
+            setslotImageObj(oldValue => ({
+              ...oldValue, ...updated
+            })    );
+          });
         }
       }
     },[fetchContractInventorySlot8.data])
 
+
     useEffect(()=>{
       if (fetchContractInventorySlot9.data != null){
-        let updated1 = {"9": {name: fetchContractInventorySlot9.data[2], symbol: fetchContractInventorySlot9.data[3], contract: fetchContractInventorySlot9.data[4]} } 
-        setslotNameAndSymbol(oldValue => ({
-          ...oldValue, ...updated1
-        })    );
-        console.log('SLOT 9 : ',fetchContractInventorySlot9.data);
-        console.log('FILTERED SLOT 9: ',filterArray(9, fetchContractInventorySlot9.data))
+        // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
+        // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
+  
         setslotInventory9tokenInfoArray( filterArray(9, fetchContractInventorySlot9.data) );
         setslot9Inventory( filterArray(9, fetchContractInventorySlot9.data)[0].length );
         setslot9Stock( deriveInStockFromRegisteredInventory(  filterArray(9, fetchContractInventorySlot9.data)[0]  ) );
-
-        for (let i = 0; i < fetchContractInventorySlot9.data[0].length; i++){
-          if (parseInt(fetchContractInventorySlot9.data[0][i][1]._hex, 16) == 1){
-            setFrontSlotId9(parseInt(fetchContractInventorySlot9.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot9.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'))
-            .then(response => response.json())
-            .then(data => {
-              setslot9ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
-              setslot9Obj({data: data, slotOdds: NftSlotOdds[8], id: parseInt(fetchContractInventorySlot9.data[0][i][0]._hex, 16)});
-              
-              let updated = {"9": data.image} 
-              setslotImageObj(oldValue => ({
-                ...oldValue, ...updated
-              })    );
-            });
-          } 
+  
+        //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...
+        let updated9 = {"9":  {name: fetchContractInventorySlot9.data[2], symbol: fetchContractInventorySlot9.data[3], contract: fetchContractInventorySlot9.data[4]} } 
+        setslotNameAndSymbol(oldValue => ({
+          ...oldValue, ...updated9
+        })    );
+  
+        if ( filterArray(9, fetchContractInventorySlot9.data)[0].length > 0 ){
+         setFrontSlotId9( filterArray(9, fetchContractInventorySlot9.data)[0][0] ); //NFT in this slot, at the front
+          fetch( filterArray(9, fetchContractInventorySlot9.data)[0][0].tokenURI ) 
+          .then(response => response.json())
+          .then(data => {
+            setslot9ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
+            let updated = {"9": data.image} 
+            setslotImageObj(oldValue => ({
+              ...oldValue, ...updated
+            })    );
+          });
         }
-      }  
-    },[fetchContractInventorySlot9.data]) 
-
+      }
+    },[fetchContractInventorySlot9.data])
+  
+  
     useEffect(()=>{
       if (fetchContractInventorySlot10.data != null){
-        let updated1 = {"10": {name: fetchContractInventorySlot10.data[2], symbol: fetchContractInventorySlot10.data[3], contract: fetchContractInventorySlot10.data[4]} } 
-        setslotNameAndSymbol(oldValue => ({
-          ...oldValue, ...updated1
-        })    );
-
-        console.log('SLOT 10 : ',fetchContractInventorySlot1.data);
-        console.log('FILTERED SLOT 10: ',filterArray(10, fetchContractInventorySlot10.data))
+        // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
+        // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
+  
         setslotInventory10tokenInfoArray( filterArray(10, fetchContractInventorySlot10.data) );
         setslot10Inventory( filterArray(10, fetchContractInventorySlot10.data)[0].length );
         setslot10Stock( deriveInStockFromRegisteredInventory(  filterArray(10, fetchContractInventorySlot10.data)[0]  ) );
-
-        setslotInventory10tokenInfoArray(fetchContractInventorySlot10.data);
-        for (let i = 0; i < fetchContractInventorySlot10.data[0].length; i++){
-          if (parseInt(fetchContractInventorySlot10.data[0][i][1]._hex, 16) == 1){
-            setFrontSlotId10(parseInt(fetchContractInventorySlot10.data[0][i][0]._hex, 16)); //NFT in this slot, at the front
-            fetch( fetchContractInventorySlot10.data[1][i].replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'))
-            .then(response => response.json())
-            .then(data => {
-              setslot10ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
-              setslot10Obj({data: data, slotOdds: NftSlotOdds[9], id: parseInt(fetchContractInventorySlot10.data[0][i][0]._hex, 16)});
-              
-              let updated = {"10": data.image} 
-              setslotImageObj(oldValue => ({
-                ...oldValue, ...updated
-              })    );
-            });
-          } 
+  
+        //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...
+        let updated10 = {"10":  {name: fetchContractInventorySlot10.data[2], symbol: fetchContractInventorySlot10.data[3], contract: fetchContractInventorySlot10.data[4]} } 
+        setslotNameAndSymbol(oldValue => ({
+          ...oldValue, ...updated10
+        })    );
+  
+        if ( filterArray(10, fetchContractInventorySlot10.data)[0].length > 0 ){
+         setFrontSlotId10( filterArray(10, fetchContractInventorySlot10.data)[0][0] ); //NFT in this slot, at the front
+          fetch( filterArray(10, fetchContractInventorySlot10.data)[0][0].tokenURI ) 
+          .then(response => response.json())
+          .then(data => {
+            setslot10ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.pinata.cloud'));
+            // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
+            let updated = {"10": data.image} 
+            setslotImageObj(oldValue => ({
+              ...oldValue, ...updated
+            })    );
+          });
         }
       }
     },[fetchContractInventorySlot10.data])
+  
+  
 
 
-    var style1  = { "--i": 1,  borderBottom: '3px solid #000' };
-    var style2  = { "--i": 2,  borderBottom: '3px solid #000' };
-    var style3  = { "--i": 3,  borderBottom: '3px solid #000' };
-    var style4  = { "--i": 4,  borderBottom: '3px solid #000' };
-    var style5  = { "--i": 5,  borderBottom: '3px solid #000' };
-    var style6  = { "--i": 6,  borderBottom: '3px solid #000' };
-    var style7  = { "--i": 7,  borderBottom: '3px solid #000' };
-    var style8  = { "--i": 8,  borderBottom: '3px solid #000' };
-    var style9  = { "--i": 9,  borderBottom: '3px solid #000' };
-    var style10 = { "--i": 10, borderBottom: '3px solid #000' };
+
+
+
+
+
+
+
+
+
+    var style1  = { "--i": 1,  borderBottom: '1px groove #fff',borderRadius:'-3px'  };
+    var style2  = { "--i": 2,  borderBottom: '1px groove #fff',borderRadius:'-3px'  };
+    var style3  = { "--i": 3,  borderBottom: '1px groove #fff',borderRadius:'-3px'  };
+    var style4  = { "--i": 4,  borderBottom: '1px groove #fff',borderRadius:'-3px' };
+    var style5  = { "--i": 5,  borderBottom: '1px groove #fff',borderRadius:'-3px' };
+    var style6  = { "--i": 6,  borderBottom: '1px groove #fff',borderRadius:'-3px' };
+    var style7  = { "--i": 7,  borderBottom: '1px groove #fff',borderRadius:'-3px' };
+    var style8  = { "--i": 8,  borderBottom: '1px groove #fff',borderRadius:'-3px' };
+    var style9  = { "--i": 9,  borderBottom: '1px groove #fff',borderRadius:'-3px' };
+    var style10 = { "--i": 10, borderBottom: '1px groove #fff',borderRadius:'-3px' };
     
-    var style1Empty  = { "--i": 1,    width:'50%', height:'50%', marginLeft:'30%',marginTop:'50%', borderBottom:'2px ridge #fff'};
+    var style1Empty  = { "--i": 1,    width:'50%', height:'50%', marginLeft:'30%',marginTop:'50%', borderBottom:'25px ridge #fff'};
     var style2Empty  = { "--i": 2,    width:'50%', height:'50%', marginLeft:'30%',marginTop:'50%', borderBottom:'2px ridge #fff'};
     var style3Empty  = { "--i": 3,    width:'50%', height:'50%', marginLeft:'30%',marginTop:'50%', borderBottom:'2px ridge #fff'};
     var style4Empty  = { "--i": 4,    width:'50%', height:'50%', marginLeft:'30%',marginTop:'50%', borderBottom:'2px ridge #fff'};
