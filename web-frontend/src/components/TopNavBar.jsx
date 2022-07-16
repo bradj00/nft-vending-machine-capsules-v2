@@ -75,15 +75,18 @@ const TopNavBar = () => {
             setActiveNetworkBorderColor("1px solid #ffcc00");
             break;
         case '0x13881': 
-            
-            setActiveNetworkFriendlyName( "Mumbai" );
-            setActiveNetworkThemeColor("rgba(150,80,40,0.2)");
-            setActiveNetworkThemeColorOpaque("rgba(150,80,40,1)");
-            setActiveNetworkThemeBoxShadow("inset 0px 0px 0px 0px #221100");
-            setActiveNetworkMachineFactoryAddress(MachineFactoryContractAddress.mumbai);
-            setActiveNetworkBorderColor("1px solid #3333aa");
+          setActiveNetworkFriendlyName( "Mumbai" );    
+          setActiveNetworkThemeColor("rgba(100,100,250,0.1)");
+          setActiveNetworkThemeColorOpaque("rgba(30,30,90,1)");
 
-            break;
+          setActiveNetworkThemeColorLighter("rgba(130,130,250,0.2)");
+          setActiveNetworkThemeColorDarker("rgba(80,80,250,0.1)");
+
+          setActiveNetworkThemeBoxShadow("inset 0px 0px 0px 0px #000011");
+          setActiveNetworkMachineFactoryAddress(MachineFactoryContractAddress.mumbai);
+          setActiveNetworkBorderColor("1px solid #ffcc00");
+
+          break;
         default:
             return chainId;
             break;

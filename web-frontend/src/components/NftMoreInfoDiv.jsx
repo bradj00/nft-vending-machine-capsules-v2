@@ -92,7 +92,7 @@ const NftMoreInfoDiv = () => {
                 {clickedSlotObj? clickedSlotObj.data.name : <></>}
             </div>
             <div style={{display:'flex', justifyContent:'center',position:'absolute', width: '80%', height:'50%', top:'15%',}}>
-                {clickedNftImage? <img style={{height:'100%', width:'100%', border: selectedSlotBorderColor? selectedSlotBorderColor: '3px solid #FFF',}} src={clickedNftImage? clickedNftImage: ''}></img>: <img style={{height:'100%', width:'100%', border: selectedSlotBorderColor? selectedSlotBorderColor: ActiveNetworkBorderColor? ActiveNetworkBorderColor: '1px solid #ccc',}}></img>}
+                {clickedNftImage? <img style={{objectFit:'scale-down', height:'100%', width:'100%', border: ActiveNetworkBorderColor? ActiveNetworkBorderColor:'1px solid #bbb', borderRadius:'3px',padding:'0.5vh',}} src={clickedNftImage? clickedNftImage: ''}></img>: <img style={{height:'100%', width:'100%', border: selectedSlotBorderColor? selectedSlotBorderColor: ActiveNetworkBorderColor? ActiveNetworkBorderColor: '1px solid #ccc',}}></img>}
             </div>
 
             <div style={{position:'absolute', top:'65%', left:'18%', width:'65%', }}>
