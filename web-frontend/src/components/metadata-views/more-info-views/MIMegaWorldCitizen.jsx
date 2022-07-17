@@ -90,18 +90,18 @@ const MIMegaWorldCitizen = (props) => {
         </div>
 
         <div style={{position:'absolute', top:'18%', right:'2%',width:'43%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-        Gen: <div style={{float:'right', color:'gold'}}>{props.clickedNftSlotOdds? props.clickedNftSlotOdds: <>0%</>}</div>
+        Gen: <div style={{float:'right', color:'gold'}}>{props.clickedNftSlotOdds? props.clickedNftSlotOdds: <>...</>}</div>
         </div>
         <div style={{position:'absolute', top:'28%', right:'2%',width:'43%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
         asdf: <div style={{float:'right', color:'gold'}}>{props.metadataObj? props.contractAddress:<></>}</div>
         </div>
         <div style={{position:'absolute', top:'38%', right:'2%',width:'43%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-        asdf: <div style={{float:'right', color:'gold'}}>{props.tokenId? props.tokenId:<></>}</div>
+        Slot#: <div style={{float:'right', color:'gold'}}>{props.slotIndex? props.slotIndex:<></>}</div>
         </div>
 
 
-        <div style={{position:'absolute',display:'flex', top:'5%',right:'1%', color:'#00ff00'}} title="This token contract is on our whitelist and we recognize the project. Still it is up to you to verify before making any purchase!">
-        <div style={{}}>Verified</div>
+        <div style={{position:'absolute',display:'flex', top:'5%',right:'1%', color:'#00ffff', fontSize:'1.5vh'}} title="This token contract is on our whitelist and the contract source is published on Etherscan. Still it is up to you to carefully verify before making any purchase!">
+        <div style={{}}>V+P&nbsp;</div>
         <div style={{}}><VerifiedIcon /> </div>
             
             

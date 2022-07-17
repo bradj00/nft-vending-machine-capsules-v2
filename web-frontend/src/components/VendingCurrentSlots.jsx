@@ -358,7 +358,7 @@ const VendingCurrentSlots = () => {
         setslot1Inventory( filterArray(1, fetchContractInventorySlot1.data)[0].length );
         setslot1Stock( deriveInStockFromRegisteredInventory(  filterArray(1, fetchContractInventorySlot1.data)[0]  ) );
 
-        //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...
+        //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...  WALRUS
         let updated1 = {"1":  {name: fetchContractInventorySlot1.data[2], symbol: fetchContractInventorySlot1.data[3], contract: fetchContractInventorySlot1.data[4]} } 
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1

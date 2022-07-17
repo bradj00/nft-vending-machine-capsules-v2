@@ -207,7 +207,7 @@ const NftMoreInfoDiv = () => {
             <div style={{color:'#fff', position:'absolute', width:'95%', height:'45%', top:'2%',borderRadius:'15px', backgroundColor:'rgba(50,50,50,0.2)'}}>
                 {/* view token metadata:<br></br><JSONTree hideRoot={true} theme={theme} invertTheme={false} data={clickedmetadataObj}/> */}
                 <div style={{position:'absolute', height:'100%',width:'100%',bottom:'2%'}}>
-                    <MIMegaWorldCitizen tokenId={clickedDisplayedTokenId} NftSlotOdds={clickedNftSlotOdds} contractAddress={'MCPC contract'} metadataObj={clickedmetadataObj}/>
+                    <MIMegaWorldCitizen tokenId={clickedDisplayedTokenId} slotIndex={clickedSlotIndex} NftSlotOdds={clickedNftSlotOdds} contractAddress={'MCPC contract'} metadataObj={clickedmetadataObj}/>
                 </div>
 
             </div>
