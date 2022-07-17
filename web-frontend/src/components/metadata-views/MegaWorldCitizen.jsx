@@ -37,12 +37,12 @@ function clickedThisImage(imageUrl, slotNumber){
             <br></br>
             <div style={{display:'flex', fontFamily:'Roboto',justifyContent:'center', color:'#fff', fontSize:'2vh', zIndex:'-1',position:'absolute',borderRadius:'10px', width:'100%', height:'150%', backgroundColor:'rgba(100,100,150,0.1)', top:'-50%'}}>
                 <div style={{position:'absolute', display:'flex', justifyContent:'center', paddingTop:'5%', backgroundColor:'rgba(255,255,255,0.05)',width:'95%',height:'30%',top:'2%', borderRadius:'10px',}}>
-                    <div style={{position:'absolute',top:'0',left:'15%'}}>
+                    <div style={{position:'absolute',top:'0',left:'2%'}}>
                     {props.metadataObj? props.metadataObj.attributes[1].value=='male'?<MaleIcon />:<></>:<></>}
                     {props.metadataObj? props.metadataObj.attributes[1].value=='female'?<FemaleIcon />:<></>:<></>}
                     </div>
 
-                    <div style={{position:'absolute',top:'5%',left:'30%', color:'#ffffff',fontSize:'1.5vh',}}>
+                    <div style={{position:'absolute',top:'5%',left:'20%', color:'#ffffff',fontSize:'1.5vh',}}>
                         {props.metadataObj? props.metadataObj.attributes[0].value? props.metadataObj.attributes[0].value:<></>:<></>}
                     </div>
 
@@ -54,7 +54,7 @@ function clickedThisImage(imageUrl, slotNumber){
                     </div>
 
 
-                    <div style={{position:'absolute',top:'0',left:'0%', color:'#00ff00'}}>
+                    <div style={{position:'absolute',top:'-40%',left:'0%', color:'#00ff00'}}>
                         <VerifiedIcon />
                     </div>
                     
