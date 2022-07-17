@@ -56,7 +56,7 @@ function clickedThisImage(imageUrl, slotNumber){
 
                     <div style={{width:'100%', position:'absolute',height:'100%', left:'20%',  top:'35%', border:'0px solid #ff00ff' }}>
 
-                        <div style={{position:'relative', margin:'1%', width:'40%', height:'10%', backgroundColor:'#222', border:'1px solid #999'}}>
+                        <div style={{position:'relative', margin:'1%', width:'40%', height:'10%', backgroundColor:'#222', border:'1px solid #3333cc'}}>
                             <div style={{ position:'absolute',float:'left', width:props.metadataObj? (props.metadataObj.attributes[1].value/7*100)+'%' :0, height:'8%', backgroundColor:'#0077ff', height:'100%',}}>
                             
                             </div>
@@ -71,7 +71,7 @@ function clickedThisImage(imageUrl, slotNumber){
 
                         </div>
                         
-                        <div style={{position:'relative', margin:'1%', width:'40%', height:'10%', backgroundColor:'#222', border:'1px solid #999'}}>
+                        <div style={{position:'relative', margin:'1%', width:'40%', height:'10%', backgroundColor:'#222', border:'1px solid #3333cc'}}>
                             <div style={{ position:'absolute',float:'left', width:props.metadataObj? (props.metadataObj.attributes[0].value/10*100)+'%' :0, height:'8%', backgroundColor:'#0077ff', height:'100%',}}>
                             
                             </div>

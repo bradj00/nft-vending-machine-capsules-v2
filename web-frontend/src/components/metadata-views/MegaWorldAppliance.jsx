@@ -9,7 +9,7 @@ const MegaWorldAppliance = (props) => {
 
 const {clickedNftImage, setclickedNftImage}     = useContext(NftMoreInfoContext);
 const {selectedSlotAddress, setselectedSlotAddress}    = useContext(NftMoreInfoContext);
-const {clickedSlotObj, setclickedSlotObj} = useContext(NftMoreInfoContext);
+const {clickedSlotObj, setClickedSlotObj} = useContext(NftMoreInfoContext);
 const {selectedSlotContractName, setselectedSlotContractName} = useContext(NftMoreInfoContext);
 const {selectedSlotContractSymbol, setselectedSlotContractSymbol} = useContext(NftMoreInfoContext);
 const {NftSlotContractAddresses, setNftSlotContractAddresses}    = useContext(OddsAndSlotAddys);
@@ -19,7 +19,7 @@ function clickedThisImage(imageUrl, slotNumber){
     console.log('#################### ',imageUrl, slotNumber);
     setclickedNftImage(imageUrl);
     setselectedSlotAddress( props.slotContractAddress );
-    setclickedSlotObj(props.slotObj);
+    setClickedSlotObj(props.slotObj);
     setselectedSlotContractName(props.contractName);
     setselectedSlotContractSymbol(props.contractSymbol);
   }

@@ -142,7 +142,7 @@ useEffect(() => {
     }
   );
   const [machineOwner, setmachineOwner] = useState();
-
+  const [clickedmetadataObj,        setClickedmetadataObj] = useState();
   const [RinkebyNFTsState, setRinkebyNFTsState]   = useState('');
   const [Slot1showMenuUnregistered, setSlot1showMenuUnregistered] = useState({});
   const [Slot2showMenuUnregistered, setSlot2showMenuUnregistered] = useState({});
@@ -379,7 +379,16 @@ useEffect(() => {
   const [confettiZIndex, setconfettiZIndex] = useState('zIndexNormal');
   const [rateOfRotation, setrateOfRotation] = useState(30);
 
-  const [clickedSlotObj, setclickedSlotObj] = useState();
+  const [clickedSlotObj, setClickedSlotObj] = useState();
+  const [clickedDisplayedTokenId, setClickedDisplayedTokenId] = useState();
+  const [clickedSlotContractAddress, setClickedSlotContractAddress] = useState();
+  const [clickedSlotIndex, setClickedSlotIndex] = useState();
+  const [clickedSlotImageUrl, setClickedSlotImageUrl] = useState();
+  const [clickedNftSlotOdds, setClickedNftSlotOdds] = useState();
+  const [clickedSlotStock, setClickedSlotStock] = useState();
+  
+
+
 
   const [hideExtraInfo, sethideExtraInfo] = useState(false);
 
@@ -493,7 +502,6 @@ useEffect(() => {
     slot8Obj, setslot8Obj,
     slot9Obj, setslot9Obj,
     slot10Obj, setslot10Obj,
-    clickedSlotObj, setclickedSlotObj,
 
     sceneTransition, setsceneTransition,
     confettiDisplay, setconfettiDisplay,
@@ -705,6 +713,15 @@ useEffect(() => {
     Slot8showMenuUnregistered, setSlot8showMenuUnregistered,
     Slot9showMenuUnregistered, setSlot9showMenuUnregistered,
     Slot10showMenuUnregistered, setSlot10showMenuUnregistered,
+
+    clickedmetadataObj,        setClickedmetadataObj,
+    clickedDisplayedTokenId, setClickedDisplayedTokenId,
+    clickedSlotContractAddress, setClickedSlotContractAddress,
+    clickedSlotIndex, setClickedSlotIndex,
+    clickedSlotImageUrl, setClickedSlotImageUrl,
+    clickedNftSlotOdds, setClickedNftSlotOdds,
+    clickedSlotStock, setClickedSlotStock,
+    clickedSlotObj, setClickedSlotObj,
 
 
   } 

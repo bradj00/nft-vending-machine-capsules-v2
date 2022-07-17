@@ -70,7 +70,7 @@ const VendingCurrentSlots = () => {
     
     
     
-    const {clickedSlotObj, setclickedSlotObj} = useContext(NftMoreInfoContext);
+    const {clickedSlotObj, setClickedSlotObj} = useContext(NftMoreInfoContext);
     const {confettiZIndex, setconfettiZIndex} = useContext(NftMoreInfoContext);
 
     const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);

@@ -9,17 +9,42 @@ const MegaWorldCitizen = (props) => {
 
 const {clickedNftImage, setclickedNftImage}     = useContext(NftMoreInfoContext);
 const {selectedSlotAddress, setselectedSlotAddress}    = useContext(NftMoreInfoContext);
-const {clickedSlotObj, setclickedSlotObj} = useContext(NftMoreInfoContext);
 const {selectedSlotContractName, setselectedSlotContractName} = useContext(NftMoreInfoContext);
 const {selectedSlotContractSymbol, setselectedSlotContractSymbol} = useContext(NftMoreInfoContext);
 const {NftSlotContractAddresses, setNftSlotContractAddresses}    = useContext(OddsAndSlotAddys);
 
+const {clickedmetadataObj,        setClickedmetadataObj}        = useContext(NftMoreInfoContext);
+const {clickedDisplayedTokenId, setClickedDisplayedTokenId} = useContext(NftMoreInfoContext);
+const {clickedSlotContractAddress, setClickedSlotContractAddress} = useContext(NftMoreInfoContext);
+const {clickedSlotObj, setClickedSlotObj} = useContext(NftMoreInfoContext);
+const {clickedSlotIndex, setClickedSlotIndex} = useContext(NftMoreInfoContext);
+const {clickedSlotImageUrl, setClickedSlotImageUrl} = useContext(NftMoreInfoContext);
+const {clickedNftSlotOdds, setClickedNftSlotOdds} = useContext(NftMoreInfoContext);
+const {clickedSlotStock, setClickedSlotStock} = useContext(NftMoreInfoContext);
+
 
 function clickedThisImage(imageUrl, slotNumber){
-    console.log('#################### ',imageUrl, slotNumber);
+    console.log('setting image: ');
+    console.log(imageUrl);
+    setClickedmetadataObj(props.metadataObj)
+    setClickedDisplayedTokenId(props.displayedTokenId)
+    setClickedSlotContractAddress(props.slotContractAddress)
+    setClickedSlotObj(props.slotObj)
+    setClickedSlotIndex(props.slotIndex)
+    setClickedSlotImageUrl(imageUrl)
+    setClickedNftSlotOdds(props.nftSlotOdds)
+    setClickedSlotStock(props.slotStock)
+
+
+
+
+
+
+
+    // console.log('#################### ',imageUrl, slotNumber);
     setclickedNftImage(imageUrl);
-    setselectedSlotAddress( props.slotContractAddress );
-    setclickedSlotObj(props.slotObj);
+    // setselectedSlotAddress( props.slotContractAddress );
+    // setclickedSlotObj(props.slotObj);
     setselectedSlotContractName(props.contractName);
     setselectedSlotContractSymbol(props.contractSymbol);
   }
@@ -74,7 +99,7 @@ function clickedThisImage(imageUrl, slotNumber){
                     
                     <div style={{width:'100%',paddingLeft:'5%', position:'absolute',height:'100%',  top:'35%', border:'0px solid #ff00ff' }}>
 
-                        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
+                        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #004400'}}>
                             <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes[6].value*10+'%' :0, height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
                             </div>
                             <div style={{position:'absolute',top:'-40%',left:'-5%',float:'right', fontSize:'0.8vh'}}>
@@ -85,7 +110,7 @@ function clickedThisImage(imageUrl, slotNumber){
                             </div>
 
                         </div>
-                        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
+                        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #004400'}}>
                             <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes[3].value*10+'%' :0, height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
                             </div>
                             <div style={{position:'absolute',top:'-40%',left:'-6%',float:'right', fontSize:'0.8vh'}}>
@@ -95,7 +120,7 @@ function clickedThisImage(imageUrl, slotNumber){
                             {props.metadataObj? props.metadataObj.attributes[3].value :<>0</>}
                             </div>
                         </div>
-                        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
+                        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #004400'}}>
                             <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes[5].value*10+'%' :0, height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
                             </div>
                             <div style={{position:'absolute',top:'-40%',left:'-6%',float:'right', fontSize:'0.8vh'}}>
@@ -105,7 +130,7 @@ function clickedThisImage(imageUrl, slotNumber){
                             {props.metadataObj? props.metadataObj.attributes[5].value :<>0</>}
                             </div>
                         </div>
-                        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
+                        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #004400'}}>
                             <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes[7].value*10+'%' :0, height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
                             </div>
                             <div style={{position:'absolute',top:'-40%',left:'-6%',float:'right', fontSize:'0.8vh'}}>
@@ -115,7 +140,7 @@ function clickedThisImage(imageUrl, slotNumber){
                             {props.metadataObj? props.metadataObj.attributes[7].value :<>0</>}
                             </div>
                         </div>
-                        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
+                        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #004400'}}>
                             <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes[8].value*10+'%' :0, height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
                             </div>
                             <div style={{position:'absolute',top:'-40%',left:'-6%',float:'right', fontSize:'0.8vh'}}>
@@ -125,7 +150,7 @@ function clickedThisImage(imageUrl, slotNumber){
                             {props.metadataObj? props.metadataObj.attributes[8].value :<>0</>}
                             </div>
                         </div>
-                        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #999'}}>
+                        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #004400'}}>
                             <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes[4].value*10+'%' :0, height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
                             </div>
                             <div style={{position:'absolute',top:'-40%',left:'-6%',float:'right', fontSize:'0.8vh'}}>
