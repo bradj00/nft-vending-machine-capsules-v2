@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react'
-import {MachineFactoryABI,MachineFactoryContractAddress, BuyCapsuleContractABI } from '../../ContractInfo/ContractInfo';
+import {WheelFactoryABI,WheelFactoryContractAddress, BuyCapsuleContractABI } from '../../ContractInfo/ContractInfo';
 import {useNavigate, useLocation, Link } from 'react-router-dom'
 import {useWeb3Contract, useMoralisWeb3Api, useMoralis, useChain } from 'react-moralis';
 import { NftMoreInfoContext } from '../../App';
@@ -19,11 +19,11 @@ const BuyCapsuleContractInfoGrabber = () => {
 }, [web3]);
 
   const GetBuyCapsuleContractAddress = useWeb3Contract({
-    abi: MachineFactoryABI,  
-    contractAddress: MachineFactoryContractAddress,
-    functionName: "BuyCapsulesByMachineAddress",
+    abi: WheelFactoryABI,  
+    contractAddress: WheelFactoryContractAddress,
+    functionName: "BuyCapsuleByMachine",
     params: {
-        machineAddress: MachineContractAddress
+      wheelAddress: MachineContractAddress
     }
   });
 
@@ -47,20 +47,20 @@ const BuyCapsuleContractInfoGrabber = () => {
         console.log('@@@@@@\tfetching BuyCapsuleContractAddress for MachineContractAddress: ',MachineContractAddress)
         GetBuyCapsuleContractAddress.runContractFunction({
             onError: (error) =>{
-            console.log('123123123 big ERROR: ',error,MachineFactoryABI,MachineFactoryContractAddress,MachineContractAddress); 
+            console.log('xxxxxxxx big ERROR: ',error,WheelFactoryABI,WheelFactoryContractAddress,MachineContractAddress); 
         }
 
         });
     }
   },[MachineContractAddress, isWeb3Enabled]);
-  useEffect(()=>{
-    if (getBuyCapsuleGetCapsuleInfo.data){
-        // console.log('got ULTIMATE STUFF BACK: ',getBuyCapsuleGetCapsuleInfo.data);
-    }
-  },[getBuyCapsuleGetCapsuleInfo.data]);
+  // useEffect(()=>{
+  //   if (getBuyCapsuleGetCapsuleInfo.data){
+  //       // console.log('got ULTIMATE STUFF BACK: ',getBuyCapsuleGetCapsuleInfo.data);
+  //   }
+  // },[getBuyCapsuleGetCapsuleInfo.data]);
 
     useEffect(()=>{
-        if (BuyCapsuleContract){
+        if (BuyCapsuleContract && isWeb3Enabled){
             // console.log('okalie dokalie neighborino! Here is our Buy Capsule contract to do something with: ',BuyCapsuleContract);
             getBuyCapsuleGetCapsuleInfo.runContractFunction({
                 onError: (error) =>{
@@ -70,7 +70,7 @@ const BuyCapsuleContractInfoGrabber = () => {
             });
 
         }
-    },[BuyCapsuleContract])
+    },[BuyCapsuleContract, isWeb3Enabled])
 
 
   return (

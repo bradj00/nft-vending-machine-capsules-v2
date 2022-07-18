@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import '../styles/grid.css';
 import {useWeb3Contract, useMoralisWeb3Api, useMoralis} from 'react-moralis';
-import {MachineABI} from '../ContractInfo/ContractInfo.jsx';
+import {WheelABI} from '../ContractInfo/ContractInfo.jsx';
 import { useContext, useEffect } from 'react';
 import { OddsAndSlotAddys } from "../App.js"
 import {getEllipsisTxt} from "../helpers/formatters";
@@ -133,13 +133,13 @@ const VendingCurrentSlots = () => {
 
 
     const fetchMachineOwner = useWeb3Contract({
-      abi: MachineABI,
+      abi: WheelABI,
       contractAddress: contractAddressTreasureChest,
-      functionName: "getOwner",
+      functionName: "owner",
     });
     
     const fetchContractInventorySlot1 = useWeb3Contract({
-      abi: MachineABI,
+      abi: WheelABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -147,7 +147,7 @@ const VendingCurrentSlots = () => {
       }
     });
     const fetchContractInventorySlot2 = useWeb3Contract({
-      abi: MachineABI,
+      abi: WheelABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -155,7 +155,7 @@ const VendingCurrentSlots = () => {
       }
     });
     const fetchContractInventorySlot3 = useWeb3Contract({
-      abi: MachineABI,
+      abi: WheelABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -163,7 +163,7 @@ const VendingCurrentSlots = () => {
       }
     });
     const fetchContractInventorySlot4 = useWeb3Contract({
-      abi: MachineABI,
+      abi: WheelABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -171,7 +171,7 @@ const VendingCurrentSlots = () => {
       }
     });
     const fetchContractInventorySlot5 = useWeb3Contract({
-      abi: MachineABI,
+      abi: WheelABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -180,7 +180,7 @@ const VendingCurrentSlots = () => {
     });
     
     const fetchContractInventorySlot6 = useWeb3Contract({
-      abi: MachineABI,
+      abi: WheelABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -189,7 +189,7 @@ const VendingCurrentSlots = () => {
     });
     
     const fetchContractInventorySlot7 = useWeb3Contract({
-      abi: MachineABI,
+      abi: WheelABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -198,7 +198,7 @@ const VendingCurrentSlots = () => {
     });
     
     const fetchContractInventorySlot8 = useWeb3Contract({
-      abi: MachineABI,
+      abi: WheelABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -207,7 +207,7 @@ const VendingCurrentSlots = () => {
     });
     
     const fetchContractInventorySlot9 = useWeb3Contract({
-      abi: MachineABI,
+      abi: WheelABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -216,7 +216,7 @@ const VendingCurrentSlots = () => {
     });
     
     const fetchContractInventorySlot10 = useWeb3Contract({
-      abi: MachineABI,
+      abi: WheelABI,
       contractAddress: contractAddressTreasureChest,
       functionName: "getAllRegisteredForSlot",
       params:{
@@ -317,6 +317,7 @@ const VendingCurrentSlots = () => {
     }
 
     useEffect(()=>{
+      console.log('WHEEL OWNER: ',fetchMachineOwner.data);
       if ((fetchMachineOwner.data != null)&&(account)){
         // console.log(typeof fetchMachineOwner.data,'~~~~~~~~~~~~~~~~fetchMachineOwner is: ',fetchMachineOwner.data.toLowerCase());
         // console.log(typeof account,'~~~~~~~~~~~~~~~~~~~~~~~~~~account is: ',account.toLowerCase());
@@ -746,7 +747,7 @@ const VendingCurrentSlots = () => {
     <div style={{}}>
         
         {OwnerMatch?
-        <button style={{zIndex:'555', position:'absolute',top:'2vh',left:'21vw', height:'4vh',paddingLeft:'0.2vw',paddingRight:'0.2vw',cursor:'pointer', fontSize:'0.9vw', border:'1px solid #fff'}} onClick={()=>{manageInventory()}}>Manage Machine</button>
+        <button style={{zIndex:'555', position:'absolute',top:'2vh',left:'21vw', height:'4vh',paddingLeft:'0.2vw',paddingRight:'0.2vw',cursor:'pointer', fontSize:'0.9vw', border:'1px solid #fff'}} onClick={()=>{manageInventory()}}>Manage Wheel</button>
         :<></>        
         }
         

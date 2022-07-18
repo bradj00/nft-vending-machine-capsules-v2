@@ -16,13 +16,17 @@
 //0x9CA82D971ACebd276c2290E917CcE441E04Be449	citizens
 //0x75E1817c8B16F29995eD9De9cAe2bD08A9244fC2	land
 //0x775752df06Df60a3Bb4FA32A12B3fd592328CA71	appliance
+
+//0x9B6ACf19D0773079A8260E5fdED2EDE22feaB5d1	generic 
+
+
 		
 
 
 
 
 
-export const MachineFactoryContractAddress = "0x5cee2a1b4CF0bF7e96C402DE4B7Dda50730b26dE";
+export const WheelFactoryContractAddress = "0x1FE164E96d2A15FdEA9218a42E53413B94772472";
 
 export const BuyCapsuleContractABI = [
 	{
@@ -34,7 +38,7 @@ export const BuyCapsuleContractABI = [
 			},
 			{
 				"internalType": "address",
-				"name": "_capsuleContract",
+				"name": "_factoryAddress",
 				"type": "address"
 			},
 			{
@@ -45,11 +49,6 @@ export const BuyCapsuleContractABI = [
 			{
 				"internalType": "address",
 				"name": "_CapsuleTokenAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_beneficiary",
 				"type": "address"
 			}
 		],
@@ -173,19 +172,6 @@ export const BuyCapsuleContractABI = [
 	},
 	{
 		"inputs": [],
-		"name": "getBeneficiary",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "getSaleInfo",
 		"outputs": [
 			{
@@ -206,147 +192,23 @@ export const BuyCapsuleContractABI = [
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "thecontract",
+				"type": "address"
+			}
+		],
+		"name": "setWheelContract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
 ];
 
-export const MachineFactoryABI = [
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "machineAddress",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "bytes32",
-				"name": "requestId",
-				"type": "bytes32"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "theNumber",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "nftTokenId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "winningSlot",
-				"type": "uint256"
-			}
-		],
-		"name": "MachineUsed",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "machineAddress",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "bytes32",
-				"name": "requestId",
-				"type": "bytes32"
-			},
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "requesterAddress",
-				"type": "address"
-			}
-		],
-		"name": "PullRequest",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "contract Machine",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "BuyCapsuleByMachine",
-		"outputs": [
-			{
-				"internalType": "contract BuyCapsules",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "contract Machine",
-				"name": "machineAddress",
-				"type": "address"
-			}
-		],
-		"name": "BuyCapsulesByMachineAddress",
-		"outputs": [
-			{
-				"internalType": "contract BuyCapsules",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "MachinesByOwner",
-		"outputs": [
-			{
-				"internalType": "contract Machine",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "allMachines",
-		"outputs": [
-			{
-				"internalType": "contract Machine[]",
-				"name": "coll",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
+export const WheelFactoryABI = [
 	{
 		"inputs": [
 			{
@@ -541,49 +403,66 @@ export const MachineFactoryABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getEulaContentId",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getMyMachines",
-		"outputs": [
-			{
-				"internalType": "contract Machine[]",
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
+		"anonymous": false,
 		"inputs": [
 			{
+				"indexed": false,
 				"internalType": "address",
-				"name": "user",
+				"name": "machineAddress",
 				"type": "address"
-			}
-		],
-		"name": "getuserAcceptEula",
-		"outputs": [
+			},
 			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
 				"internalType": "uint256",
-				"name": "",
+				"name": "theNumber",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "nftTokenId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "winningSlot",
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
+		"name": "MachineUsed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "machineAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "requesterAddress",
+				"type": "address"
+			}
+		],
+		"name": "PullRequest",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -596,6 +475,38 @@ export const MachineFactoryABI = [
 		"name": "signEula",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract Wheel",
+				"name": "wheelAddress",
+				"type": "address"
+			}
+		],
+		"name": "BuyCapsuleByMachine",
+		"outputs": [
+			{
+				"internalType": "contract BuyCapsules",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "EulaLink",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -616,10 +527,53 @@ export const MachineFactoryABI = [
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "wheels",
+		"outputs": [
+			{
+				"internalType": "contract Wheel",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "WheelsByOwner",
+		"outputs": [
+			{
+				"internalType": "contract Wheel",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
 	}
 ];
 
-export const MachineABI = [
+export const WheelABI = [
 	{
 		"inputs": [
 			{
@@ -750,6 +704,11 @@ export const MachineABI = [
 				"internalType": "string",
 				"name": "_MachineString",
 				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_buyCapsuleContract",
+				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -1002,65 +961,75 @@ export const MachineABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getAllAddys",
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "slotIndex",
+				"type": "uint256"
+			}
+		],
+		"name": "getAllRegisteredForSlot",
 		"outputs": [
 			{
 				"components": [
 					{
-						"internalType": "address",
-						"name": "slot0",
-						"type": "address"
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
 					},
 					{
-						"internalType": "address",
-						"name": "slot1",
-						"type": "address"
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
 					},
 					{
-						"internalType": "address",
-						"name": "slot2",
-						"type": "address"
+						"internalType": "uint256",
+						"name": "slotIndex",
+						"type": "uint256"
 					},
 					{
-						"internalType": "address",
-						"name": "slot3",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "slot4",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "slot5",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "slot6",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "slot7",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "slot8",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "slot9",
-						"type": "address"
+						"internalType": "string",
+						"name": "tokenURI",
+						"type": "string"
 					}
 				],
-				"internalType": "struct MiddleData.SlotStruct",
+				"internalType": "struct Wheel.slotInhabitant[]",
 				"name": "",
-				"type": "tuple"
+				"type": "tuple[]"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -1068,7 +1037,7 @@ export const MachineABI = [
 	},
 	{
 		"inputs": [],
-		"name": "getAllOdds",
+		"name": "getWheelInfo",
 		"outputs": [
 			{
 				"components": [
@@ -1126,107 +1095,68 @@ export const MachineABI = [
 				"internalType": "struct MiddleData.OddsStruct",
 				"name": "",
 				"type": "tuple"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "slotIndex",
-				"type": "uint256"
-			}
-		],
-		"name": "getAllRegisteredForSlot",
-		"outputs": [
+			},
 			{
 				"components": [
 					{
-						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "slot0",
+						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "index",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "slot1",
+						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "slotIndex",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "slot2",
+						"type": "address"
 					},
 					{
-						"internalType": "string",
-						"name": "tokenURI",
-						"type": "string"
+						"internalType": "address",
+						"name": "slot3",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "slot4",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "slot5",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "slot6",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "slot7",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "slot8",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "slot9",
+						"type": "address"
 					}
 				],
-				"internalType": "struct Machine.slotInhabitant[]",
+				"internalType": "struct MiddleData.SlotStruct",
 				"name": "",
-				"type": "tuple[]"
+				"type": "tuple"
 			},
 			{
 				"internalType": "string",
 				"name": "",
 				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "getApproved",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getMachineString",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getOwner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -1257,19 +1187,40 @@ export const MachineABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "isGamePaused",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "isGamePausedSlot",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
 				"name": "player",
 				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "tokenURI",
-				"type": "string"
 			}
 		],
-		"name": "mintChest",
+		"name": "mintCapsule",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -1302,14 +1253,21 @@ export const MachineABI = [
 			}
 		],
 		"name": "openChest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
 		"outputs": [
 			{
-				"internalType": "bytes32",
+				"internalType": "address",
 				"name": "",
-				"type": "bytes32"
+				"type": "address"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{

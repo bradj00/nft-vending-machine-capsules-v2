@@ -3,7 +3,7 @@ import { NftMoreInfoContext } from '../../../App';
 import '../../../styles/grid.css';
 import {useERC20Balances, useWeb3Contract, useMoralisWeb3Api, useMoralis,useNFTBalances } from 'react-moralis';
 import { useEffect } from 'react';
-import {MachineABI} from '../../../ContractInfo/ContractInfo.jsx';
+import {WheelABI} from '../../../ContractInfo/ContractInfo.jsx';
 import { OddsAndSlotAddys } from '../../../App';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import {

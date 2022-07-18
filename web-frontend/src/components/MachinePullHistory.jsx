@@ -4,7 +4,7 @@ import { OddsAndSlotAddys } from '../App';
 import { useMoralisQuery, useMoralis } from 'react-moralis';
 import { useEffect } from 'react';
 import '../styles/grid.css';
-import { MachineABI } from '../ContractInfo/ContractInfo';
+import { WheelABI } from '../ContractInfo/ContractInfo';
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en.json'
 import ReactTimeAgo from 'react-time-ago'
@@ -130,7 +130,7 @@ const MachinePullHistory = () => {
   
   return (
     <div style={{ position:'absolute',width: '20%',height: '60%',color: "#fff",right:'1%',top:'35%',backgroundColor :ActiveNetworkThemeColor? ActiveNetworkThemeColor :'rgba(165, 221, 255 ,0.15)',borderRadius:'10px',padding:'2%',display:'flex',justifyContent:'center',alignItems:'center',border:ActiveNetworkBorderColor? ActiveNetworkBorderColor:'2px solid rgba(100,100,100,.2)',}}>
-       <div style={{ position:'absolute', top:'1%',fontSize:'1.5vw'}}>Machine Events</div>
+       <div style={{ position:'absolute', top:'1%',fontSize:'1.5vw'}}>Wheel Events</div>
        <div style={{position:'absolute',top:'10%',left:'1%',width:'98%',paddingRight:'5%',height:'89%', overflowY:'scroll'}}>
        
        {PullRequestHistory && PullHistory && account? 

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {MachineABI, contractAddressTreasureChest} from './ContractInfo/ContractInfo.jsx';
+import {WheelABI, contractAddressTreasureChest} from './ContractInfo/ContractInfo.jsx';
 import VendingCurrentSlots from './components/VendingCurrentSlots';
 import TreasureChestCount from './components/TreasureChestCount';
 import Moralis, {useWeb3Contract, useMoralis, MoralisProvider, useChain} from "react-moralis";
@@ -131,7 +131,7 @@ useEffect(() => {
 
   const [displayMetaData, setdisplayMetaData] = useState(false);
   
-
+  const [capsuleTokenPaymentContract, setcapsuleTokenPaymentContract] = useState();
   //defined as per-second intervals
   const [domainThrottleSettings, setdomainThrottleSettings]   = useState(
     {
@@ -328,6 +328,7 @@ useEffect(() => {
   
   const [BuyCapsuleContract, setBuyCapsuleContract] = useState();
   const [MachineContractAddress, setMachineContractAddress] = useState();
+  const [WheelInfo, setWheelInfo] = useState();
   
   
   
@@ -648,6 +649,8 @@ useEffect(() => {
     
     displayMetaData, setdisplayMetaData,
 
+    WheelInfo, setWheelInfo,
+
     Slot1AccountNFTs, setSlot1AccountNFTs,
     Slot2AccountNFTs, setSlot2AccountNFTs,
     Slot3AccountNFTs, setSlot3AccountNFTs,
@@ -723,6 +726,8 @@ useEffect(() => {
     clickedSlotStock, setClickedSlotStock,
     clickedSlotObj, setClickedSlotObj,
 
+    capsuleTokenPaymentContract, setcapsuleTokenPaymentContract
+
 
   } 
 
@@ -773,6 +778,7 @@ useEffect(() => {
         <ContractInfoGrabber />
         <ImageControlledLoader />
         <BuyCapsuleContractInfoGrabber />
+
 
           {showManager? 
             <div>

@@ -3,7 +3,7 @@ import { NftMoreInfoContext } from '../../../App';
 import '../../../styles/grid.css';
 import {useERC20Balances, useWeb3Contract, useMoralisWeb3Api, useMoralis,useNFTBalances, useWeb3Transfer } from 'react-moralis';
 import { useEffect } from 'react';
-import {MachineABI} from '../../../ContractInfo/ContractInfo.jsx';
+import {WheelABI} from '../../../ContractInfo/ContractInfo.jsx';
 import { OddsAndSlotAddys } from '../../../App';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import {
@@ -184,7 +184,7 @@ const DepositNftToMachine = (props) => {
 
 
     const depositTokenToMachine = useWeb3Contract({
-      abi: MachineABI,
+      abi: WheelABI,
       contractAddress: NftSlotContractAddresses[props.slotIndex-1],
       functionName: "transferFrom", //TODO: add machine contract IERC721 interface to support SAFEtransferfrom. We have compensating controls but standards exist for a reason.
       params:{

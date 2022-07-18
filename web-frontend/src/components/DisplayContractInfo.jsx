@@ -3,7 +3,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { NftMoreInfoContext } from '../App';
 import "../styles/grid.css"
 import {useWeb3Contract, useMoralisWeb3Api, useMoralis, useChain } from 'react-moralis';
-import {MachineFactoryABI, MachineFactoryContractAddress, MachineABI} from '../ContractInfo/ContractInfo.jsx';
+import {WheelFactoryABI, WheelFactoryContractAddress, WheelABI} from '../ContractInfo/ContractInfo.jsx';
 import {getEllipsisTxt} from "../helpers/formatters";
 import { FaBeer, FaDiscord,FaBars, FaBroom } from 'react-icons/fa';
 
@@ -29,24 +29,28 @@ const DisplayContractInfo = () => {
   const {ContractErrorMessage, setContractErrorMessage}     = useContext(NftMoreInfoContext);
 
 
-  useEffect(() => {
-    if (!isWeb3Enabled) {
-    // console.log('enabling web3...'); 
-    enableWeb3();
-    }else {
-      getUserRegisteredMachines.runContractFunction({
-        onError: (error) =>{
-          console.log('aaaaa big ERROR: ',error); 
-        }
-      });
-    }
-  }, [isWeb3Enabled]);
+  // useEffect(() => {
+  //   if (!isWeb3Enabled) {
+  //   // console.log('enabling web3...'); 
+  //   enableWeb3();
+  //   }else {
+  //     getUserRegisteredMachines.runContractFunction({
+  //       onError: (error) =>{
+  //         console.log('aaaaa big ERROR: ',error); 
+  //       }
+  //     });
+  //   }
+  // }, [isWeb3Enabled]);
 
-  const getUserRegisteredMachines = useWeb3Contract({
-    abi: MachineFactoryABI,  
-    contractAddress: MachineFactoryContractAddress,
-    functionName: "getMyMachines",    
-  });
+
+  //WALRUS - we cant do this via contract anymore because we hit our limit (thanks a lot, spurious dragon >_> )
+  //we must create Moralis cloud code to index our wheels and give us a nice list
+
+  // const getUserRegisteredMachines = useWeb3Contract({
+  //   abi: WheelFactoryABI,  
+  //   contractAddress: WheelFactoryContractAddress,
+  //   functionName: "getMyMachines",    
+  // });
 
   useEffect(()=>{
 
@@ -54,12 +58,12 @@ const DisplayContractInfo = () => {
 
   },[])
 
-  useEffect(()=>{
-    if (getUserRegisteredMachines.data){
-        // console.log('...zomg here are our registered machines: ',getUserRegisteredMachines.data);
-        setUserMachinesArray(getUserRegisteredMachines.data);
-    }
-  },[getUserRegisteredMachines.data])
+  // useEffect(()=>{
+  //   if (getUserRegisteredMachines.data){
+  //       // console.log('...zomg here are our registered machines: ',getUserRegisteredMachines.data);
+  //       setUserMachinesArray(getUserRegisteredMachines.data);
+  //   }
+  // },[getUserRegisteredMachines.data])
 
 
 
@@ -96,7 +100,7 @@ const DisplayContractInfo = () => {
   return (
     <>
       <div className={showContractMenuDropDown ? 'menuDropdownExpanded':'menuDropdownCollapsed'} onClick={()=>{openMenuDropDown()}} style={{display:'flex', justifyContent:'center', zIndex:'4', position:'absolute', top:'2%', left:'10%',width:'10%',backgroundColor:'rgba(40,40,40,1)', border:ActiveNetworkBorderColor? ActiveNetworkBorderColor:'1px solid rgba(90,90,90,1)', color:'#fff', borderRadius:'5px', }}>
-        <div style={{position:'fixed',top:'0vh',left:'28vw', marginLeft:'-15%',   color:'#fff',fontSize:'0.8vw'}}>My Machines</div>
+        <div style={{position:'fixed',top:'0vh',left:'28vw', marginLeft:'-15%',   color:'#fff',fontSize:'0.8vw'}}>My Wheels</div>
         <div className='' style={{position:'absolute', display:'flex', justifyContent:'center', alignItems:'center',left:'0%', backgroundColor:'rgba(30,30,60,1)',minHeight:'3.5vh', height:'17%',width:'100%',border:showContractMenuDropDown? ActiveNetworkBorderColor:'0px solid #000',}}>
           <div style={{fontSize:'1vw',paddingLeft:'5px',position:'absolute',left:'0%',}}>
             <FaBars />

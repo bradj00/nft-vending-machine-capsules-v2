@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect, useCallback} from 'react'
 import {useWeb3Contract, useMoralisWeb3Api, useNFTBalances , useMoralis, useChain } from 'react-moralis';
-import {MachineFactoryABI, MachineFactoryContractAddress, MachineABI} from '../ContractInfo/ContractInfo.jsx';
+import {WheelFactoryABI, WheelFactoryContractAddress, WheelABI} from '../ContractInfo/ContractInfo.jsx';
 import '../styles/grid.css';
 import {useNavigate, useLocation, Link, Navigate   } from 'react-router-dom'
 import { NftMoreInfoContext } from '../App.js';
@@ -333,12 +333,12 @@ const CreateMachine = (props, context) => {
     );
 
     const LookedUpContractInfoSymbol = useWeb3Contract({
-        abi: MachineABI,
+        abi: WheelABI,
         contractAddress: SelectedLookupNftAddress,
         functionName: "symbol",
       });
     const LookedUpContractInfoName = useWeb3Contract({
-        abi: MachineABI,
+        abi: WheelABI,
         contractAddress: SelectedLookupNftAddress,
         functionName: "name",
       });
@@ -364,8 +364,8 @@ const CreateMachine = (props, context) => {
      },[LookedUpContractInfoName]);
 
      const getuserAcceptEula = useWeb3Contract({
-        abi: MachineFactoryABI,
-        contractAddress: MachineFactoryContractAddress,
+        abi: WheelFactoryABI,
+        contractAddress: WheelFactoryContractAddress,
         functionName: "getuserAcceptEula", 
         params: {
             user: account? account : "0x0000000000000000000000000000000000000000",        
@@ -531,8 +531,8 @@ const CreateMachine = (props, context) => {
     }
 
     const createNewMachineFromFactory = useWeb3Contract({
-        abi: MachineFactoryABI,  
-        contractAddress: MachineFactoryContractAddress,
+        abi: WheelFactoryABI,  
+        contractAddress: WheelFactoryContractAddress,
         functionName: "createMachine",
         params:{
             slots1: factoryTupleAddresses,
@@ -551,8 +551,8 @@ const CreateMachine = (props, context) => {
     },[factoryTupleProbabilities])
 
     const getUserRegisteredMachines = useWeb3Contract({
-        abi: MachineFactoryABI,  
-        contractAddress: MachineFactoryContractAddress,
+        abi: WheelFactoryABI,  
+        contractAddress: WheelFactoryContractAddress,
         functionName: "getMyMachines",    
       });
 
@@ -644,70 +644,70 @@ const CreateMachine = (props, context) => {
 
     //defaults to whatever chain METAMASK is currently set to
     const fetchContractCreateNewInventorySlot1 = useWeb3Contract({
-        abi: MachineABI,  
+        abi: WheelABI,  
         contractAddress: slot1NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot2 = useWeb3Contract({
-        abi: MachineABI,  
+        abi: WheelABI,  
         contractAddress: slot2NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot3 = useWeb3Contract({
-        abi: MachineABI,  
+        abi: WheelABI,  
         contractAddress: slot3NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot4 = useWeb3Contract({
-        abi: MachineABI,  
+        abi: WheelABI,  
         contractAddress: slot4NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot5 = useWeb3Contract({
-        abi: MachineABI,  
+        abi: WheelABI,  
         contractAddress: slot5NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot6 = useWeb3Contract({
-        abi: MachineABI,  
+        abi: WheelABI,  
         contractAddress: slot6NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot7 = useWeb3Contract({
-        abi: MachineABI,  
+        abi: WheelABI,  
         contractAddress: slot7NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot8 = useWeb3Contract({
-        abi: MachineABI,  
+        abi: WheelABI,  
         contractAddress: slot8NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot9 = useWeb3Contract({
-        abi: MachineABI,  
+        abi: WheelABI,  
         contractAddress: slot9NewContractLookup,
         functionName: "name",
     });
 
 
     const fetchContractCreateNewInventorySlot10 = useWeb3Contract({
-        abi: MachineABI,  
+        abi: WheelABI,  
         contractAddress: slot10NewContractLookup,
         functionName: "name",
     });

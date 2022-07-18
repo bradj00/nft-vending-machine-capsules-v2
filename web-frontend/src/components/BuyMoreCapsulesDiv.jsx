@@ -12,7 +12,7 @@ const BuyMoreCapsulesDiv = () => {
   const {contractAddressTreasureChest, setcontractAddressTreasureChest} = useContext(NftMoreInfoContext);
   const {Moralis, enableWeb3, web3, isWeb3Enabled, authenticate, isAuthenticated, user, account, logout} = useMoralis();   
   const {BuyCapsuleContract, setBuyCapsuleContract} = useContext(NftMoreInfoContext)
-  const [capsuleTokenPaymentContract, setcapsuleTokenPaymentContract] = useState();
+  const {capsuleTokenPaymentContract, setcapsuleTokenPaymentContract} = useContext(NftMoreInfoContext)
   const [CapsuleCostInGivenToken, setCapsuleCostInGivenToken] = useState(1);
   const [ChestNftTokenId, setChestNftTokenId]     = useState('');
   const [buyCapsuleQty, setbuyCapsuleQty] = useState(1);
@@ -104,7 +104,7 @@ const BuyMoreCapsulesDiv = () => {
   }, [web3]);
 
   useEffect(()=>{
-    if (BuyCapsuleContract){
+    if (BuyCapsuleContract && isWeb3Enabled){
       fetchCapsuleInfo.runContractFunction({
         onError: (error) =>{
           console.log('big ERROR111: ',error);
@@ -113,7 +113,7 @@ const BuyMoreCapsulesDiv = () => {
       });
       
     }
-  },[BuyCapsuleContract])
+  },[BuyCapsuleContract, isWeb3Enabled])
 
 
   useEffect(()=>{

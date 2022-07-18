@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { OddsAndSlotAddys } from '../../App';
-import { MachineABI, MachineFactoryContractAddress} from '../../ContractInfo/ContractInfo';
+import { WheelABI, WheelFactoryContractAddress} from '../../ContractInfo/ContractInfo';
 import {useMoralis, useWeb3Contract} from 'react-moralis';
 import { NftMoreInfoContext } from '../../App';
 
@@ -12,7 +12,7 @@ const LoadTokenUriAndImage = (props) => {
     const [imageObj, setimageObj] = useState();
 
     const fetchTokenUri = useWeb3Contract({
-        abi: MachineABI, //ERC721 ABI   
+        abi: WheelABI, //ERC721 ABI   
         contractAddress: NftSlotContractAddresses[props.winningSlot],
         functionName: "tokenURI",
         params: {

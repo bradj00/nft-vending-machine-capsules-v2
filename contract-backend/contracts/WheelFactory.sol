@@ -1,18 +1,29 @@
 // SPDX-License-Identifier: GPL-3.0-only
 pragma solidity 0.8.1;
 
-import "./Machine.sol";
+import "./Wheel.sol";
 import "./MiddleData.sol"; 
 import "./BuyCapsules.sol"; 
 
-contract MachineFactory is MiddleData {
-    Machine[] private _machines;
-    mapping(address => Machine[]) public MachinesByOwner;
+contract WheelFactory is MiddleData {
+    Wheel[] public _machines;
+    mapping(address => Wheel[]) public MachinesByOwner;
     mapping(address => uint8) public userAcceptEula;
+
+
+
+//fake example content id for string length check..
+    string public EulaLink = "QmXS8ki7djqD3pkE5p6fmWk8wKZVhoTaPF2e4y2F5LKq22";
+    
+
+
     event MachineUsed(address machineAddress, bytes32 requestId, uint256 theNumber, uint256 nftTokenId, uint256 winningSlot);   
     event PullRequest(address machineAddress, bytes32 requestId, address requesterAddress); 
 
-    mapping(Machine => BuyCapsules) public BuyCapsuleByMachine;
+    mapping(Wheel => BuyCapsules) public BuyCapsuleByMachine;
+
+
+
 
 
    //add security so only machines created by the factory can call these
@@ -25,13 +36,13 @@ contract MachineFactory is MiddleData {
    }
    /////////////////////////////////////////////////
 
-   function getuserAcceptEula(address user) public view returns (uint){
-       return userAcceptEula[user];
-   }
+//    function getuserAcceptEula(address user) public view returns (uint){
+//        return userAcceptEula[user];
+//    }
 
-   function getEulaContentId () public pure returns(string memory){
-       return("some content ID for an IPFS text file"); //content ID to pull from IPFS node
-   }
+//    function getEulaContentId () public pure returns(string memory){
+//        return("CID-link"); //content ID to pull from IPFS node
+//    }
 
    function signEula(bool signTrue) public {
        if ( (signTrue == true)&&(userAcceptEula[msg.sender] == 0) ){
@@ -41,40 +52,49 @@ contract MachineFactory is MiddleData {
 
    function createMachine(SlotStruct memory slots1, OddsStruct memory odds1, string memory MachineName, uint256 CapsuleCost, address CapsuleTokenAddress) public 
     {
-        require (userAcceptEula[msg.sender] == 1, "creator must accept terms");
-        Machine machine = new Machine(
+        require (userAcceptEula[msg.sender] == 1, "accept");
+        BuyCapsules buycapsule = new BuyCapsules(
+            msg.sender,
+            address(this),
+            
+            CapsuleCost,
+            CapsuleTokenAddress
+        );
+
+        Wheel machine = new Wheel(
             slots1,
             odds1,
             msg.sender,
             address(this),
-            MachineName
+            MachineName,
+            address(buycapsule)
         );
         _machines.push(machine);
         MachinesByOwner[msg.sender].push(machine);
         
-        BuyCapsules buycapsule = new BuyCapsules(
-            msg.sender,
-            address(machine),
-            CapsuleCost,
-            CapsuleTokenAddress
-        );
         BuyCapsuleByMachine[machine] = buycapsule;
+
+        buycapsule.setCapsuleContract(address(machine));
+        // machine.setBCC(buycapsule);
+
         
     }
 
 
-    function BuyCapsulesByMachineAddress(Machine machineAddress) public view returns (BuyCapsules){
-        return( BuyCapsuleByMachine[machineAddress] );
-    }
+//redundant since BuyCapsuleByMachine[] is public
+    // function BuyCapsulesByMachineAddress(Wheel machineAddress) public view returns (BuyCapsules){
+    //     return( BuyCapsuleByMachine[machineAddress] );
+    // }
 
-    function allMachines() public view returns (Machine[] memory coll)
-    {
-        coll = _machines;
-        return coll;
-    }
 
-    function getMyMachines() public view returns (Machine[] memory){
-        return MachinesByOwner[msg.sender];
-    }
+//redundant...update front ui
+    // function allMachines() public view returns (Wheel[] memory)
+    // {
+    //     return _machines;
+    // }
+
+    // function getMyMachines() public view returns (Wheel[] memory){
+    //     return MachinesByOwner[msg.sender];
+    // }
 
 }

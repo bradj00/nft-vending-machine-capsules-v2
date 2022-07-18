@@ -3,7 +3,7 @@ import "../styles/grid.css"
 import {useNavigate, useLocation} from 'react-router-dom'
 import {useChain} from 'react-moralis';
 import { NftMoreInfoContext } from '../App'
-import { MachineFactoryContractAddress } from '../ContractInfo/ContractInfo';
+import { WheelFactoryContractAddress } from '../ContractInfo/ContractInfo';
 import {getEllipsisTxt} from "../helpers/formatters";
 
 const TopNavBar = () => {
@@ -57,7 +57,7 @@ const TopNavBar = () => {
             setActiveNetworkThemeColor("rgba(40,40,120,0.2)");
             setActiveNetworkThemeColorOpaque("rgba(40,40,120,1)");
             setActiveNetworkThemeBoxShadow("inset 0px 0px 0px 0px #000022");
-            setActiveNetworkMachineFactoryAddress(MachineFactoryContractAddress.ethmain);
+            setActiveNetworkMachineFactoryAddress(WheelFactoryContractAddress.ethmain);
             setActiveNetworkBorderColor("1px solid #0000ff");
             break;
             
@@ -71,7 +71,7 @@ const TopNavBar = () => {
             setActiveNetworkThemeColorDarker("rgba(80,80,250,0.1)");
 
             setActiveNetworkThemeBoxShadow("inset 0px 0px 0px 0px #000011");
-            setActiveNetworkMachineFactoryAddress(MachineFactoryContractAddress.rinkeby);
+            setActiveNetworkMachineFactoryAddress(WheelFactoryContractAddress.rinkeby);
             setActiveNetworkBorderColor("1px solid #ffcc00");
             break;
         case '0x13881': 
@@ -83,7 +83,7 @@ const TopNavBar = () => {
           setActiveNetworkThemeColorDarker("rgba(80,80,250,0.1)");
 
           setActiveNetworkThemeBoxShadow("inset 0px 0px 0px 0px #000011");
-          setActiveNetworkMachineFactoryAddress(MachineFactoryContractAddress.mumbai);
+          setActiveNetworkMachineFactoryAddress(WheelFactoryContractAddress.mumbai);
           setActiveNetworkBorderColor("1px solid #ffcc00");
 
           break;

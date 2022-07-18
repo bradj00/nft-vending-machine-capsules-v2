@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Strings.sol"; //only for debugging...remove when done
 
 interface IERC7211 {
-    function mintChest(address player, string memory tokenURI) external returns (uint256);
+    function mintCapsule(address player) external returns (uint256);
 }
 interface IERC2011 {
     function transferFrom(address from, address to, uint value) external returns (bool); 
@@ -20,6 +20,7 @@ contract BuyCapsules {
     IERC20 token;
     IERC7211 capsuleContract; 
     address owner;
+    address factoryAddress;
 
     uint256 capsuleCost;
     uint256 saleCost;
@@ -27,12 +28,17 @@ contract BuyCapsules {
     uint256 lastSaleBlockStartNumber;
 
 
-    constructor (address theOwner, address _capsuleContract, uint256 _CapsuleCost, address _CapsuleTokenAddress){
-
+    constructor (address theOwner, address _factoryAddress,  uint256 _CapsuleCost, address _CapsuleTokenAddress){
+        factoryAddress = _factoryAddress;
         token =             IERC20(_CapsuleTokenAddress);             
         capsuleCost =       _CapsuleCost;                                                  
-        capsuleContract =   IERC7211(_capsuleContract);             //capsule contract
-        owner = theOwner;
+        // capsuleContract =   IERC7211(_capsuleContract);             //capsule contract
+        owner = theOwner; //factory owns this
+    }
+
+    function setCapsuleContract(address thecontract) external {
+        require(msg.sender == factoryAddress, "no");
+        capsuleContract =   IERC7211(thecontract); 
     }
 
     function beginOnSale(uint256 _saleBlockDuration, uint256 _saleCost) public onlyOwner {
@@ -78,7 +84,7 @@ contract BuyCapsules {
 
 
         for (uint i = 0; i < _capsuleQty; i++){
-            capsuleContract.mintChest(msg.sender, "http://gateway.ipfs.io/ipfs/QmYyRWtAEQ1HZFmTuY3fqQzLyd9eaHQHbXUiT2yeqW1x3B");
+            capsuleContract.mintCapsule(msg.sender);
         }
         return true;
     }

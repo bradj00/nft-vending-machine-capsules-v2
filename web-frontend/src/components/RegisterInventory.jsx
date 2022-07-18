@@ -3,7 +3,7 @@ import { NftMoreInfoContext } from '../App';
 import '../styles/grid.css';
 import {useERC20Balances, useWeb3Contract, useMoralisWeb3Api, useMoralis,useNFTBalances } from 'react-moralis';
 import { useEffect } from 'react';
-import {MachineABI} from '../ContractInfo/ContractInfo.jsx';
+import {WheelABI} from '../ContractInfo/ContractInfo.jsx';
 import { OddsAndSlotAddys } from '../App';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import {
@@ -538,7 +538,7 @@ const RegisterInventory = () => {
 
   
   const registerTokensForSlot = useWeb3Contract({
-    abi: MachineABI,
+    abi: WheelABI,
     contractAddress: contractAddressTreasureChest,
     functionName: "RegisterListOfNftIds",
     params: {
@@ -554,7 +554,7 @@ const RegisterInventory = () => {
     },
     contractAddress: TokenAddressToDepositToContract,
 
-    abi: MachineABI, //erc721 abi
+    abi: WheelABI, //erc721 abi
     functionName: "transferFrom",
     chain: 'rinkeby'
   });
@@ -640,7 +640,7 @@ function registerTokens(){
       setregisterTokensInfoButton('Awaiting chain confirmation...');
     },
     onError: (error) =>{
-    console.log('frrrr big ERROR: ',error,"_____",MachineABI,contractAddressTreasureChest,AllSlotsSelectedArr); 
+    console.log('frrrr big ERROR: ',error,"_____",WheelABI,contractAddressTreasureChest,AllSlotsSelectedArr); 
     },
   });
 
@@ -797,7 +797,7 @@ function determineGridSize(){
   return (
     <div style={{overflowY:'scroll', backgroundColor :'rgba(165, 221, 255 ,0.15)',top:'9.9vh',alignContent:'center',color: "#fff",height: '80%',marginBottom:'10vh', position:'absolute',display:'flex',justifyContent:'center', width:'100%'}}>
     {/* <div style={{position:'absolute', top:'20%',left:'-22%',color:'#fff',}}> */}
-        <button style={{zIndex:'555', position:'fixed',top:'2vh',left:'21vw', paddingLeft:'0.2vw',paddingRight:'0.2vw',height:'4vh',cursor:'pointer', fontSize:'0.9vw'}} onClick={()=>{returnToMachineView()}}>View Machine</button>
+        <button style={{zIndex:'555', position:'fixed',top:'2vh',left:'21vw', paddingLeft:'0.2vw',paddingRight:'0.2vw',height:'4vh',cursor:'pointer', fontSize:'0.9vw'}} onClick={()=>{returnToMachineView()}}>View Wheel</button>
     {/* </div> */}
     
 

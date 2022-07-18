@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback, useContext } from 'react';
 import {useNavigate, useLocation, Link } from 'react-router-dom'
 import "../styles/grid.css"
 import {useWeb3Contract, useMoralisWeb3Api, useMoralis, useChain } from 'react-moralis';
-import {MachineFactoryABI, MachineFactoryContractAddress, MachineABI} from '../ContractInfo/ContractInfo.jsx';
+import {WheelFactoryABI, WheelFactoryContractAddress, WheelABI} from '../ContractInfo/ContractInfo.jsx';
 import { NftMoreInfoContext } from '../App';
 import TopNavBar from './TopNavBar';
 
@@ -52,8 +52,8 @@ const Manager = () => {
 
 
   const getUserRegisteredMachines = useWeb3Contract({
-    abi: MachineFactoryABI,  
-    contractAddress: MachineFactoryContractAddress,
+    abi: WheelFactoryABI,  
+    contractAddress: WheelFactoryContractAddress,
     functionName: "getMyMachines",    
   });
 

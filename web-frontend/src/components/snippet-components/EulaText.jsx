@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import '../../styles/grid.css'
 import {useMoralis, useWeb3Contract, useMoralisWeb3Api} from 'react-moralis'
-import {MachineFactoryABI, MachineFactoryContractAddress} from '../../ContractInfo/ContractInfo'
+import {WheelFactoryABI, WheelFactoryContractAddress} from '../../ContractInfo/ContractInfo'
 
 
 
@@ -12,16 +12,16 @@ const EulaText = (props) => {
 
     const {web3, account} = useMoralis();
     const getuserAcceptEula = useWeb3Contract({
-        abi: MachineFactoryABI,
-        contractAddress: MachineFactoryContractAddress,
+        abi: WheelFactoryABI,
+        contractAddress: WheelFactoryContractAddress,
         functionName: "getuserAcceptEula", 
         params: {
             user: account? account : "0x0000000000000000000000000000000000000000",        
         }
       });
     const performEulaAgree = useWeb3Contract({
-        abi: MachineFactoryABI,
-        contractAddress: MachineFactoryContractAddress,
+        abi: WheelFactoryABI,
+        contractAddress: WheelFactoryContractAddress,
         functionName: "signEula", 
         params: {
             signTrue: true,        
