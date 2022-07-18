@@ -22,7 +22,7 @@
 
 
 
-export const MachineFactoryContractAddress = "0x220B1d761b516F3Dd3Db358bA01bb19d324eC22b";
+export const MachineFactoryContractAddress = "0x5cee2a1b4CF0bF7e96C402DE4B7Dda50730b26dE";
 
 export const BuyCapsuleContractABI = [
 	{

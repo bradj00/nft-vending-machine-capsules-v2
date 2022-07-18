@@ -86,12 +86,12 @@ const CarouselNftSlot = (props) => {
             <MegaWorldCitizen metadataObj={metadataObj} displayedTokenId={displayedTokenId} contractAddress={props.slotContractAddress} slotContractAddress={props.slotContractAddress} slotObj={props.slotObj} contractName={props.contractName} contractSymbol={props.contractSymbol} tokenId={props.tokenId} thisStyle={props.thisStyle} slotIndex={props.slotIndex} slotImageUrl={props.slotImageUrl} NftSlotOdds={props.NftSlotOdds} slotStock={props.slotStock}  styleEmpty={props.styleEmpty}/> 
         )
     }
-    else if (props.contractAddress == '0x75E1817c8B16F29995eD9De9cAe2bD08A9244fC2'){ //MCPL contract
+    else if (props.slotContractAddress == '0x75E1817c8B16F29995eD9De9cAe2bD08A9244fC2'){ //MCPL contract
         return (
             <MegaWorldBuilding metadataObj={metadataObj} displayedTokenId={displayedTokenId} contractAddress={props.slotContractAddress} slotContractAddress={props.slotContractAddress} slotObj={props.slotObj} contractName={props.contractName} contractSymbol={props.contractSymbol} tokenId={props.tokenId} thisStyle={props.thisStyle} slotIndex={props.slotIndex} slotImageUrl={props.slotImageUrl} NftSlotOdds={props.NftSlotOdds} slotStock={props.slotStock}  styleEmpty={props.styleEmpty}/> 
         )
     }
-    else if (props.contractAddress == '0x775752df06Df60a3Bb4FA32A12B3fd592328CA71'){ //MCPA contract
+    else if (props.slotContractAddress == '0x775752df06Df60a3Bb4FA32A12B3fd592328CA71'){ //MCPA contract
         return (
             <MegaWorldAppliance metadataObj={metadataObj} displayedTokenId={displayedTokenId} contractAddress={props.slotContractAddress} slotContractAddress={props.slotContractAddress} slotObj={props.slotObj} contractName={props.contractName} contractSymbol={props.contractSymbol} tokenId={props.tokenId} thisStyle={props.thisStyle} slotIndex={props.slotIndex} slotImageUrl={props.slotImageUrl} NftSlotOdds={props.NftSlotOdds} slotStock={props.slotStock}  styleEmpty={props.styleEmpty}/> 
         )

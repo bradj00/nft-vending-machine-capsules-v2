@@ -17,7 +17,14 @@ const RevenueStats = () => {
     </div>
     <button style={{zIndex:'555', position:'fixed',top:'2vh',left:'21vw', paddingLeft:'0.2vw',paddingRight:'0.2vw',height:'4vh',cursor:'pointer', fontSize:'0.9vw'}} onClick={()=>{returnToMachineView()}}>View Machine</button>
     
-    <div style={{width:'99%', position:'absolute',top:'3%',padding:'10px'}}><RevenueChart /></div>
+    <div style={{width:'58vw',left:'1%', position:'absolute',top:'3%',padding:'10px'}}>
+      <RevenueChart />
+    </div>
+    <div style={{display:'flex', justifyContent:'center', alignItems:'center', height:'90%', width:'40.5vw',right:'1%', position:'absolute',top:'3%',padding:'10px'}}>
+      *Add live balance of collected tokens
+      <br></br>
+      *Add collect button to transfer to machine owner's wallet
+    </div>
   </div>
   )
 }

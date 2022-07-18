@@ -4,7 +4,7 @@ import { OddsAndSlotAddys } from '../../App';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
 import VerifiedIcon from '@mui/icons-material/Verified';
-
+import { Textfit } from 'react-textfit';
 const MegaWorldBuilding = (props) => {
 
 const {clickedNftImage, setclickedNftImage}     = useContext(NftMoreInfoContext);
@@ -23,11 +23,11 @@ function clickedThisImage(imageUrl, slotNumber){
     setselectedSlotContractName(props.contractName);
     setselectedSlotContractSymbol(props.contractSymbol);
   }
-//   useEffect(()=>{
-//         if (props.metadataObj){
-//             console.log('SOME NEW METADATA: ',props.metadataObj); 
-//         }
-//     },[props.metadataObj]);
+  useEffect(()=>{
+        if (props.metadataObj){
+            console.log('1111111111SOME NEW METADATA: ',props.metadataObj); 
+        }
+    },[props.metadataObj]);
 
     return (
     <>
@@ -35,15 +35,12 @@ function clickedThisImage(imageUrl, slotNumber){
         <span className=" " style={props.thisStyle}>
             <img className="imgBorder" style={{objectFit:'scale-down'}} onClick={()=>{clickedThisImage(props.slotImageUrl, props.slotIndex)}}  src={props.slotImageUrl? props.slotImageUrl : "https://i.imgur.com/4lpxSNZ.png"}></img>
             <br></br>
-            <div style={{display:'flex', fontFamily:'Roboto',justifyContent:'center', color:'#fff', fontSize:'2vh', zIndex:'-1',position:'absolute',borderRadius:'10px', width:'100%', height:'150%', backgroundColor:'rgba(100,100,150,0.1)', top:'-50%'}}>
+            <div style={{display:'flex', fontFamily:'Roboto',justifyContent:'center', color:'#fff',  zIndex:'-1',position:'absolute',borderRadius:'10px', width:'100%', height:'150%', backgroundColor:'rgba(100,100,150,0.1)', top:'-50%'}}>
                 <div style={{position:'absolute', display:'flex', justifyContent:'center', paddingTop:'5%', backgroundColor:'rgba(255,255,255,0.05)',width:'95%',height:'30%',top:'2%', borderRadius:'10px',}}>
-                    <div style={{position:'absolute',top:'0',left:'15%'}}>
-                    {props.metadataObj? props.metadataObj.attributes[1].value=='male'?<MaleIcon />:<></>:<></>}
-                    {props.metadataObj? props.metadataObj.attributes[1].value=='female'?<FemaleIcon />:<></>:<></>}
-                    </div>
 
-                    <div style={{position:'absolute',top:'5%',left:'30%', color:'#ffffff',fontSize:'1.5vh',}}>
-                        {props.metadataObj? props.metadataObj.name? props.metadataObj.name:<></>:<></>}
+
+                    <div style={{position:'absolute',top:'5%',left:'0%', display:'flex', justifyContent:'center',width:'100%', color:'#ffffff',fontSize:'100%',}}>
+                    <Textfit mode="single">{props.metadataObj? props.metadataObj.name? props.metadataObj.name:<></>:<></>} </Textfit>
                     </div>
 
                     <div style={{position:'absolute',top:'-40%',left:'0%', color:'#00ff00'}}>
@@ -57,22 +54,22 @@ function clickedThisImage(imageUrl, slotNumber){
                     <div style={{width:'100%', position:'absolute',height:'100%', left:'20%',  top:'35%', border:'0px solid #ff00ff' }}>
 
                         <div style={{position:'relative', margin:'1%', width:'40%', height:'10%', backgroundColor:'#222', border:'1px solid #3333cc'}}>
-                            <div style={{ position:'absolute',float:'left', width:props.metadataObj? (props.metadataObj.attributes[1].value/7*100)+'%' :0, height:'8%', backgroundColor:'#0077ff', height:'100%',}}>
+                            {/* <div style={{ position:'absolute',float:'left', width:props.metadataObj? (props.metadataObj.attributes[1].value/7*100)+'%' :0, height:'8%', backgroundColor:'#0077ff', height:'100%',}}>
                             
-                            </div>
+                            </div> */}
 
                             <div style={{position:'absolute',top:'-40%',left:'-45%',float:'right', fontSize:'1vh'}}>
                             Level
                             </div>
                             
                             <div style={{position:'absolute',top:'-40%',right:'-25%',float:'right', fontSize:'1vh'}}>
-                                {props.metadataObj? props.metadataObj.attributes[1].value:<>0</>}
+                                {props.metadataObj? props.metadataObj.attributes[1]? props.metadataObj.attributes[1].value:<>0</>:<>0</>}
                             </div>
 
                         </div>
                         
                         <div style={{position:'relative', margin:'1%', width:'40%', height:'10%', backgroundColor:'#222', border:'1px solid #3333cc'}}>
-                            <div style={{ position:'absolute',float:'left', width:props.metadataObj? (props.metadataObj.attributes[0].value/10*100)+'%' :0, height:'8%', backgroundColor:'#0077ff', height:'100%',}}>
+                            <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes? (props.metadataObj.attributes[0].value/10*100)+'%' :0:0, height:'8%', backgroundColor:'#0077ff', height:'100%',}}>
                             
                             </div>
 
@@ -81,7 +78,7 @@ function clickedThisImage(imageUrl, slotNumber){
                             </div>
                             
                             <div style={{position:'absolute',top:'-40%',right:'-25%',float:'right', fontSize:'1vh'}}>
-                                {props.metadataObj? props.metadataObj.attributes[0].value:<>0</>}
+                                {props.metadataObj? props.metadataObj.attributes[0]? props.metadataObj.attributes[0].value:<>0</>:<>0</>}
                             </div>
 
                         </div>

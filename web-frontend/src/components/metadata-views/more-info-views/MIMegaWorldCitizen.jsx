@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react'
 import VerifiedIcon from '@mui/icons-material/Verified';
+import { getEllipsisTxt } from '../../../helpers/formatters';
 const MIMegaWorldCitizen = (props) => {
 
     useEffect(()=>{
@@ -83,7 +84,7 @@ const MIMegaWorldCitizen = (props) => {
         Chance to Pull: <div style={{float:'right', color:'gold'}}>{props.clickedNftSlotOdds? props.clickedNftSlotOdds: <>0%</>}</div>
         </div>
         <div style={{position:'absolute', top:'28%', left:'2%',width:'48%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-        Contract: <div style={{float:'right', color:'gold'}}>{props.metadataObj? props.contractAddress:<></>}</div>
+        Contract: <div style={{float:'right', color:'gold'}}> <a href={props.contractAddress?("https://rinkeby.etherscan.io/token/"+props.contractAddress):<></>} target="...blank">{props.contractAddress? <>ES</> :<></>}</a> / <a href={props.contractAddress?("https://rinkeby.etherscan.io/token/"+props.contractAddress):<></>} target="...blank">{props.contractAddress? <>OS</> :<></>}</a></div>
         </div>
         <div style={{position:'absolute', top:'38%', left:'2%',width:'48%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
         Token ID: <div style={{float:'right', color:'gold'}}>{props.tokenId? props.tokenId:<></>}</div>
@@ -93,10 +94,10 @@ const MIMegaWorldCitizen = (props) => {
         Gen: <div style={{float:'right', color:'gold'}}>{props.clickedNftSlotOdds? props.clickedNftSlotOdds: <>...</>}</div>
         </div>
         <div style={{position:'absolute', top:'28%', right:'2%',width:'43%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-        asdf: <div style={{float:'right', color:'gold'}}>{props.metadataObj? props.contractAddress:<></>}</div>
+        Slot#: <div style={{float:'right', color:'gold'}}>{props.slotIndex? props.slotIndex:<></>}</div>
         </div>
         <div style={{position:'absolute', top:'38%', right:'2%',width:'43%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-        Slot#: <div style={{float:'right', color:'gold'}}>{props.slotIndex? props.slotIndex:<></>}</div>
+        Type: <div style={{float:'right', color:'gold'}}>ERC-721</div>
         </div>
 
 
