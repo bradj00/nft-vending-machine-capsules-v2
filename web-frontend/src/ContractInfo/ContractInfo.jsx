@@ -26,7 +26,7 @@
 
 
 
-export const WheelFactoryContractAddress = "0x1FE164E96d2A15FdEA9218a42E53413B94772472";
+export const WheelFactoryContractAddress = "0x2fe67600865712BBc1770551D6a699624869461a";
 
 export const BuyCapsuleContractABI = [
 	{

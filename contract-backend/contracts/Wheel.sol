@@ -9,7 +9,7 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import "./MiddleData.sol";
 import "./WheelFactory.sol";
  
-
+ 
 contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -33,7 +33,7 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
 
 
 
-    mapping(bytes32 => address) private openChestCaller;                        //get persons address from Chainlink requestId
+    mapping(bytes32 => address) internal openChestCaller;                        //get persons address from Chainlink requestId
     // mapping(bytes32 => uint256) private openChestStatus;                        //get tokenId from ChainLink requestId
     // mapping(uint256 => bytes32) private requestStatusIdByNftId;                 //get Chainlink requestId from tokenId
     mapping(address => slotInhabitant[]) public NftTokensRegisteredInMachine;  //input contract address, get all registered tokens and what slot they're in
@@ -64,7 +64,7 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
         owner = theOwner;
         MachineString = _MachineString;
         FactoryAddress = _factoryAddress;
-        keyHash = 0x6e75b569a01ef56d18cab6a8e71e6600d6ce853834d4a5748b720d06f878b3a4; //rinkeby
+        keyHash = 0x2ed0feb3e7fd2022120aa84fab1945545a9f2ffc9076fd6156fa96eaff4c1311; //rinkeby
         fee = 0.1 * 10 ** 18; // 0.1 LINK (Varies by network) (0.0001 for MUMBAI) (0.1 for rinkeby)
       
         allSlotAddresses = slots1;
@@ -107,7 +107,7 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
     }
 
     //update frontend because we're looking for contract space here..
-    function getAllOdds() public view returns(OddsStruct memory, SlotStruct memory, string memory){
+    function getWheelInfo() public view returns(OddsStruct memory, SlotStruct memory, string memory){
         return(allOdds, allSlotAddresses, MachineString);
     }
     // function getAllAddys() public view returns(SlotStruct memory){
@@ -188,7 +188,9 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
                     
                     uint lastSlot = NftTokensRegisteredInMachine[addyArray[x] ].length;
 
-                    for (uint r = lastSlot-1; r> 0; r--){
+                    // for (uint r = 0; r> 0; r--){
+                    
+                    for (uint r = lastSlot-1; r< lastSlot; r++){
                         if (NftTokensRegisteredInMachine[ addyArray[x] ][r].index == 0){
                             continue;
                         }
@@ -209,6 +211,10 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
 
 
     function RegisterListOfNftIds(uint256[][] memory theList) public  onlyOwner {   
+        //add logic checking to make sure identical tokenIds are NOT allowed
+        //if a tokenId is zero that's fine since it means it made it back into the same machine (neat)
+
+
         for (uint256 x = 0; x < theList.length; x++){       //for each slot
         for (uint256 z = 0; z < theList[x].length; z++){    //for each tokenId in each slot
             ERC721 nftContract;
@@ -314,15 +320,23 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
         uint lastSlot = NftTokensRegisteredInMachine[addyArray[slotWinner] ].length;
 
         for (uint r = lastSlot-1; r> 0; r--){ //This should probably start from lowest and work to highest right? 
-            if (NftTokensRegisteredInMachine[ addyArray[slotWinner] ][r].index == 0){
+            if (NftTokensRegisteredInMachine[ addyArray[slotWinner] ][r].slotIndex-1 != slotWinner){
                 continue;
             }
-            lastSlot = r;
+            if (NftTokensRegisteredInMachine[ addyArray[slotWinner] ][r].slotIndex-1 == slotWinner){
+                if (NftTokensRegisteredInMachine[ addyArray[slotWinner] ][r].index == 0){
+                    continue;
+                }
+            }
+            lastSlot = r; //look through each token in the list. If it's in our slot that just won AND its index != 0, modify its value
         }
         if (lastSlot == NftTokensRegisteredInMachine[addyArray[slotWinner] ].length){ //if it's still the same untouched value the tube must be empty
             // emptyTube[slotWinner] = true;
+            isGamePaused = true;
+            isGamePausedSlot = slotWinner+1;
+
         }else {
-            NftTokensRegisteredInMachine[ addyArray[slotWinner] ][ lastSlot ].index = 1;
+            NftTokensRegisteredInMachine[ addyArray[slotWinner] ][ lastSlot ].index = 1; //otherwise, that detected tokenId becomes the new #1
         }
 
 

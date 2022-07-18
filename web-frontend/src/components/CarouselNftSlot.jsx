@@ -52,7 +52,7 @@ const CarouselNftSlot = (props) => {
                     return
                 }
 
-                if ((item.tokenId != 0) && (item.slotIndex == props.slotIndex)){
+                if ((item.index != 0) && (item.slotIndex == props.slotIndex)){
                     // return(parseInt(item.tokenId._hex));
                     return({
                         index:   parseInt(item.index._hex),

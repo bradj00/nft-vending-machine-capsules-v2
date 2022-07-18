@@ -7,7 +7,24 @@ import CarouselNftSlot from './CarouselNftSlot';
 import { JSONTree } from 'react-json-tree';
 import MIMegaWorldCitizen from './metadata-views/more-info-views/MIMegaWorldCitizen';
 
+
+//temp 
+import { WheelABI } from '../ContractInfo/ContractInfo';
+import {useMoralis, useWeb3Contract} from 'react-moralis';
+
 const NftMoreInfoDiv = () => {
+
+    //temp
+    const {contractAddressTreasureChest, setcontractAddressTreasureChest} = useContext(NftMoreInfoContext);
+    
+    
+    const getGamePaused = useWeb3Contract({
+        abi: WheelABI,
+        contractAddress: contractAddressTreasureChest,
+        functionName: "isGamePaused",
+      });
+
+
     const {NftSlotContractAddresses, setNftSlotContractAddresses}    = useContext(NftMoreInfoContext);
     const {clickedNftImage, setclickedNftImage}     = useContext(NftMoreInfoContext);
     const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
@@ -42,6 +59,16 @@ const NftMoreInfoDiv = () => {
 
     
     const [selectedContractEtherscanLink, setselectedContractEtherscanLink] = useState();
+
+
+
+
+
+
+
+
+
+
 
     useGoogleFonts([
         ['Spirax'],
@@ -198,6 +225,25 @@ const NftMoreInfoDiv = () => {
         base0E: '#ae81ff',
         base0F: '#cc6633',
       };
+
+      function checkGamePaused(){
+        //check status of web3 function... wheel.isGamePaused
+
+        console.log('checking status..');
+        getGamePaused.runContractFunction({
+            onError: (error) =>{
+            console.log('checking game pause status: big ERROR: ',error); 
+            },
+        });
+
+      };
+      useEffect(()=>{
+        // if (getGamePaused.data){
+            console.log('getGamePaused status: ',getGamePaused.data);
+        // }
+      },[getGamePaused.data]);
+
+
     return(
         <div style={{position:'absolute', width:'25vw',display:'flex',alignItems:'end', justifyContent:'center', height:'70vh',border: ActiveNetworkBorderColor? ActiveNetworkBorderColor: '0px solid #fff', borderRadius:'15px', backgroundColor:ActiveNetworkThemeColorDarker?ActiveNetworkThemeColorDarker:'rgba(255,255,255,0.15)', left:'1%', bottom:'1%',width:'25%',}}>
             <div style={{height:'50%', width:'60%', marginBottom:'1vh',}}>
@@ -217,6 +263,10 @@ const NftMoreInfoDiv = () => {
                 {JSON.stringify(clickedDisplayedTokenId)}
             </div> */}
 
+
+            <div onClick={()=>{checkGamePaused()}} style={{cursor:'pointer', border:'1px solid #00ff00', position:'absolute', width:'40%', left:'40%', bottom:'35%', height:'8%', backgroundColor:'#000',color:'#fff'}}>
+                button
+            </div>
 
 
         {/* <CarouselNftSlot metadata={clickedmetadataObj}

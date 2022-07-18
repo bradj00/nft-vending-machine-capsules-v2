@@ -14,7 +14,7 @@ interface IERC2011 {
     function transferFrom(address from, address to, uint value) external returns (bool); 
 }
 
-contract BuyCapsules {
+contract BuyCapsules { 
     //this contract created by factory
     
     IERC20 token;
@@ -36,7 +36,7 @@ contract BuyCapsules {
         owner = theOwner; //factory owns this
     }
 
-    function setCapsuleContract(address thecontract) external {
+    function setWheelContract(address thecontract) external {
         require(msg.sender == factoryAddress, "no");
         capsuleContract =   IERC7211(thecontract); 
     }

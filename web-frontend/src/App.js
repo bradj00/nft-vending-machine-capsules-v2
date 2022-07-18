@@ -768,7 +768,7 @@ useEffect(() => {
     setChecked(!checked);
   };
 
- 
+
 
   return ( 
     // <MoralisProvider appId="mMa2kNXSIzwSJIltiZ9xXxFo852tmvnBul790I40" serverUrl="https://rffrl9tjeact.usemoralis.com:2053/server">
@@ -824,6 +824,12 @@ useEffect(() => {
               <MachineNameTitle />
             </div>
           : <></>}
+
+
+
+
+
+
 
           {showManager? "" : <div className={sceneTransition} style={Styles.scene} >
             <div className="blurredBG" style={{position:'absolute',height:'100%',width:'100%',boxShadow: ActiveNetworkThemeBoxShadow? ActiveNetworkThemeBoxShadow: <></>,backgroundColor:ActiveNetworkThemeColor?ActiveNetworkThemeColor:"#ccc"}}>

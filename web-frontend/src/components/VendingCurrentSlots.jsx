@@ -337,12 +337,16 @@ const VendingCurrentSlots = () => {
 
     function filterArray(topSlotIndex, TopLevelArray) {
       if (!TopLevelArray){return}
+
       let filteredArray = TopLevelArray[0].filter((item) => {
-        return item.slotIndex == topSlotIndex
+        if (item.index != 0){
+          return item.slotIndex == topSlotIndex 
+        }
+        
       });
-      let filteredUriArray = TopLevelArray[0].filter((item) => {
-        return item.slotIndex == topSlotIndex
-      });
+      // let filteredUriArray = TopLevelArray[0].filter((item) => {
+      //   return item.slotIndex == topSlotIndex
+      // });
 
 
       return([filteredArray, TopLevelArray[1],TopLevelArray[2],TopLevelArray[3],TopLevelArray[4]])
@@ -352,8 +356,8 @@ const VendingCurrentSlots = () => {
       if (fetchContractInventorySlot1.data != null){
         // sethideExtraInfo(false); //should probably call this somewhere more reliable.
         setcapsuleIconAnimated(false);
-        // console.log('SLOT 1 : ',fetchContractInventorySlot1.data);
-        // console.log('FILTERED SLOT 1: ',filterArray(1, fetchContractInventorySlot1.data))
+        console.log('SLOT 1 : ',fetchContractInventorySlot1.data);
+        console.log('FILTERED SLOT 1: ',filterArray(1, fetchContractInventorySlot1.data))
 
         setslotInventory1tokenInfoArray( filterArray(1, fetchContractInventorySlot1.data) );
         setslot1Inventory( filterArray(1, fetchContractInventorySlot1.data)[0].length );

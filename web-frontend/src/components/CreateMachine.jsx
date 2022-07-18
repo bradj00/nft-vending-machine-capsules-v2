@@ -1497,7 +1497,7 @@ const CreateMachine = (props, context) => {
                 Balance Odds
             </div>: <></>}
 
-            {signedEula? 
+            {!signedEula? 
             <div style={{display:'flex',justifyContent:'center',position:'absolute',fontSize:'20px', width:'95%',border:'0px dashed #ff00ff'}}>
                     
                     <div style={{display:'flex',justifyContent:'center', color:'#fff', paddingTop:'0.5vh', position:'absolute',top:'0vw',width:'20vw',height:'6vh',backgroundColor:'rgba(50,50,50,0)'}}>
@@ -2004,7 +2004,7 @@ const CreateMachine = (props, context) => {
         </div>
         }
             
-            {TotalPercentageProbabilities < 100 && signedEula? 
+            {TotalPercentageProbabilities < 100 && !signedEula? 
                 <div style={{width:'15vw', display:'flex',justifyContent:'center',position:'absolute',bottom:'6vh',color:'#ffff00',fontSize:'1vw'}}>
                     <div style={{position:'absolute',top:'0'}}>
                         Slot Percents Must Equal 100%
@@ -2015,7 +2015,7 @@ const CreateMachine = (props, context) => {
                 </div>
         
             :<></>}
-            {TotalPercentageProbabilities > 100 && signedEula? 
+            {TotalPercentageProbabilities > 100 && !signedEula? 
             <div style={{width:'15vw', display:'flex',justifyContent:'center',position:'absolute',bottom:'6vh',color:'#ff0000',fontSize:'1vw'}}>
                 <div style={{position:'absolute',top:'0'}}>
                     Slot Percents Must Equal 100%
@@ -2025,7 +2025,7 @@ const CreateMachine = (props, context) => {
                 </div>
             </div>
             :<></>}
-            {TotalPercentageProbabilities == 100 && signedEula? 
+            {TotalPercentageProbabilities == 100 && !signedEula? 
                 <div style={{display:'flex', justifyContent:'center', position:'absolute',bottom:'4vh',color:'#00ff00',fontSize:'1.5vw'}}>
                     
                     {createMachineStatusMsg =='Create Machine'?
