@@ -405,6 +405,7 @@ useEffect(() => {
   const [slot9Obj, setslot9Obj] = useState();
   const [slot10Obj, setslot10Obj] = useState();
   
+  const [uniqueRegistrationSelectionIds, setuniqueRegistrationSelectionIds] = useState({});
   
   const [slot1ImageUrl, setslot1ImageUrl] = useState();
   const [slot2ImageUrl, setslot2ImageUrl] = useState();
@@ -683,7 +684,7 @@ useEffect(() => {
     slot8AccountRegisteredNFTs, setslot8AccountRegisteredNFTs,
     slot9AccountRegisteredNFTs, setslot9AccountRegisteredNFTs,
     slot10AccountRegisteredNFTs, setslot10AccountRegisteredNFTs,
-
+    uniqueRegistrationSelectionIds, setuniqueRegistrationSelectionIds,
     imageUrlToCachedBlobObject, setimageUrlToCachedBlobObject,
     domainThrottleSettings, setdomainThrottleSettings,
 

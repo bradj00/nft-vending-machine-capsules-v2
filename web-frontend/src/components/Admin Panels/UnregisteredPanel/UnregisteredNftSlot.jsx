@@ -74,6 +74,7 @@ const UnregisteredNftSlot = (props) => {
     const {slotInventory9tokenInfoArray, setslotInventory9tokenInfoArray}    = useContext(NftMoreInfoContext);
     const {slotInventory10tokenInfoArray, setslotInventory10tokenInfoArray}    = useContext(NftMoreInfoContext);
     
+    const {uniqueRegistrationSelectionIds, setuniqueRegistrationSelectionIds}    = useContext(NftMoreInfoContext);
     
     const {displayMetaData, setdisplayMetaData}    = useContext(NftMoreInfoContext);
   
@@ -151,18 +152,18 @@ const UnregisteredNftSlot = (props) => {
     const {ToolTipTextSlot9, setToolTipTextSlot9} = useContext(NftMoreInfoContext);
     const {ToolTipTextSlot10, setToolTipTextSlot10} = useContext(NftMoreInfoContext);
   
-
+    
     function filtersApplied(){
-        if (mcpcIfilterSlot1 || mcpcSfilterSlot1 || mcpcCfilterSlot1 || mcpcAfilterSlot1 || mcpcLfilterSlot1 || mcpcEfilterSlot1){
-          return true;
-        }
+      if (mcpcIfilterSlot1 || mcpcSfilterSlot1 || mcpcCfilterSlot1 || mcpcAfilterSlot1 || mcpcLfilterSlot1 || mcpcEfilterSlot1){
+        return true;
+      }
         if ((slotIdFilter[props.slotIndex] != '-1') && (slotIdFilter[props.slotIndex] != '')){
           return true;
         }
         else return false;
-      
+        
       }
-    function clearSlotFilters() {
+      function clearSlotFilters() {
         console.log(slotIdFilter);
         setmcpcIfilterSlot1(0);
         setmcpcSfilterSlot1(0);
@@ -170,43 +171,70 @@ const UnregisteredNftSlot = (props) => {
         setmcpcAfilterSlot1(0);
         setmcpcLfilterSlot1(0);
         setmcpcEfilterSlot1(0);
-
+        
         setslotIdFilter({...slotIdFilter, [props.slotIndex]:'-1'})
         setslotIdFilterDelay({...slotIdFilterDelay, [props.slotIndex]:'-1'})
         setdisplayFilterSlot(false);
-    }
-            
-    // useEffect(()=>{
-    //     if (slotIdFilter){
-    //         console.log('filter: ',slotIdFilter);
-    //     }
-    // },[slotIdFilter])
-
-    function isMCPcontract(address){
-        // if (props.slotIndex == 1){
-        //     return true;
-        // }
-        switch (address){
-          case '0x726e1b4841968c0c3eebeef880e60875b745b3c0':
-              return true;
-          default:
-              return false;
-      
-        }
       }
-
-    //   useEffect(()=>{
-    //     if (slotIdFilter){
-    //         console.log('token id filter changed: ',slotIdFilter);
-    //     }
-    //   },[slotIdFilter])
-
-    useEffect(() => {
-        if(slotIdFilterDelay[props.slotIndex] != '-1'){
-            const timeOutId = setTimeout(() => setslotIdFilter(slotIdFilterDelay) , 400);
-            return () => clearTimeout(timeOutId);
-        }
-      }, [slotIdFilterDelay]);
+      
+      // useEffect(()=>{
+        //     if (slotIdFilter){
+          //         console.log('filter: ',slotIdFilter);
+          //     }
+          // },[slotIdFilter])
+          
+          function isMCPcontract(address){
+            // if (props.slotIndex == 1){
+              //     return true;
+              // }
+              switch (address){
+                case '0x726e1b4841968c0c3eebeef880e60875b745b3c0':
+                  return true;
+                  default:
+                    return false;
+                    
+                  }
+                }
+                
+                //   useEffect(()=>{
+                  //     if (slotIdFilter){
+                    //         console.log('token id filter changed: ',slotIdFilter);
+                    //     }
+                    //   },[slotIdFilter])
+                    
+                    useEffect(() => {
+                      if(slotIdFilterDelay[props.slotIndex] != '-1'){
+                        const timeOutId = setTimeout(() => setslotIdFilter(slotIdFilterDelay) , 400);
+                        return () => clearTimeout(timeOutId);
+                      }
+                    }, [slotIdFilterDelay]);
+                    
+                    useEffect(()=>{
+                      console.log('updated: ',uniqueRegistrationSelectionIds);
+                    },[uniqueRegistrationSelectionIds])
+                    
+                    function updateClickedTokens(singleImage){
+                      console.log('HUP DATIN ', uniqueRegistrationSelectionIds)
+                      props.setSlotshowMenu({...props.SlotshowMenu, [singleImage.token_id]: !props.SlotshowMenu[singleImage.token_id]});
+                      // setuniqueRegistrationSelectionIds({ ...uniqueRegistrationSelectionIds, {uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id]}  })
+                      
+                      uniqueRegistrationSelectionIds[singleImage.token_address]? 
+                      uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id]? 
+                      setuniqueRegistrationSelectionIds(prevStyle => ({
+                        ...prevStyle,
+                        [singleImage.token_address]: { ...prevStyle[singleImage.token_address], [singleImage.token_id]: {clicked: !prevStyle[singleImage.token_address][singleImage.token_id].clicked, slot: props.slotIndex} }
+                      }))
+                      :
+                      setuniqueRegistrationSelectionIds(prevStyle => ({
+                        ...prevStyle,
+                        [singleImage.token_address]: { ...prevStyle[singleImage.token_address], [singleImage.token_id]: {clicked: true, slot: props.slotIndex}   }
+                      }))
+                      :
+                      setuniqueRegistrationSelectionIds(prevStyle => ({
+                        ...prevStyle,
+                        [singleImage.token_address]: { ...prevStyle[singleImage.token_address], [singleImage.token_id]: {clicked: true, slot: props.slotIndex}   }
+                      }))
+                    }
 
   return (
     <div>
@@ -279,7 +307,7 @@ const UnregisteredNftSlot = (props) => {
                     </div>
                   </div>
                  
-                
+                  
               </div>
               :
               <div style={{color:'#fff', marginLeft:'2.5vw',paddingLeft:'1vw', display:'flex',justifyContent:'center', cursor:'pointer',position:'absolute',top:'110%',width:'9vw',height:'5vh', backgroundColor: ActiveNetworkThemeColorOpaque? ActiveNetworkThemeColorOpaque: 'rgba(50,50,50,0.6)', border:ActiveNetworkBorderColor? ActiveNetworkBorderColor : '1px solid rgba(0,0,0,0.6)', borderRadius:'10px',}}>
@@ -303,6 +331,9 @@ const UnregisteredNftSlot = (props) => {
             
             <div style={{textAlign:'center', border:'0px solid #00ff00', zIndex:'1',position:'absolute', top:'3vh', width:'100%',height:'80%',}}>
               {props.SlotAccountUnregisteredNFTs? props.SlotAccountUnregisteredNFTs.map((singleImage, index)=>{
+
+              
+
                 // console.log('SSSSSSSSS\t single image: ',singleImage);
                 //replace pinata with moralis ipfs domain temporarily
                 singleImage.metadata? singleImage.metadata.image = singleImage.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>;
@@ -404,19 +435,19 @@ const UnregisteredNftSlot = (props) => {
                     }
                   }else if ( ((singleImage.token_id.toString().includes(slotIdFilter[props.slotIndex].toString()) || (slotIdFilter[props.slotIndex] == '-1') )) ){
                       return(
-                        <div key={index} style={{position:'relative', display:'flex',justifyContent:'center', alignItems:'center', marginBottom:'4px', paddingLeft:'6px'}}>
+                        <div key={index} style={{position:'relative', display:'flex',justifyContent:'center', alignItems:'center', marginBottom:'4px', paddingLeft:'6px', }}>
                         {/* <img width="100%" className="imgBorder" onClick={()=>{clickedThisImage(singleImage, 1, index)}} src={singleImage}></img> */}
-                        {singleImage.metadata?<img width="100%" className="imgBorder" onClick={()=>{props.setSlotshowMenu({...props.SlotshowMenu, [singleImage.token_id]: !props.SlotshowMenu[singleImage.token_id]})}} src={singleImage.metadata? singleImage.metadata.image : "https://i.imgur.com/8LIxN7y.png"}></img>
+                        {singleImage.metadata?<img  style={{filter: uniqueRegistrationSelectionIds[singleImage.token_address]? uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id]? (uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].clicked &&uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].slot != props.slotIndex) ? 'saturate(0) opacity(0.3)': 'saturate(1)': 'saturate(1)': 'saturate(1)'}} width="100%" className="imgBorder" onClick={()=>{ uniqueRegistrationSelectionIds[singleImage.token_address]? uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id]? (uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].clicked &&uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].slot != props.slotIndex) ? <></>: updateClickedTokens(singleImage): updateClickedTokens(singleImage): updateClickedTokens(singleImage)    }} src={singleImage.metadata? singleImage.metadata.image : "https://i.imgur.com/8LIxN7y.png"}></img>
                         : <NoImageTokenDescriptionDiv tokenInfo={singleImage}/>}
                         {props.SlotshowMenu[singleImage.token_id]? 
                         
-                            <div className="hoverTipNftManagerSelected" onClick={()=>{ props.setSlotshowMenu({...props.SlotshowMenu, [singleImage.token_id]: !props.SlotshowMenu[singleImage.token_id]})}} style={{cursor:'pointer', display:'flex',  justifyContent:'center', position:'absolute',height:'100%',width:'100%',}}>
+                            <div className="hoverTipNftManagerSelected" onClick={()=>{ uniqueRegistrationSelectionIds[singleImage.token_address]? uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id]? (uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].clicked &&uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].slot != props.slotIndex) ? <></>: updateClickedTokens(singleImage): updateClickedTokens(singleImage): updateClickedTokens(singleImage)    }} style={{cursor:'pointer', display:'flex',  justifyContent:'center', position:'absolute',height:'100%',width:'100%',}}>
                                 <div  style={{borderRadius:'10px', display:'flex',justifyContent:'center', alignItems:'center', position:'absolute',width:'95%',height:'30%',backgroundColor:'rgba(0,0,0,0.6)', color:'#fff',fontSize:'100%'}}>
                                     <span style={{fontSize:'100%'}} className="material-icons">cancel</span> &nbsp;({singleImage.token_id}) Unselect
                                 </div>
                             </div>
                         :
-                        <div className="hoverTipNftManager"  onClick={()=>{ props.setSlotshowMenu({...props.SlotshowMenu, [singleImage.token_id]: !props.SlotshowMenu[singleImage.token_id]})}} style={{cursor:'pointer', display:'flex', justifyContent:'center', position:'absolute',height:'100%',width:'100%',}}>
+                        <div className="hoverTipNftManager"  onClick={()=>{ uniqueRegistrationSelectionIds[singleImage.token_address]? uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id]? (uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].clicked &&uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].slot != props.slotIndex) ? <></>: updateClickedTokens(singleImage): updateClickedTokens(singleImage): updateClickedTokens(singleImage)    }} style={{cursor:'pointer', display:'flex', justifyContent:'center', position:'absolute',height:'100%',width:'100%',}}>
                             <div  style={{borderRadius:'10px', display:'flex',justifyContent:'center', alignItems:'center', position:'absolute',width:'95%',height:'35%',backgroundColor:'rgba(0,0,0,0.6)', color:'#fff',fontSize:'100%'}}>
                                 <span style={{fontSize:'100%'}} className="material-icons">file_upload</span> &nbsp;<div style={{ position:'absolute',top:'0%',left:'35%',}}>({singleImage.token_id})</div> Select to Register  
                             </div>
