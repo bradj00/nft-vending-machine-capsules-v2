@@ -1502,7 +1502,7 @@ const CreateMachine = (props, context) => {
                     
                     <div style={{display:'flex',justifyContent:'center', color:'#fff', paddingTop:'0.5vh', position:'absolute',top:'0vw',width:'20vw',height:'6vh',backgroundColor:'rgba(50,50,50,0)'}}>
                         {/* <input  autoComplete='off' type="text" maxLength="32" size="32" placeholder="(Max 32 Characters)" style={{ backgroundColor:'#333', color:'#fff', paddingLeft:'8px',paddingTop:'5px',paddingBottom:'5px'}} name="name" /> */}
-                        <input autoComplete='off' onChange={checkMachineName} value={MachineNameBytes32? MachineNameBytes32 :""} maxLength="42" size="45" placeholder="Give your Machine a public name" name="name"  style={{height:'5vh', fontSize:'1vw',color:'#000',backgroundColor:ActiveNetworkThemeColorDarker? ActiveNetworkThemeColorDarker: 'rgba(0,0,0,0)',border:'0.5px solid #ccc', borderRadius:'15px',paddingLeft:'1vw', outline:'none'}}></input>
+                        <input autoComplete='off' onChange={checkMachineName} value={MachineNameBytes32? MachineNameBytes32 :""} maxLength="42" size="45" placeholder="Give your Machine a public name" name="name"  style={{height:'5vh', fontSize:'1vw',color:'#fff',backgroundColor:ActiveNetworkThemeColorDarker? ActiveNetworkThemeColorDarker: 'rgba(0,0,0,0)',border:'0.5px solid #ccc', borderRadius:'15px',paddingLeft:'1vw', outline:'none'}}></input>
                     </div>
                     <div style={{position:'absolute',top:'20vh',}}>
                         Select up to 10 contracts to use:

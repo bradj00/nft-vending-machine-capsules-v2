@@ -26,7 +26,7 @@
 
 
 
-export const WheelFactoryContractAddress = "0x2fe67600865712BBc1770551D6a699624869461a";
+export const WheelFactoryContractAddress = "0x5fa2bCc589483535E23c67a63203a68869fecAcC";
 
 export const BuyCapsuleContractABI = [
 	{
@@ -906,7 +906,13 @@ export const WheelABI = [
 			}
 		],
 		"name": "RegisterListOfNftIds",
-		"outputs": [],
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -996,16 +1002,6 @@ export const WheelABI = [
 				"internalType": "struct Wheel.slotInhabitant[]",
 				"name": "",
 				"type": "tuple[]"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
 			},
 			{
 				"internalType": "address",

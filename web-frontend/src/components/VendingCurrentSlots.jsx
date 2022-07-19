@@ -138,6 +138,7 @@ const VendingCurrentSlots = () => {
       functionName: "owner",
     });
     
+    //WALRUS - THIS IS NO LONGER GIVING US token symbol or name to save contract space. We'll need to fetch it directly using the address and moralis
     const fetchContractInventorySlot1 = useWeb3Contract({
       abi: WheelABI,
       contractAddress: contractAddressTreasureChest,
