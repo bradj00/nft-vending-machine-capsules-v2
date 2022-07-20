@@ -9,7 +9,7 @@ import BuyCapsulesUserTokenRoutediv from './snippet-components/BuyCapsulesUserTo
 
 const BuyMoreCapsulesDiv = () => {
 
-  const {contractAddressTreasureChest, setcontractAddressTreasureChest} = useContext(NftMoreInfoContext);
+  const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
   const {Moralis, enableWeb3, web3, isWeb3Enabled, authenticate, isAuthenticated, user, account, logout} = useMoralis();   
   const {BuyCapsuleContract, setBuyCapsuleContract} = useContext(NftMoreInfoContext)
   const {capsuleTokenPaymentContract, setcapsuleTokenPaymentContract} = useContext(NftMoreInfoContext)
@@ -194,6 +194,15 @@ const BuyMoreCapsulesDiv = () => {
             console.log('[ approval ] tx confirmed: ',newTx)
 
             spendTokenToBuyCapsule.runContractFunction({
+              onError: (error) =>{
+                console.log('buy capsules ERROR: ',error);
+                console.log('..\t',Moralis.Units.ETH(CapsuleCostInGivenToken * buyCapsuleQty) );
+                console.log('...\t',buyCapsuleQty);
+
+
+
+                setContractErrorMessage(error.error.message);
+              },
               onSuccess:(tx2)=>tx2.wait().then(newTx2 => {
                 console.log('[ spend ] tx confirmed: ',newTx2)
                 setbuyCapsuleButtonMsg('Success!');
@@ -225,10 +234,10 @@ const BuyMoreCapsulesDiv = () => {
     const options = {
         chain: "rinkeby",
         address: account? account: '0x0000000000000000000000000000000000000000', //make this whoever is signed in to Moralis.auth()
-        token_address: contractAddressTreasureChest, //treasure chest
+        token_address: contractAddressWheel, //treasure chest
     };
 
-    console.log("Requesting Capsule inventory [ "+contractAddressTreasureChest+" ] from Moralis DB..");
+    console.log("Requesting Capsule inventory [ "+contractAddressWheel+" ] from Moralis DB..");
     const rinkebyNFTs = await Web3Api.account.getNFTsForContract(options);
     console.log('CAPSULE NFT LIST: ',account,rinkebyNFTs);
     setRinkebyNFTsState(rinkebyNFTs); 

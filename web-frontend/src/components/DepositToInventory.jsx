@@ -382,7 +382,7 @@ const RegisterInventory = () => {
 
   const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
   
-  const {contractAddressTreasureChest, setcontractAddressTreasureChest} = useContext(NftMoreInfoContext);
+  const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
   
   const {clickedNftImage, setclickedNftImage}     = useContext(NftMoreInfoContext);
   const {clickedSlotObj, setclickedSlotObj} = useContext(NftMoreInfoContext);
@@ -408,7 +408,7 @@ const RegisterInventory = () => {
 
   const registerTokensForSlot = useWeb3Contract({
     abi: WheelABI,
-    contractAddress: contractAddressTreasureChest,
+    contractAddress: contractAddressWheel,
     functionName: "RegisterListOfNftIds",
     params: {
         theList: AllSlotsSelectedArr? AllSlotsSelectedArr : 0,

@@ -102,7 +102,7 @@ const VendingCurrentSlots = () => {
     
     const {rateOfRotation, setrateOfRotation} = useContext(NftMoreInfoContext);
 
-    const {contractAddressTreasureChest, setcontractAddressTreasureChest} = useContext(NftMoreInfoContext);
+    const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
 
     
     const [slot1Stock, setslot1Stock] = useState();
@@ -134,14 +134,14 @@ const VendingCurrentSlots = () => {
 
     const fetchMachineOwner = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "owner",
     });
     
     //WALRUS - THIS IS NO LONGER GIVING US token symbol or name to save contract space. We'll need to fetch it directly using the address and moralis
     const fetchContractInventorySlot1 = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllRegisteredForSlot",
       params:{
         slotIndex: 0
@@ -149,7 +149,7 @@ const VendingCurrentSlots = () => {
     });
     const fetchContractInventorySlot2 = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllRegisteredForSlot",
       params:{
         slotIndex: 1
@@ -157,7 +157,7 @@ const VendingCurrentSlots = () => {
     });
     const fetchContractInventorySlot3 = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllRegisteredForSlot",
       params:{
         slotIndex: 2
@@ -165,7 +165,7 @@ const VendingCurrentSlots = () => {
     });
     const fetchContractInventorySlot4 = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllRegisteredForSlot",
       params:{
         slotIndex: 3
@@ -173,7 +173,7 @@ const VendingCurrentSlots = () => {
     });
     const fetchContractInventorySlot5 = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllRegisteredForSlot",
       params:{
         slotIndex: 4
@@ -182,7 +182,7 @@ const VendingCurrentSlots = () => {
     
     const fetchContractInventorySlot6 = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllRegisteredForSlot",
       params:{
         slotIndex: 5
@@ -191,7 +191,7 @@ const VendingCurrentSlots = () => {
     
     const fetchContractInventorySlot7 = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllRegisteredForSlot",
       params:{
         slotIndex: 6
@@ -200,7 +200,7 @@ const VendingCurrentSlots = () => {
     
     const fetchContractInventorySlot8 = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllRegisteredForSlot",
       params:{
         slotIndex: 7
@@ -209,7 +209,7 @@ const VendingCurrentSlots = () => {
     
     const fetchContractInventorySlot9 = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllRegisteredForSlot",
       params:{
         slotIndex: 8
@@ -218,7 +218,7 @@ const VendingCurrentSlots = () => {
     
     const fetchContractInventorySlot10 = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllRegisteredForSlot",
       params:{
         slotIndex: 9
@@ -489,7 +489,7 @@ const VendingCurrentSlots = () => {
         // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
         // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
 
-        setslotInventory5tokenInfoArray( filterArray(5, fetchContractInventorySlot4.data) );
+        setslotInventory5tokenInfoArray( filterArray(5, fetchContractInventorySlot5.data) );
         setslot5Inventory( filterArray(5, fetchContractInventorySlot5.data)[0].length );
         setslot5Stock( deriveInStockFromRegisteredInventory(  filterArray(5, fetchContractInventorySlot5.data)[0]  ) );
 

@@ -81,7 +81,7 @@ const CarouselNftSlot = (props) => {
         }
       },[props.tokenId])
 
-    if (props.slotContractAddress == '0x9CA82D971ACebd276c2290E917CcE441E04Be449'){ //MCP citizen
+    if (props.slotContractAddress == '0x4886E559A143b323b0D230457136524cb9C045C5'){ //MCP citizen
         return (
             <MegaWorldCitizen metadataObj={metadataObj} displayedTokenId={displayedTokenId} contractAddress={props.slotContractAddress} slotContractAddress={props.slotContractAddress} slotObj={props.slotObj} contractName={props.contractName} contractSymbol={props.contractSymbol} tokenId={props.tokenId} thisStyle={props.thisStyle} slotIndex={props.slotIndex} slotImageUrl={props.slotImageUrl} NftSlotOdds={props.NftSlotOdds} slotStock={props.slotStock}  styleEmpty={props.styleEmpty}/> 
         )
@@ -104,3 +104,27 @@ const CarouselNftSlot = (props) => {
 }
 
 export default CarouselNftSlot
+
+
+
+
+
+
+
+// theObj["0x00001"] = [12,15,25,30]; //each time one is clicked, add to this array in theObj
+//                                    //when rendering, always check against this array and if the tokenId is there, disable clicking it 
+
+
+// const theObj = {
+//  0x000001: [],
+//  0x000002: [],
+//  0x000003: [],
+//  0x000004: [],
+//  0x000005: [],
+//  0x000006: [],
+//  0x000007: [],
+//  0x000008: [],
+//  0x000009: [],
+//  0x000010: [],
+
+// }

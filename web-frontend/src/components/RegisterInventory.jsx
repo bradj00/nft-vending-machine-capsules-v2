@@ -66,6 +66,43 @@ const RegisterInventory = () => {
 
 
 
+  const [ImageArray1, setImageArray1] = useState([]);
+  const [ImageArray2, setImageArray2] = useState([]);
+  const [ImageArray3, setImageArray3] = useState([]);
+  const [ImageArray4, setImageArray4] = useState([]);
+  const [ImageArray5, setImageArray5] = useState([]);
+  const [ImageArray6, setImageArray6] = useState([]);
+  const [ImageArray7, setImageArray7] = useState([]);
+  const [ImageArray8, setImageArray8] = useState([]);
+  const [ImageArray9, setImageArray9] = useState([]);
+  const [ImageArray10, setImageArray10] = useState([]);
+
+  const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
+  
+  const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
+  
+  const {clickedNftImage, setclickedNftImage}     = useContext(NftMoreInfoContext);
+  const {clickedSlotObj, setclickedSlotObj} = useContext(NftMoreInfoContext);
+
+  const [selectedIndexArr, setselectedIndexArr] = useState({});
+  const [selectedIndexArrActiveCount, setselectedIndexArrActiveCount] = useState(0);
+
+  const [ImgArray, setImgArray] = useState([]);
+  const [tokenInfoArr, settokenInfoArr] = useState([]);
+
+  const [selectedSlotContractAddress, setselectedSlotContractAddress] = useState(0);
+  
+  const [TokenAddressToDepositToContract, setTokenAddressToDepositToContract] = useState();
+  const [TokenIdToDepositToContract, setTokenIdToDepositToContract]           = useState();
+  
+  const {UnRegisteredInventoryColor, setUnRegisteredInventoryColor} = useContext(NftMoreInfoContext);
+  const {RegisteredInventoryColor,   setRegisteredInventoryColor  } = useContext(NftMoreInfoContext);
+
+  const [renderImages, setrenderImages] = useState(false);
+
+  const [thecontractSlotNFTs, setcontractSlotNFTs] = useState([]);
+
+
 
 
   const [displayedItems, setdisplayedItems] = useState({});
@@ -146,7 +183,31 @@ const RegisterInventory = () => {
   const {ToolTipTextSlot9, setToolTipTextSlot9} = useContext(NftMoreInfoContext);
   const {ToolTipTextSlot10, setToolTipTextSlot10} = useContext(NftMoreInfoContext);
 
+  //get registered for slot directly from web3 call first..
+  const getRegisteredFromOnChainBySlot1 = useWeb3Contract({
+    abi: WheelABI,
+    contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+    functionName: "getAllRegisteredForSlot",
+    params:{
+      slotIndex: 1
+    }
+  });
+
+  useEffect(()=>{
+    if (getRegisteredFromOnChainBySlot1.data){
+      console.log('tokens directly registered for address/slot 1:',getRegisteredFromOnChainBySlot1.data);
+    }
+  },[getRegisteredFromOnChainBySlot1.data])
+  
+  useEffect(()=>{
+    if (contractAddressWheel){
+      getRegisteredFromOnChainBySlot1.runContractFunction();
+    }
+  },[contractAddressWheel])
+
   const fetchAccountNFTsForSlot1 = async () => {
+    
+
     const options = {
       chain: "rinkeby",
       address: MachineContractAddress&&MachineContractAddress!='0x0000000000000000000000000000000000000000'? MachineContractAddress: '0x0000000000000000000000000000000000000000',
@@ -159,24 +220,31 @@ const RegisterInventory = () => {
 
     let tempArray = [];
     rinkebySlot1AccountUnregisteredNFTs.result.map((item, index)=>{
-      if (slotInventory1tokenInfoArray[0].length == 0){
-        if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
-        tempArray.push(item);
-        tempArray = Array.from(new Set(tempArray));
-      }else {
-        let flagged = false;
-        for (let q = 0; q < slotInventory1tokenInfoArray[0].length; q++){
-          if (item.token_id == parseInt(slotInventory1tokenInfoArray[0][q].tokenId._hex, 16)){
-            flagged = true;
+      getRegisteredFromOnChainBySlot1.data[0].map((itemRegistered, index2)=>{
+        console.log('unregistered [m]:\t',item.token_id)
+        console.log('  registered [c]:\t',parseInt(itemRegistered.tokenId._hex, 16), parseInt(itemRegistered.slotIndex._hex, 16 ) )
+        // if ((itemRegistered.tokenId == item.token_id) && (itemRegistered.slotIndex == 1)) {
+        //   return(<></>);
+        // }
+        if (slotInventory1tokenInfoArray[0].length == 0){
+          if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
+          tempArray.push(item);
+          tempArray = Array.from(new Set(tempArray));
+        }else {
+          let flagged = false;
+          for (let q = 0; q < slotInventory1tokenInfoArray[0].length; q++){
+            if (item.token_id == parseInt(slotInventory1tokenInfoArray[0][q].tokenId._hex, 16)){
+              flagged = true;
+            }
           }
-        }
-        if (flagged==false){
-          if (item.metadata && typeof item.metadata != "object"){ item.metadata = JSON.parse(item.metadata)}
-            tempArray.push(item);
-            tempArray = Array.from(new Set(tempArray));
-        }
+          if (flagged==false){
+            if (item.metadata && typeof item.metadata != "object"){ item.metadata = JSON.parse(item.metadata)}
+              tempArray.push(item);
+              tempArray = Array.from(new Set(tempArray));
+          }
 
-      }
+        }
+      }); 
     });
     setSlot1AccountUnregisteredNFTs(tempArray);
   };
@@ -293,14 +361,14 @@ const RegisterInventory = () => {
     
     let tempArray = [];
     rinkebySlot5AccountUnregisteredNFTs.result.map((item, index)=>{
-      if (slotInventory5tokenInfoArray[0].length == 0){
+      if (slotInventory6tokenInfoArray[0].length == 0){
         if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
         tempArray.push(item);
         tempArray = Array.from(new Set(tempArray));
       }else {
         let flagged = false;
-        for (let q = 0; q < slotInventory5tokenInfoArray[0].length; q++){
-          if (item.token_id == parseInt(slotInventory5tokenInfoArray[0][q].tokenId._hex, 16)){
+        for (let q = 0; q < slotInventory6tokenInfoArray[0].length; q++){
+          if (item.token_id == parseInt(slotInventory6tokenInfoArray[0][q].tokenId._hex, 16)){
             flagged = true;
           }
         }
@@ -482,7 +550,7 @@ const RegisterInventory = () => {
 
   useEffect(()=>{
     console.log('*****************\t',MachineContractAddress);
-    if (isInitialized && MachineContractAddress){
+    if (isInitialized && MachineContractAddress && getRegisteredFromOnChainBySlot1.data){
       setTimeout(function(){if (NftSlotContractAddresses[0] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot1()}},1);
       setTimeout(function(){if (NftSlotContractAddresses[1] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot2()}},300);
       setTimeout(function(){if (NftSlotContractAddresses[2] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot3()}},600);
@@ -495,51 +563,14 @@ const RegisterInventory = () => {
       setTimeout(function(){if (NftSlotContractAddresses[9] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot10()}},2700);
 
     }
-  },[isInitialized, MachineContractAddress])
+  },[isInitialized, MachineContractAddress, getRegisteredFromOnChainBySlot1.data])
 
 
-
-
-  const [ImageArray1, setImageArray1] = useState([]);
-  const [ImageArray2, setImageArray2] = useState([]);
-  const [ImageArray3, setImageArray3] = useState([]);
-  const [ImageArray4, setImageArray4] = useState([]);
-  const [ImageArray5, setImageArray5] = useState([]);
-  const [ImageArray6, setImageArray6] = useState([]);
-  const [ImageArray7, setImageArray7] = useState([]);
-  const [ImageArray8, setImageArray8] = useState([]);
-  const [ImageArray9, setImageArray9] = useState([]);
-  const [ImageArray10, setImageArray10] = useState([]);
-
-  const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
-  
-  const {contractAddressTreasureChest, setcontractAddressTreasureChest} = useContext(NftMoreInfoContext);
-  
-  const {clickedNftImage, setclickedNftImage}     = useContext(NftMoreInfoContext);
-  const {clickedSlotObj, setclickedSlotObj} = useContext(NftMoreInfoContext);
-
-  const [selectedIndexArr, setselectedIndexArr] = useState({});
-  const [selectedIndexArrActiveCount, setselectedIndexArrActiveCount] = useState(0);
-
-  const [ImgArray, setImgArray] = useState([]);
-  const [tokenInfoArr, settokenInfoArr] = useState([]);
-
-  const [selectedSlotContractAddress, setselectedSlotContractAddress] = useState(0);
-  
-  const [TokenAddressToDepositToContract, setTokenAddressToDepositToContract] = useState();
-  const [TokenIdToDepositToContract, setTokenIdToDepositToContract]           = useState();
-  
-  const {UnRegisteredInventoryColor, setUnRegisteredInventoryColor} = useContext(NftMoreInfoContext);
-  const {RegisteredInventoryColor,   setRegisteredInventoryColor  } = useContext(NftMoreInfoContext);
-
-  const [renderImages, setrenderImages] = useState(false);
-
-  const [thecontractSlotNFTs, setcontractSlotNFTs] = useState([]);
 
   
   const registerTokensForSlot = useWeb3Contract({
     abi: WheelABI,
-    contractAddress: contractAddressTreasureChest,
+    contractAddress: contractAddressWheel,
     functionName: "RegisterListOfNftIds",
     params: {
         theList: AllSlotsSelectedArr? AllSlotsSelectedArr : 0,
@@ -640,7 +671,7 @@ function registerTokens(){
       setregisterTokensInfoButton('Awaiting chain confirmation...');
     },
     onError: (error) =>{
-    console.log('frrrr big ERROR: ',error,"_____",WheelABI,contractAddressTreasureChest,AllSlotsSelectedArr); 
+    console.log('frrrr big ERROR: ',error,"_____",WheelABI,contractAddressWheel,AllSlotsSelectedArr); 
     },
   });
 

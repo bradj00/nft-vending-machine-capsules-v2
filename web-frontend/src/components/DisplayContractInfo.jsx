@@ -10,8 +10,8 @@ import { FaBeer, FaDiscord,FaBars, FaBroom } from 'react-icons/fa';
 
 
 const DisplayContractInfo = () => {
-  const {contractAddressTreasureChest, setcontractAddressTreasureChest} = useContext(NftMoreInfoContext);
-  const {contractAddressTreasureChestLC, setcontractAddressTreasureChestLC} = useContext(NftMoreInfoContext);
+  const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
+  const {contractAddressWheelLC, setcontractAddressWheelLC} = useContext(NftMoreInfoContext);
 
   const [showContractMenuDropDown, setshowContractMenuDropDown] = useState(false);
   const [UserMachinesArray, setUserMachinesArray] = useState();
@@ -85,12 +85,12 @@ const DisplayContractInfo = () => {
   useEffect(()=>{
       let temp = location.pathname.replace('/machine/', '');
       temp  = temp.replace('/', '');
-      setcontractAddressTreasureChest(temp);
+      setcontractAddressWheel(temp);
 
 
-      setcontractAddressTreasureChestLC(temp.toLowerCase() );
-      // console.log('new: ',contractAddressTreasureChest);
-  },[contractAddressTreasureChest])
+      setcontractAddressWheelLC(temp.toLowerCase() );
+      // console.log('new: ',contractAddressWheel);
+  },[contractAddressWheel])
 
   const goToSpecificMachinePage = useCallback((targetPath) =>
     navigate('/machine/'+targetPath, {replace: true}), [navigate]

@@ -14,6 +14,8 @@
 
 //rinkeby MCP testnet addressess:
 //0x9CA82D971ACebd276c2290E917CcE441E04Be449	citizens
+//0x4886E559A143b323b0D230457136524cb9C045C5	citizensv2
+
 //0x75E1817c8B16F29995eD9De9cAe2bD08A9244fC2	land
 //0x775752df06Df60a3Bb4FA32A12B3fd592328CA71	appliance
 
@@ -26,7 +28,7 @@
 
 
 
-export const WheelFactoryContractAddress = "0x5fa2bCc589483535E23c67a63203a68869fecAcC";
+export const WheelFactoryContractAddress = "0xECA967A97747Ff646DC8938a81E907567711F082";
 
 export const BuyCapsuleContractABI = [
 	{
@@ -467,19 +469,6 @@ export const WheelFactoryABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "bool",
-				"name": "signTrue",
-				"type": "bool"
-			}
-		],
-		"name": "signEula",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "contract Wheel",
 				"name": "wheelAddress",
 				"type": "address"
@@ -491,38 +480,6 @@ export const WheelFactoryABI = [
 				"internalType": "contract BuyCapsules",
 				"name": "",
 				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "EulaLink",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "userAcceptEula",
-		"outputs": [
-			{
-				"internalType": "uint8",
-				"name": "",
-				"type": "uint8"
 			}
 		],
 		"stateMutability": "view",
@@ -830,6 +787,25 @@ export const WheelABI = [
 				"type": "address"
 			}
 		],
+		"name": "RefundCapsule",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "requesterAddress",
+				"type": "address"
+			}
+		],
 		"name": "RequestNewRandomNumber",
 		"type": "event"
 	},
@@ -906,13 +882,7 @@ export const WheelABI = [
 			}
 		],
 		"name": "RegisterListOfNftIds",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -1196,19 +1166,6 @@ export const WheelABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "isGamePausedSlot",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -1217,13 +1174,7 @@ export const WheelABI = [
 			}
 		],
 		"name": "mintCapsule",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},

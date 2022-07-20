@@ -601,7 +601,7 @@ const RegisterInventory = () => {
 
   const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
   
-  const {contractAddressTreasureChest, setcontractAddressTreasureChest} = useContext(NftMoreInfoContext);
+  const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
   
   const {clickedNftImage, setclickedNftImage}     = useContext(NftMoreInfoContext);
   const {clickedSlotObj, setclickedSlotObj} = useContext(NftMoreInfoContext);
@@ -627,7 +627,7 @@ const RegisterInventory = () => {
 
   const ejectTokensFromSlots = useWeb3Contract({
     abi: WheelABI,
-    contractAddress: contractAddressTreasureChest,
+    contractAddress: contractAddressWheel,
     functionName: "ejectNftArray",
     params: {
         theList: AllSlotsSelectedArrRegistered? AllSlotsSelectedArrRegistered : 0,

@@ -35,8 +35,8 @@ const MachinePullHistory = () => {
   const {winningSlotNumber, setwinningSlotNumber} = useContext(NftMoreInfoContext);
   const {winningTokenId, setwinningTokenId} = useContext(NftMoreInfoContext);
 
-  const {contractAddressTreasureChest, setcontractAddressTreasureChest} = useContext(NftMoreInfoContext);
-  const {contractAddressTreasureChestLC, setcontractAddressTreasureChestLC} = useContext(NftMoreInfoContext);
+  const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
+  const {contractAddressWheelLC, setcontractAddressWheelLC} = useContext(NftMoreInfoContext);
   const {isInitialized, account} = useMoralis();
   const [PullHistory, setPullHistory] = useState([]);
   const [PullRequestHistory, setPullRequestHistory] = useState([]);
@@ -54,8 +54,8 @@ const MachinePullHistory = () => {
   const fetchMachinePullRequests = new useMoralisQuery( //WALRUS
     "cMachinePullRequestFromFactory",
     (query) =>
-      query.equalTo("machineAddress", contractAddressTreasureChestLC ), //the machine we are viewing
-    [contractAddressTreasureChestLC],
+      query.equalTo("machineAddress", contractAddressWheelLC ), //the machine we are viewing
+    [contractAddressWheelLC],
     {
       autoFetch: true, 
       live: true,
@@ -70,8 +70,8 @@ const MachinePullHistory = () => {
   const fetchMachinePulls = new useMoralisQuery(
     "cMachinePullSucceedFromFactory",
     (query) =>
-      query.equalTo("machineAddress", contractAddressTreasureChestLC ),
-    [contractAddressTreasureChestLC],
+      query.equalTo("machineAddress", contractAddressWheelLC ),
+    [contractAddressWheelLC],
     {
       autoFetch: false, 
       live: true,
@@ -90,8 +90,8 @@ const MachinePullHistory = () => {
 
 
   useEffect(()=>{
-    if (contractAddressTreasureChestLC){
-      // console.log('\t\t\t\t\tFetching machine pull history from Moralis DB',contractAddressTreasureChestLC);
+    if (contractAddressWheelLC){
+      // console.log('\t\t\t\t\tFetching machine pull history from Moralis DB',contractAddressWheelLC);
       fetchMachinePulls.fetch({
         onSuccess: async (thing) => {
           console.log('!!!!!!!!!!! Receieved machine pull history from Moralis DB ', thing);
@@ -108,7 +108,7 @@ const MachinePullHistory = () => {
         onError: (err) => console.log('HUGE HUGE ERROR: ',err)
       });
     }
-  },[contractAddressTreasureChestLC]) 
+  },[contractAddressWheelLC]) 
 
 
 

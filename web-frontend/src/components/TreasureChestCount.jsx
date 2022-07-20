@@ -27,19 +27,19 @@ const TreasureChestCount = () => {
     
 
 
-    const {contractAddressTreasureChest, setcontractAddressTreasureChest} = useContext(NftMoreInfoContext);
+    const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
     const {hideExtraInfo, sethideExtraInfo} = useContext(NftMoreInfoContext);
 
     const Web3Api = useMoralisWeb3Api();
     // const { data, error, runContractFunction, isFetching, isLoading } =
     const getAllCrateSlotAddresses = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllAddys",
     });
     const getAllSlotOdds = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllOdds",
     });
   const Styles = {
@@ -71,10 +71,10 @@ const TreasureChestCount = () => {
     // },[])
     
     useEffect(() => {
-        if ((contractAddressTreasureChest) && (contractAddressTreasureChest != '/') ){
+        if ((contractAddressWheel) && (contractAddressWheel != '/') ){
             if (web3 && account){fetchOwnedCrates();}
         }
-    },[contractAddressTreasureChest,web3,account]);
+    },[contractAddressWheel,web3,account]);
 
     useEffect(() => {
         if (getAllSlotOdds.data != null){
@@ -114,7 +114,7 @@ const TreasureChestCount = () => {
     // const fetchContractLinkBalance = async () => {
     // const options = {
     //     chain: "rinkeby",
-    //     address: contractAddressTreasureChest
+    //     address: contractAddressWheel
     // };
 
     // fetchERC20Balances({ params: { options } })
@@ -126,10 +126,10 @@ const TreasureChestCount = () => {
         const options = {
             chain: "rinkeby",
             address: account? account: '0x0000000000000000000000000000000000000000', //make this whoever is signed in to Moralis.auth()
-            token_address: contractAddressTreasureChest, //treasure chest
+            token_address: contractAddressWheel, //treasure chest
         };
 
-        console.log("Requesting Capsule inventory [ "+contractAddressTreasureChest+" ] from Moralis DB..");
+        console.log("Requesting Capsule inventory [ "+contractAddressWheel+" ] from Moralis DB..");
         const rinkebyNFTs = await Web3Api.account.getNFTsForContract(options);
         console.log('CAPSULE NFT LIST: ',account,rinkebyNFTs);
         setRinkebyNFTsState(rinkebyNFTs); 
@@ -154,7 +154,7 @@ const TreasureChestCount = () => {
     const openLootCrate = useWeb3Contract({
         
         abi: WheelABI,
-        contractAddress: contractAddressTreasureChest,
+        contractAddress: contractAddressWheel,
         functionName: "openChest",
         params: {
             chestId: ChestNftTokenId

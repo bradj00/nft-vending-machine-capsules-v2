@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {WheelABI, contractAddressTreasureChest, contractAddressChainLinkTokenABI} from '../ContractInfo/ContractInfo.jsx';
+import {WheelABI, contractAddressWheel, contractAddressChainLinkTokenABI} from '../ContractInfo/ContractInfo.jsx';
 import VendingCurrentSlots from './VendingCurrentSlots';
 import TreasureChestCount from './TreasureChestCount';
 import Moralis, {useWeb3Contract, useMoralis, MoralisProvider, useERC20Balances} from "react-moralis";
@@ -25,7 +25,7 @@ const ContractInfoGrabber = () => {
 
     const {sceneTransition, setsceneTransition} = useContext(NftMoreInfoContext);
 
-    const {contractAddressTreasureChest, setcontractAddressTreasureChest} = useContext(NftMoreInfoContext);
+    const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
 
     const {setconfettiZIndex, setrateOfRotation, setconfettiDisplay, } = useContext(NftMoreInfoContext);
 
@@ -33,12 +33,12 @@ const ContractInfoGrabber = () => {
   
     const getAllCrateSlotAddresses = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllAddys",
     });
     const getAllSlotOdds = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getAllOdds",
     });
     const getChainLinkContractBalance = useWeb3Contract({
@@ -46,13 +46,13 @@ const ContractInfoGrabber = () => {
       contractAddress: contractAddressChainLinkToken,
       functionName: "balanceOf",
       params:{
-        _owner: contractAddressTreasureChest
+        _owner: contractAddressWheel
       }
     });
   
     const getWheelInfo = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: contractAddressTreasureChest,
+      contractAddress: contractAddressWheel,
       functionName: "getWheelInfo",
     });
   
@@ -74,9 +74,9 @@ const ContractInfoGrabber = () => {
 
 
     useEffect(()=>{
-      if (isWeb3Enabled && contractAddressTreasureChest && (contractAddressTreasureChest != '/')){
+      if (isWeb3Enabled && contractAddressWheel && (contractAddressWheel != '/')){
         // setTimeout(function(){
-            // console.log('getting crate slot settings for contract: ',contractAddressTreasureChest);
+            // console.log('getting crate slot settings for contract: ',contractAddressWheel);
             // getAllCrateSlotAddresses.runContractFunction();
 
 
@@ -103,7 +103,7 @@ const ContractInfoGrabber = () => {
 
         // },400);
       }
-    },[isWeb3Enabled, contractAddressTreasureChest, WheelABI])
+    },[isWeb3Enabled, contractAddressWheel, WheelABI])
 
 
     useEffect(()=>{
@@ -165,7 +165,7 @@ const ContractInfoGrabber = () => {
 
     const checkEvents = async() => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      let libcContract = new ethers.Contract(contractAddressTreasureChest, WheelABI, provider);
+      let libcContract = new ethers.Contract(contractAddressWheel, WheelABI, provider);
 
       libcContract.on("NewRandomItem", (requestId, vrfRandomNumber, nftTokenId, slotWinner) => {
         console.log('NewRandomItem: ', requestId, parseInt(vrfRandomNumber._hex, 16), parseInt(nftTokenId._hex, 16), parseInt(slotWinner._hex, 16) );

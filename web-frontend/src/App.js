@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {WheelABI, contractAddressTreasureChest} from './ContractInfo/ContractInfo.jsx';
+import {WheelABI, contractAddressWheel} from './ContractInfo/ContractInfo.jsx';
 import VendingCurrentSlots from './components/VendingCurrentSlots';
 import TreasureChestCount from './components/TreasureChestCount';
 import Moralis, {useWeb3Contract, useMoralis, MoralisProvider, useChain} from "react-moralis";
@@ -353,8 +353,8 @@ useEffect(() => {
   
   
   
-  const [contractAddressTreasureChest, setcontractAddressTreasureChest] = useState();
-  const [contractAddressTreasureChestLC, setcontractAddressTreasureChestLC] = useState();
+  const [contractAddressWheel, setcontractAddressWheel] = useState();
+  const [contractAddressWheelLC, setcontractAddressWheelLC] = useState();
   
   const [activeSlotCounter, setActiveSlotCounter] = useState(0);
   const [NftSlotContractAddresses, setNftSlotContractAddresses]   = useState(["0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000"]);
@@ -525,8 +525,8 @@ useEffect(() => {
 
     winningSlotNumber, setwinningSlotNumber,
 
-    contractAddressTreasureChest, setcontractAddressTreasureChest,
-    contractAddressTreasureChestLC, setcontractAddressTreasureChestLC,
+    contractAddressWheel, setcontractAddressWheel,
+    contractAddressWheelLC, setcontractAddressWheelLC,
     contractAddressChainLinkToken, setcontractAddressChainLinkToken,
     
     hideExtraInfo, sethideExtraInfo,

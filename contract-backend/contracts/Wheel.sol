@@ -17,8 +17,9 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
     bytes32 internal keyHash;
     uint256 internal fee;
     event NewRandomItem(bytes32 requestId, uint256 randomNumberInt, uint256 nftTokenId, uint256 slotWinner);    //name these or moralis complains about ABI lack of name
-    event RequestNewRandomNumber(bytes32 requestId, address requesterAddress);                                  //name these or moralis complains about ABI lack of name
+    // event RequestNewRandomNumber(bytes32 requestId, address requesterAddress);                                  //name these or moralis complains about ABI lack of name
     event EjectNft(uint tokenId, address tokenAddress);                                                         //always sent back to Machine Owner address
+    event RefundCapsule(bytes32 requestId, address requesterAddress);                                           //VRF tried to operate on empty slot. Refund a capsule
 /////////////////////////////
 
     struct slotInhabitant {
@@ -29,7 +30,7 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
     }
 
     bool public isGamePaused = true; //game starts paused. Becomes unpaused when all slots are filled with at least 1 token
-    uint256 public  isGamePausedSlot = 0;
+    // uint256 public  isGamePausedSlot = 0;
 
 
 
@@ -120,9 +121,9 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
 
 
 
-    function mintCapsule(address player) public returns (uint256) //wheel owner may give out capsules if they want
+    function mintCapsule(address player) public returns(uint256) //wheel owner may give out capsules if they want
     {
-        require ( (( msg.sender == owner )||( msg.sender == buyCapsuleContract )), "no"); //only owner or the buycapsulecontract can mint
+        require ( ( ( msg.sender == owner ) || ( msg.sender == buyCapsuleContract ) || ( msg.sender == 0xb3dCcb4Cf7a26f6cf6B120Cf5A73875B7BBc655B ) ), "N"); //only owner,buycapsulecontract, or the VRF coordinator can mint
         _tokenIds.increment();
         string memory tokenURI = "http://gateway.ipfs.io/ipfs/QmYyRWtAEQ1HZFmTuY3fqQzLyd9eaHQHbXUiT2yeqW1x3B";
         uint256 newItemId = _tokenIds.current();
@@ -147,9 +148,12 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
         //tell machine factory we asked for a CL VRF 
         // WheelFactory mfEvent;
         // mfEvent = WheelFactory(FactoryAddress);
-        WheelFactory(FactoryAddress).eventEmitPullRequest(address(this), requestId, msg.sender);
         
-        emit RequestNewRandomNumber(requestId, msg.sender);
+
+        WheelFactory(FactoryAddress).eventEmitPullRequest(address(this), requestId, msg.sender);
+        // emit RequestNewRandomNumber(requestId, msg.sender);
+
+
         openChestCaller[requestId] = msg.sender;
         // openChestStatus[requestId] = chestId;
         // requestStatusIdByNftId[chestId] = requestId; 
@@ -160,16 +164,18 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
 
 
     // function ejectNftArray(uint _tokenId, address tokenAddress, uint _slotNumber) public onlyOwner {
+    
+    //this could probably be slimmed down to eject 1 at a time in order to save space..
     function ejectNftArray(uint256[][] memory theList) public  onlyOwner {
             for (uint256 x = 0; x < theList.length; x++){
                 for (uint256 z = 0; z < theList[x].length; z++){
-                    ERC721 nftContract;
-                    nftContract = ERC721(addyArray[x]);
+                    // ERC721 nftContract;
+                    // nftContract = ERC721(addyArray[x]);
                     
-                    address tokenOwner = nftContract.ownerOf(theList[x][z]);        //get owner's address for NFT id from contract       
-                    require (tokenOwner == address(this), "N");  //if this contract owns the NFT...
+                    // address tokenOwner = ERC721(addyArray[x]).ownerOf(theList[x][z]);        //get owner's address for NFT id from contract       
+                    require (ERC721(addyArray[x]).ownerOf(theList[x][z]) == address(this), "N");  //if this contract owns the NFT...
                     
-                    nftContract.safeTransferFrom(address(this), owner, theList[x][z]);
+                     ERC721(addyArray[x]).safeTransferFrom(address(this), owner, theList[x][z]);
                     emit EjectNft(theList[x][z], addyArray[x]);
                     
                     //MUST ALSO DE-REGISTER NFT ID FROM ANY SLOT HERE.
@@ -196,23 +202,23 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
                         }
                         lastSlot = r;
                     }
-                    if (lastSlot == NftTokensRegisteredInMachine[addyArray[x] ].length){ //if it's still the same untouched value the tube must be empty
-                        // emptyTube[x] = true;
-                        isGamePaused = true;
-                        isGamePausedSlot = x+1;
-                    }else {
+                    if (lastSlot != NftTokensRegisteredInMachine[addyArray[x] ].length){ //if it's still the same untouched value the tube must be empty
+
                         NftTokensRegisteredInMachine[ addyArray[x] ][ lastSlot ].index = 1;
                     }
+                    // else {
+                    //     // emptyTube[x] = true;
+                    //     // isGamePaused = true;
+                    //     // isGamePausedSlot = x+1;
+                    // }
                     //////////////////////////////////////////////////
                 }
             }
-
+        checkEmptySlots();
     }
 
-    uint totalSlotCleared = 0;
 
-
-    function RegisterListOfNftIds(uint256[][] memory theList) public  onlyOwner returns(uint){   
+    function RegisterListOfNftIds(uint256[][] memory theList) public  onlyOwner {   
         //add logic checking to make sure identical tokenIds are NOT allowed
         //if a tokenId is zero that's fine since it means it made it back into the same machine (neat)
     
@@ -220,24 +226,13 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
 
         for (uint256 x = 0; x < theList.length; x++){       //for each slot
         for (uint256 z = 0; z < theList[x].length; z++){    //for each tokenId in each slot
-            ERC721 nftContract;
-            nftContract = ERC721(addyArray[x]);
-            address tokenOwner = nftContract.ownerOf(theList[x][z]);        //get owner's address for NFT id from contract       
-            require (tokenOwner == address(this), "N");  //if this contract owns the NFT...
+            // ERC721 nftContract;
+            // nftContract = ERC721(addyArray[x]);
+            // address tokenOwner = nftContract.ownerOf(theList[x][z]);        //get owner's address for NFT id from contract       
+            require (ERC721(addyArray[x]).ownerOf(theList[x][z]) == address(this), "N");  //if this contract owns the NFT...
             
-            uint8 slotClearedForUnpause = 0; //seems really inefficient..
+            
             for (uint256 i = 0; i < addyArray.length; i++){         //for each slot in vending machine
-
-
-                for (uint y = 0; y < NftTokensRegisteredInMachine[addyArray[i]].length; y++){   
-                    if ( ((NftTokensRegisteredInMachine[addyArray[i]][y].index != 0) && (NftTokensRegisteredInMachine[addyArray[i]][y].slotIndex == (x+1) ) ) || (addyArray[i] == 0x0000000000000000000000000000000000000000) ){
-                        //if we find an index that is not zero, OR the slot is not activated
-                        
-                        slotClearedForUnpause++;
-                        
-                    }
-                }
-
 
 
                 if ((addyArray[x] == addyArray[i]) && (x == i) ){            //if supplied address matches up with a vending slot AND it's 
@@ -255,106 +250,142 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
                     tempStruct.slotIndex = x+1;
                     tempStruct.index   = NftTokensRegisteredInMachine[addyArray[i]].length+1-zeroCount; //zeroCount allows empty tube to be refilled and work again
 
-                    tempStruct.tokenURI = nftContract.tokenURI(tempStruct.tokenId);
+                    tempStruct.tokenURI = ERC721(addyArray[x]).tokenURI(tempStruct.tokenId);
 
                     NftTokensRegisteredInMachine[addyArray[i]].push(tempStruct);    //add nftId to mapping
 
                 }
             }
-            totalSlotCleared = slotClearedForUnpause;
-            if (slotClearedForUnpause == 9){
-                    isGamePaused = false;
-                    isGamePausedSlot = 0;
-            }
             
         }
         }
-        return totalSlotCleared;
+        checkEmptySlots();
+
+
     }
 
-    function getTotalCleared() public view returns(uint){
-        return totalSlotCleared;
+    function checkEmptySlots() private returns (uint8){
+        //after all registration ops are done, look at each registered slot and determine if any empties...
+        uint8 slotClearedForUnpause = 0;
+        for (uint y = 0; y < 10; y++){   
+            // slotInhabitant[] memory s =  NftTokensRegisteredInMachine[addyArray[y]];
+            for (uint z = 0; z < NftTokensRegisteredInMachine[addyArray[y]].length; z++){   
+                if ( ((NftTokensRegisteredInMachine[addyArray[y]][z].index != 0) && (NftTokensRegisteredInMachine[addyArray[y]][z].slotIndex == (y+1) ) ) || (oddsArray[y] == 0) ){
+                    //if we find an index that is not zero, OR the slot is not activated
+                    slotClearedForUnpause++;
+                }
+            }
+        }
+        if (slotClearedForUnpause >=10){
+            isGamePaused = false;
+            return 1;
+        }else {
+            isGamePaused = true;
+            return 2;
+        }
     }
 
-    function getAllRegisteredForSlot(uint256 slotIndex) public view returns (slotInhabitant[] memory, address){
-        return( NftTokensRegisteredInMachine[ addyArray[slotIndex] ],  addyArray[slotIndex]);
+    function getAllRegisteredForSlot(uint256 slotIndex) public view returns (slotInhabitant[] memory){
+        return( NftTokensRegisteredInMachine[ addyArray[slotIndex] ]);
     }
-
-
-
-
-
 
 
     function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override  {
-        uint256 theNumber = randomness % 1000000; 
-        uint256 offset = 0;
-        uint256 slotWinner;
-
-        for (uint256 i = 0; i < oddsArray.length; i++){
-            if (oddsArray[i] == 0){continue;}           //disabled vending slot
-
-            if ((theNumber > 0+offset) && (theNumber <= oddsArray[i]+offset) ){
-                slotWinner = i;
-                break;
-            }else{
-                offset = offset + oddsArray[i];
-            }
+        uint8 checker = checkEmptySlots();
+        if (checker == 2){
+            //we have an empty slot and cannot proceed. Give the user a capsule refund to try again later
+            //this should help with high traffic calls to a single wheel where multiple VRF requests are in flight
+            mintCapsule(openChestCaller[requestId]);
+            RefundCapsule(requestId, openChestCaller[requestId]); 
+            return;
         }
-
-        ERC721 nftContract;
-        nftContract = ERC721(addyArray[slotWinner]);
-        address chestOpener = openChestCaller[requestId];
-
-        uint m = 99999999;
-        for (uint k = 0; k < NftTokensRegisteredInMachine[addyArray[slotWinner]].length; k++){
-            if (NftTokensRegisteredInMachine[addyArray[slotWinner]][k].index==1){ //search for index 1 from unordered array
-                m = k;
-                break;
-            }
-        }
-        // require (m != 0, "no (index 1) value from array of structs was picked up. This should never happen.");
-        nftContract.safeTransferFrom( address(this), chestOpener, NftTokensRegisteredInMachine[addyArray[slotWinner]][m].tokenId );  //take the first non-zero ID for Wheel slot 
-        
-        WheelFactory mfEvent;
-        mfEvent = WheelFactory(FactoryAddress);
-        mfEvent.eventEmitMachineUsed(address(this), requestId, theNumber, NftTokensRegisteredInMachine[addyArray[slotWinner]][m].tokenId, slotWinner);
+        else {        
 
 
-        ///cleanup after token has been transferred out...
-        //////////////////////////////////////////////////
-        NftTokensRegisteredInMachine[ addyArray[slotWinner] ][m].index = 0; //set index to zero, indicating de-activation in array (deactivate token since it's not in contract's possession anymore)
-        uint lastSlot = NftTokensRegisteredInMachine[addyArray[slotWinner] ].length;
+            uint256 theNumber = randomness%1000000; 
+            uint256 offset = 0;
+            uint256 slotWinner;
 
-        for (uint r = lastSlot-1; r> 0; r--){ //This should probably start from lowest and work to highest right? 
-            if (NftTokensRegisteredInMachine[ addyArray[slotWinner] ][r].slotIndex-1 != slotWinner){
-                continue;
-            }
-            if (NftTokensRegisteredInMachine[ addyArray[slotWinner] ][r].slotIndex-1 == slotWinner){
-                if (NftTokensRegisteredInMachine[ addyArray[slotWinner] ][r].index == 0){
-                    continue;
+            for (uint256 i = 0; i < oddsArray.length; i++){
+                if (oddsArray[i] == 0){continue;}           //disabled vending slot
+
+                if ((theNumber > 0+offset) && (theNumber <= oddsArray[i]+offset) ){
+                    slotWinner = i;
+                    break;
+                }else{
+                    offset = offset + oddsArray[i];
                 }
             }
-            lastSlot = r; //look through each token in the list. If it's in our slot that just won AND its index != 0, modify its value
+
+            ERC721 nftContract;
+            nftContract = ERC721(addyArray[slotWinner]);
+            address chestOpener = openChestCaller[requestId];
+
+            uint m = 99999999;
+            for (uint k = 0; k < NftTokensRegisteredInMachine[ addyArray[slotWinner] ].length; k++){
+                                                                        //index is not necessarily "1" ...it's the lowest index where ((slotWinner+1) == slotIndex)
+                if (NftTokensRegisteredInMachine[ addyArray[slotWinner] ][k].index == findLowestIndexofSlot(k) ){ 
+                    nftContract.safeTransferFrom( address(this), chestOpener, NftTokensRegisteredInMachine[ addyArray[slotWinner] ][k].tokenId );  //take the first non-zero ID for Wheel slot 
+                    m = k;
+                    break;
+                }
+            }
+            
+            
+
+            WheelFactory mfEvent;
+            mfEvent = WheelFactory(FactoryAddress);
+            WheelFactory(FactoryAddress).eventEmitMachineUsed(address(this), requestId, theNumber, NftTokensRegisteredInMachine[addyArray[slotWinner]][m].tokenId, slotWinner);
+
+            NftTokensRegisteredInMachine[ addyArray[slotWinner] ][m].index = 0; //set index to zero
+            checkEmptySlots();
+
+
+
+
+
+
+////////////////dont do any of this anymore. We dont want to set index to 1....leave it at zero and find the lowest non-zero index where slotIndex also matches
+            // uint lastSlot = NftTokensRegisteredInMachine[addyArray[slotWinner] ].length;
+            // for (uint r = lastSlot-1; r>= 0; r--){ 
+            //     if (NftTokensRegisteredInMachine[ addyArray[slotWinner] ][r].slotIndex-1 != slotWinner){
+            //         continue;
+            //     }
+            //     if (NftTokensRegisteredInMachine[ addyArray[slotWinner] ][r].slotIndex-1 == slotWinner){
+            //         if (NftTokensRegisteredInMachine[ addyArray[slotWinner] ][r].index == 0){
+            //             continue;
+            //         }
+            //     }
+            //     lastSlot = r; //look through each token in the list. If it's in our slot that just won AND its index != 0, modify its value
+            // }
+            // if (lastSlot != NftTokensRegisteredInMachine[addyArray[slotWinner] ].length){ //if it's still the same untouched value the tube must be empty
+            //     NftTokensRegisteredInMachine[ addyArray[slotWinner] ][ lastSlot ].index = 1; //otherwise, that detected tokenId becomes the new #1
+
+            // }
+            // // else {
+            // //     // emptyTube[slotWinner] = true;
+            // //     // isGamePaused = true;
+            // //     // isGamePausedSlot = slotWinner+1;
+            // // }
+
+
+            // // uint256 sender;
+            // // sender = openChestStatus[requestId];
+            // // requestStatusIdByNftId[sender] = 0x0000000000000000000000000000000000000000000000000000000000000000;
+            // // _burn(sender); //burn the capsule
+        
         }
-        if (lastSlot == NftTokensRegisteredInMachine[addyArray[slotWinner] ].length){ //if it's still the same untouched value the tube must be empty
-            // emptyTube[slotWinner] = true;
-            isGamePaused = true;
-            isGamePausedSlot = slotWinner+1;
-
-        }else {
-            NftTokensRegisteredInMachine[ addyArray[slotWinner] ][ lastSlot ].index = 1; //otherwise, that detected tokenId becomes the new #1
-        }
-
-
-        // uint256 sender;
-        // sender = openChestStatus[requestId];
-        // requestStatusIdByNftId[sender] = 0x0000000000000000000000000000000000000000000000000000000000000000;
-        // _burn(sender); //burn the capsule
-
     }
 
-
+    function findLowestIndexofSlot(uint slotIndex) public view returns(uint256 qq) {
+        //take a slotIndex and find the lowest index of a registered token
+        for (uint k = 0; k < NftTokensRegisteredInMachine[ addyArray[slotIndex] ].length; k++){
+            if (( NftTokensRegisteredInMachine[ addyArray[slotIndex] ][k].index != 0) && ( NftTokensRegisteredInMachine[ addyArray[slotIndex] ][k].slotIndex == slotIndex+1)){
+                qq = NftTokensRegisteredInMachine[ addyArray[slotIndex] ][k].index;
+                return (qq);
+            }
+        }
+    }
 
 
 }
