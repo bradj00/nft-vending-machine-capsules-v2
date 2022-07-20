@@ -19,6 +19,7 @@ import Cancel from '@mui/icons-material/Cancel';
 import MCPCitizenFilterSlider from './snippet-components/MCPCitizenFilterSlider';
 import MCPCitizenFilterSliderGen from './snippet-components/MCPCitizenFilterSliderGen';
 import UnregisteredNftSlot from './Admin Panels/UnregisteredPanel/UnregisteredNftSlot';
+import UnregisteredInventorySlotLoader from './Admin Panels/UnregisteredPanel/UnregisteredInventorySlotLoader';
 
 const RegisterInventory = () => {
   const Web3Api = useMoralisWeb3Api();
@@ -63,7 +64,17 @@ const RegisterInventory = () => {
   
   const {displayMetaData, setdisplayMetaData}    = useContext(NftMoreInfoContext);
 
-
+    
+  const [isLoaded1, setisLoaded1]   = useState(false);
+  const [isLoaded2, setisLoaded2]   = useState(false);
+  const [isLoaded3, setisLoaded3]   = useState(false);
+  const [isLoaded4, setisLoaded4]   = useState(false);
+  const [isLoaded5, setisLoaded5]   = useState(false);
+  const [isLoaded6, setisLoaded6]   = useState(false);
+  const [isLoaded7, setisLoaded7]   = useState(false);
+  const [isLoaded8, setisLoaded8]   = useState(false);
+  const [isLoaded9, setisLoaded9]   = useState(false);
+  const [isLoaded10, setisLoaded10] = useState(false);
 
 
   const [ImageArray1, setImageArray1] = useState([]);
@@ -206,361 +217,46 @@ const RegisterInventory = () => {
   },[contractAddressWheel])
 
   const fetchAccountNFTsForSlot1 = async () => {
-    
-
     const options = {
       chain: "rinkeby",
       address: MachineContractAddress&&MachineContractAddress!='0x0000000000000000000000000000000000000000'? MachineContractAddress: '0x0000000000000000000000000000000000000000',
       token_address: NftSlotContractAddresses[0],
     };
-
     const rinkebySlot1AccountUnregisteredNFTs = await Web3Api.account.getNFTsForContract(options);
-    console.log('1\t',rinkebySlot1AccountUnregisteredNFTs, slotInventory1tokenInfoArray);
-    
+    console.log('1\tall ',rinkebySlot1AccountUnregisteredNFTs, slotInventory1tokenInfoArray); //all from address in contract / only reg
 
-    let tempArray = [];
-    rinkebySlot1AccountUnregisteredNFTs.result.map((item, index)=>{
-      getRegisteredFromOnChainBySlot1.data[0].map((itemRegistered, index2)=>{
-        console.log('unregistered [m]:\t',item.token_id)
-        console.log('  registered [c]:\t',parseInt(itemRegistered.tokenId._hex, 16), parseInt(itemRegistered.slotIndex._hex, 16 ) )
-        // if ((itemRegistered.tokenId == item.token_id) && (itemRegistered.slotIndex == 1)) {
-        //   return(<></>);
-        // }
-        if (slotInventory1tokenInfoArray[0].length == 0){
-          if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
-          tempArray.push(item);
-          tempArray = Array.from(new Set(tempArray));
-        }else {
-          let flagged = false;
-          for (let q = 0; q < slotInventory1tokenInfoArray[0].length; q++){
-            if (item.token_id == parseInt(slotInventory1tokenInfoArray[0][q].tokenId._hex, 16)){
-              flagged = true;
-            }
-          }
-          if (flagged==false){
-            if (item.metadata && typeof item.metadata != "object"){ item.metadata = JSON.parse(item.metadata)}
-              tempArray.push(item);
-              tempArray = Array.from(new Set(tempArray));
-          }
 
-        }
-      }); 
-    });
-    setSlot1AccountUnregisteredNFTs(tempArray);
+    const final = rinkebySlot1AccountUnregisteredNFTs.result.filter(item => !getRegisteredFromOnChainBySlot1.data[0].some(second => second.tokenId == item.token_id));
+    console.log('1\tonly unregistered: ',final)
+    setSlot1AccountUnregisteredNFTs(final);
+
   };
-  const fetchAccountNFTsForSlot2 = async () => {
-    const options = {
-      chain: "rinkeby",
-      address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
-      token_address: NftSlotContractAddresses[1],
-    };
-    const rinkebySlot2AccountUnregisteredNFTs = await Web3Api.account.getNFTsForContract(options);
-    console.log('2\t',rinkebySlot2AccountUnregisteredNFTs, slotInventory2tokenInfoArray);
-    
-    
-    let tempArray = [];
-    rinkebySlot2AccountUnregisteredNFTs.result.map((item, index)=>{
-      if (slotInventory2tokenInfoArray[0].length == 0){
-        if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
-        console.log('slotInventory2tokenInfoArray[0].length is zero: ', item)
-        tempArray.push(item);
-        tempArray = Array.from(new Set(tempArray));
-      }else {
-        let flagged = false;
-        for (let q = 0; q < slotInventory2tokenInfoArray[0].length; q++){
-          if (item.token_id == parseInt(slotInventory2tokenInfoArray[0][q].tokenId._hex, 16)){
-            flagged = true;
-            console.log('2 match to ignore: ',item.token_id, parseInt(slotInventory2tokenInfoArray[0][q].tokenId._hex, 16))
-          }
-        }
-        if (flagged==false){
-          if (item.metadata && typeof item.metadata != "object"){ item.metadata = JSON.parse(item.metadata)}
-            tempArray.push(item);
-            tempArray = Array.from(new Set(tempArray));
-        }
+  
+useEffect(()=>{
+  if (Slot1AccountUnregisteredNFTs){
+    console.log('Slot1AccountUnregisteredNFTs: ',Slot1AccountUnregisteredNFTs, getRegisteredFromOnChainBySlot1.data);
+  }
+},[Slot1AccountUnregisteredNFTs])
 
-      }
-    });
-    setSlot2AccountUnregisteredNFTs(tempArray);
-  };
-  const fetchAccountNFTsForSlot3 = async () => {
-    const options = {
-      chain: "rinkeby",
-      address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
-      token_address: NftSlotContractAddresses[2],
-    };
-    const rinkebySlot3AccountUnregisteredNFTs = await Web3Api.account.getNFTsForContract(options);
-    console.log('3\t',rinkebySlot3AccountUnregisteredNFTs, slotInventory3tokenInfoArray);
-    
-    
-    let tempArray = [];
-    rinkebySlot3AccountUnregisteredNFTs.result.map((item, index)=>{
-      if (slotInventory3tokenInfoArray[0].length == 0){
-        if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
-        tempArray.push(item);
-        tempArray = Array.from(new Set(tempArray));
-      }else {
-        let flagged = false;
-        for (let q = 0; q < slotInventory3tokenInfoArray[0].length; q++){
-          if (item.token_id == parseInt(slotInventory3tokenInfoArray[0][q].tokenId._hex, 16)){
-            flagged = true;
-          }
-        }
-        if (flagged==false){
-          if (item.metadata && typeof item.metadata != "object"){ item.metadata = JSON.parse(item.metadata)}
-            tempArray.push(item);
-            tempArray = Array.from(new Set(tempArray));
-        }
 
-      }
-    });
-    setSlot3AccountUnregisteredNFTs(tempArray);
-  };
-  const fetchAccountNFTsForSlot4 = async () => {
-    const options = {
-      chain: "rinkeby",
-      address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
-      token_address: NftSlotContractAddresses[3],
-    };
-    const rinkebySlot4AccountUnregisteredNFTs = await Web3Api.account.getNFTsForContract(options);
-    console.log('4\t',rinkebySlot4AccountUnregisteredNFTs);
-    
-    
-    let tempArray = [];
-    rinkebySlot4AccountUnregisteredNFTs.result.map((item, index)=>{
-      if (slotInventory4tokenInfoArray[0].length == 0){
-        if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
-        tempArray.push(item);
-        tempArray = Array.from(new Set(tempArray));
-      }else {
-        let flagged = false;
-        for (let q = 0; q < slotInventory4tokenInfoArray[0].length; q++){
-          if (item.token_id == parseInt(slotInventory4tokenInfoArray[0][q].tokenId._hex, 16)){
-            flagged = true;
-          }
-        }
-        if (flagged==false){
-          if (item.metadata && typeof item.metadata != "object"){ item.metadata = JSON.parse(item.metadata)}
-            tempArray.push(item);
-            tempArray = Array.from(new Set(tempArray));
-        }
 
-      }
-    });
-    setSlot4AccountUnregisteredNFTs(tempArray);
-  };
-  const fetchAccountNFTsForSlot5 = async () => {
-    const options = {
-      chain: "rinkeby",
-      address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
-      token_address: NftSlotContractAddresses[4],
-    };
-    const rinkebySlot5AccountUnregisteredNFTs = await Web3Api.account.getNFTsForContract(options);
-    console.log('5\t',rinkebySlot5AccountUnregisteredNFTs);
-    
-    
-    let tempArray = [];
-    rinkebySlot5AccountUnregisteredNFTs.result.map((item, index)=>{
-      if (slotInventory6tokenInfoArray[0].length == 0){
-        if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
-        tempArray.push(item);
-        tempArray = Array.from(new Set(tempArray));
-      }else {
-        let flagged = false;
-        for (let q = 0; q < slotInventory6tokenInfoArray[0].length; q++){
-          if (item.token_id == parseInt(slotInventory6tokenInfoArray[0][q].tokenId._hex, 16)){
-            flagged = true;
-          }
-        }
-        if (flagged==false){
-          if (item.metadata && typeof item.metadata != "object"){ item.metadata = JSON.parse(item.metadata)}
-            tempArray.push(item);
-            tempArray = Array.from(new Set(tempArray));
-        }
 
-      }
-    });
-    setSlot5AccountUnregisteredNFTs(tempArray);
-  };
-  const fetchAccountNFTsForSlot6 = async () => {
-    const options = {
-      chain: "rinkeby",
-      address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
-      token_address: NftSlotContractAddresses[5],
-    };
-    const rinkebySlot6AccountUnregisteredNFTs = await Web3Api.account.getNFTsForContract(options);
-    console.log('6\t',rinkebySlot6AccountUnregisteredNFTs);
-    
-    
-    let tempArray = [];
-    rinkebySlot6AccountUnregisteredNFTs.result.map((item, index)=>{
-      if (slotInventory6tokenInfoArray[0].length == 0){
-        if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
-        tempArray.push(item);
-        tempArray = Array.from(new Set(tempArray));
-      }else {
-        let flagged = false;
-        for (let q = 0; q < slotInventory6tokenInfoArray[0].length; q++){
-          if (item.token_id == parseInt(slotInventory6tokenInfoArray[0][q].tokenId._hex, 16)){
-            flagged = true;
-          }
-        }
-        if (flagged==false){
-          if (item.metadata && typeof item.metadata != "object"){ item.metadata = JSON.parse(item.metadata)}
-            tempArray.push(item);
-            tempArray = Array.from(new Set(tempArray));
-        }
 
-      }
-    });
-    setSlot6AccountUnregisteredNFTs(tempArray);
-  };
-  const fetchAccountNFTsForSlot7 = async () => {
-    const options = {
-      chain: "rinkeby",
-      address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
-      token_address: NftSlotContractAddresses[6],
-    };
-    const rinkebySlot7AccountUnregisteredNFTs = await Web3Api.account.getNFTsForContract(options);
-    console.log('7\t',rinkebySlot7AccountUnregisteredNFTs);
-    
-    
-    let tempArray = [];
-    rinkebySlot7AccountUnregisteredNFTs.result.map((item, index)=>{
-      if (slotInventory7tokenInfoArray[0].length == 0){
-        if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
-        tempArray.push(item);
-        tempArray = Array.from(new Set(tempArray));
-      }else {
-        let flagged = false;
-        for (let q = 0; q < slotInventory7tokenInfoArray[0].length; q++){
-          if (item.token_id == parseInt(slotInventory7tokenInfoArray[0][q].tokenId._hex, 16)){
-            flagged = true;
-          }
-        }
-        if (flagged==false){
-          if (item.metadata && typeof item.metadata != "object"){ item.metadata = JSON.parse(item.metadata)}
-            tempArray.push(item);
-            tempArray = Array.from(new Set(tempArray));
-        }
 
-      }
-    });
-    setSlot7AccountUnregisteredNFTs(tempArray);
-  };
-  const fetchAccountNFTsForSlot8 = async () => {
-    const options = {
-      chain: "rinkeby",
-      address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
-      token_address: NftSlotContractAddresses[7],
-    };
-    const rinkebySlot8AccountUnregisteredNFTs = await Web3Api.account.getNFTsForContract(options);
-    console.log('8\t',rinkebySlot8AccountUnregisteredNFTs);
-    
-    
-    let tempArray = [];
-    rinkebySlot8AccountUnregisteredNFTs.result.map((item, index)=>{
-      if (slotInventory8tokenInfoArray[0].length == 0){
-        if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
-        tempArray.push(item);
-        tempArray = Array.from(new Set(tempArray));
-      }else {
-        let flagged = false;
-        for (let q = 0; q < slotInventory8tokenInfoArray[0].length; q++){
-          if (item.token_id == parseInt(slotInventory8tokenInfoArray[0][q].tokenId._hex, 16)){
-            flagged = true;
-          }
-        }
-        if (flagged==false){
-          if (item.metadata && typeof item.metadata != "object"){ item.metadata = JSON.parse(item.metadata)}
-            tempArray.push(item);
-            tempArray = Array.from(new Set(tempArray));
-        }
-
-      }
-    });
-    setSlot8AccountUnregisteredNFTs(tempArray);
-  };
-  const fetchAccountNFTsForSlot9 = async () => {
-    const options = {
-      chain: "rinkeby",
-      address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
-      token_address: NftSlotContractAddresses[8],
-    };
-    const rinkebySlot9AccountUnregisteredNFTs = await Web3Api.account.getNFTsForContract(options);
-    console.log('9\t',rinkebySlot9AccountUnregisteredNFTs);
-    
-    
-    let tempArray = [];
-    rinkebySlot9AccountUnregisteredNFTs.result.map((item, index)=>{
-      if (slotInventory9tokenInfoArray[0].length == 0){
-        if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
-        tempArray.push(item);
-        tempArray = Array.from(new Set(tempArray));
-      }else {
-        let flagged = false;
-        for (let q = 0; q < slotInventory9tokenInfoArray[0].length; q++){
-          if (item.token_id == parseInt(slotInventory9tokenInfoArray[0][q].tokenId._hex, 16)){
-            flagged = true;
-          }
-        }
-        if (flagged==false){
-          if (item.metadata && typeof item.metadata != "object"){ item.metadata = JSON.parse(item.metadata)}
-            tempArray.push(item);
-            tempArray = Array.from(new Set(tempArray));
-        }
-
-      }
-    });
-    setSlot9AccountUnregisteredNFTs(tempArray);
-  };
-  const fetchAccountNFTsForSlot10 = async () => {
-    const options = {
-      chain: "rinkeby",
-      address: MachineContractAddress? MachineContractAddress: '0x0000000000000000000000000000000000000000',
-      token_address: NftSlotContractAddresses[9],
-    };
-    const rinkebySlot10AccountUnregisteredNFTs = await Web3Api.account.getNFTsForContract(options);
-    console.log('10\t',rinkebySlot10AccountUnregisteredNFTs);
-    
-    
-    let tempArray = [];
-    rinkebySlot10AccountUnregisteredNFTs.result.map((item, index)=>{
-      if (slotInventory10tokenInfoArray[0].length == 0){
-        if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
-        tempArray.push(item);
-        tempArray = Array.from(new Set(tempArray));
-      }else {
-        let flagged = false;
-        for (let q = 0; q < slotInventory10tokenInfoArray[0].length; q++){
-          if (item.token_id == parseInt(slotInventory10tokenInfoArray[0][q].tokenId._hex, 16)){
-            flagged = true;
-          }
-        }
-        if (flagged==false){
-          if (item.metadata && typeof item.metadata != "object"){ item.metadata = JSON.parse(item.metadata)}
-            tempArray.push(item);
-            tempArray = Array.from(new Set(tempArray));
-        }
-
-      }
-    });
-    setSlot10AccountUnregisteredNFTs(tempArray);
-  };
 
   useEffect(()=>{
     console.log('*****************\t',MachineContractAddress);
     if (isInitialized && MachineContractAddress && getRegisteredFromOnChainBySlot1.data){
       setTimeout(function(){if (NftSlotContractAddresses[0] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot1()}},1);
-      setTimeout(function(){if (NftSlotContractAddresses[1] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot2()}},300);
-      setTimeout(function(){if (NftSlotContractAddresses[2] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot3()}},600);
-      setTimeout(function(){if (NftSlotContractAddresses[3] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot4()}},900);
-      setTimeout(function(){if (NftSlotContractAddresses[4] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot5()}},1200);
-      setTimeout(function(){if (NftSlotContractAddresses[5] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot6()}},1500);
-      setTimeout(function(){if (NftSlotContractAddresses[6] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot7()}},1800);
-      setTimeout(function(){if (NftSlotContractAddresses[7] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot8()}},2100);
-      setTimeout(function(){if (NftSlotContractAddresses[8] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot9()}},2400);
-      setTimeout(function(){if (NftSlotContractAddresses[9] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot10()}},2700);
+      // setTimeout(function(){if (NftSlotContractAddresses[1] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot2()}},300);
+      // setTimeout(function(){if (NftSlotContractAddresses[2] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot3()}},600);
+      // setTimeout(function(){if (NftSlotContractAddresses[3] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot4()}},900);
+      // setTimeout(function(){if (NftSlotContractAddresses[4] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot5()}},1200);
+      // setTimeout(function(){if (NftSlotContractAddresses[5] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot6()}},1500);
+      // setTimeout(function(){if (NftSlotContractAddresses[6] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot7()}},1800);
+      // setTimeout(function(){if (NftSlotContractAddresses[7] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot8()}},2100);
+      // setTimeout(function(){if (NftSlotContractAddresses[8] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot9()}},2400);
+      // setTimeout(function(){if (NftSlotContractAddresses[9] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot10()}},2700);
 
     }
   },[isInitialized, MachineContractAddress, getRegisteredFromOnChainBySlot1.data])
@@ -660,11 +356,24 @@ function depositClickedNft(object){
 
 }
 
+function refreshSlotRegisteredDataFromChain(){
+  getRegisteredFromOnChainBySlot1.runContractFunction(); //refresh slot registered data
+  // setTimeout(()=>{fetchAccountNFTsForSlot1()},3000);
+}
+
+
 function registerTokens(){
   registerTokensForSlot.runContractFunction({
     onSuccess : async (tx)=>tx.wait().then(newTx => {
       console.log('SUCCESS! Check machine',tx)
       setregisterTokensInfoButton('Success!');
+      setTimeout(()=>{
+        refreshSlotRegisteredDataFromChain();
+        setregisterTokensInfoButton('Register Tokens');
+        
+        setTotalRegisterTokenCount(0);
+        setAllSlotsSelectedArr([]);
+      },20000) //long timeout to let chain and database data update...then re-enable the register button
     }),
     onComplete : (tx) => {
       console.log('Registered all IDs in their slots! Check machine',tx)
@@ -673,7 +382,7 @@ function registerTokens(){
     onError: (error) =>{
     console.log('frrrr big ERROR: ',error,"_____",WheelABI,contractAddressWheel,AllSlotsSelectedArr); 
     },
-  });
+  }); 
 
 }
 
@@ -835,6 +544,18 @@ function determineGridSize(){
  
     <div style={{display:'flex', justifyContent:'center', zIndex:'1',display:'grid', gridTemplateColumns:determineGridSize(), gap:'0.5vw',border:'0px solid #00ffff', width:'95%', paddingTop:'5vh',}}>
  
+        <div style={{position:'absolute'}}>
+              <UnregisteredInventorySlotLoader slotIndex={1} isLoaded={isLoaded1} isPrevLoaded={true}        setIsLoaded={setisLoaded1}  slotAddress={NftSlotContractAddresses[0]} />
+              <UnregisteredInventorySlotLoader slotIndex={2} isLoaded={isLoaded2} isPrevLoaded={isLoaded1}   setIsLoaded={setisLoaded2}  slotAddress={NftSlotContractAddresses[1]} />
+              <UnregisteredInventorySlotLoader slotIndex={3} isLoaded={isLoaded3} isPrevLoaded={isLoaded2}   setIsLoaded={setisLoaded3}  slotAddress={NftSlotContractAddresses[2]} />
+              <UnregisteredInventorySlotLoader slotIndex={4} isLoaded={isLoaded4} isPrevLoaded={isLoaded3}   setIsLoaded={setisLoaded4}  slotAddress={NftSlotContractAddresses[3]} />
+              <UnregisteredInventorySlotLoader slotIndex={5} isLoaded={isLoaded5} isPrevLoaded={isLoaded4}   setIsLoaded={setisLoaded5}  slotAddress={NftSlotContractAddresses[4]} />
+              <UnregisteredInventorySlotLoader slotIndex={6} isLoaded={isLoaded6} isPrevLoaded={isLoaded5}   setIsLoaded={setisLoaded6}  slotAddress={NftSlotContractAddresses[5]} />
+              <UnregisteredInventorySlotLoader slotIndex={7} isLoaded={isLoaded7} isPrevLoaded={isLoaded6}   setIsLoaded={setisLoaded7}  slotAddress={NftSlotContractAddresses[6]} />
+              <UnregisteredInventorySlotLoader slotIndex={8} isLoaded={isLoaded8} isPrevLoaded={isLoaded7}   setIsLoaded={setisLoaded8}  slotAddress={NftSlotContractAddresses[7]} />
+              <UnregisteredInventorySlotLoader slotIndex={9} isLoaded={isLoaded9} isPrevLoaded={isLoaded8}   setIsLoaded={setisLoaded9}  slotAddress={NftSlotContractAddresses[8]} />
+              <UnregisteredInventorySlotLoader slotIndex={10} isLoaded={isLoaded10} isPrevLoaded={isLoaded9} setIsLoaded={setisLoaded10} slotAddress={NftSlotContractAddresses[9]} />
+        </div>
         
               <UnregisteredNftSlot slotIndex={"1"} SlotAccountUnregisteredNFTs={Slot1AccountUnregisteredNFTs}    SlotshowMenu={Slot1showMenuUnregistered} setSlotshowMenu={setSlot1showMenuUnregistered}/>
               <UnregisteredNftSlot slotIndex={"2"} SlotAccountUnregisteredNFTs={Slot2AccountUnregisteredNFTs}    SlotshowMenu={Slot2showMenuUnregistered} setSlotshowMenu={setSlot2showMenuUnregistered}/>
