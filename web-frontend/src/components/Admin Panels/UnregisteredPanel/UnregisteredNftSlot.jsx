@@ -19,7 +19,7 @@ import Cancel from '@mui/icons-material/Cancel';
 import MCPCitizenFilterSlider from '../../snippet-components/MCPCitizenFilterSlider';
 import MCPCitizenFilterSliderGen from '../../snippet-components/MCPCitizenFilterSliderGen';
 import NoImageTokenDescriptionDiv from '../../snippet-components/NoImageTokenDescriptionDiv';
-
+import ExpandCircleDownSharpIcon from '@mui/icons-material/ExpandCircleDownSharp';
 
 
 const UnregisteredNftSlot = (props) => {
@@ -192,7 +192,7 @@ const UnregisteredNftSlot = (props) => {
               //     return true;
               // }
               switch (address){
-                case '0x726e1b4841968c0c3eebeef880e60875b745b3c0':
+                case '0x726e1b4841968c0c3eebeef880e60875b745b3cx':
                   return true;
                   default:
                     return false;
@@ -334,7 +334,8 @@ const UnregisteredNftSlot = (props) => {
   
             
             <div style={{textAlign:'center', border:'0px solid #00ff00', zIndex:'1',position:'absolute', top:'3vh', width:'100%',height:'80%',}}>
-              {props.SlotAccountUnregisteredNFTs ? props.SlotAccountUnregisteredNFTs.result?  props.SlotAccountUnregisteredNFTs.result.map((singleImage, index)=>{
+
+              {props.SlotAccountUnregisteredNFTs?props.SlotAccountUnregisteredNFTs.length>0 ?  props.SlotAccountUnregisteredNFTs.map((singleImage, index)=>{
                 !isObject(singleImage.metadata) ? singleImage.metadata = JSON.parse(singleImage.metadata):<></>;
               
 
@@ -345,15 +346,16 @@ const UnregisteredNftSlot = (props) => {
                 
                 if ((index == slot1MaxLoad)&&(props.SlotAccountUnregisteredNFTs.length > index) && ((slotIdFilter[props.slotIndex] != '-1') || (slotIdFilter[props.slotIndex] != '')) && ( !singleImage.token_id.toString().includes(slotIdFilter[props.slotIndex])) )  {
                   return(
-                  <div key={index}>
-                    <div className="gradientCool" onClick={()=>{setslot1MaxLoad(slot1MaxLoad+3)}} style={{cursor:'pointer', marginTop:'4vh', fontSize:'1.5vw'}}>
-                      Load More <br></br>
-                      <span style={{fontSize:'0.8vw'}}>( {props.SlotAccountUnregisteredNFTs.length - slot1MaxLoad} )</span>
-                      <div className="loadMoreImageAnimated" style={{marginTop:'-1vh', fontSize:'3vw'}}>
-                        ⬇ 
+                  // <div style={{textAlign:'center', position:'fixed',bottom:'0vh',}} key={index}>
+                    <div key={index} className="gradientCool" onClick={()=>{setslot1MaxLoad(slot1MaxLoad+3)}} style={{ marginLeft:'3.0vw', cursor:'pointer', position:'fixed',bottom:'1vh',}}>
+                      {/* <div style={{marginTop:'5vh', fontSize:'0.8vw'}}>( {props.SlotAccountUnregisteredNFTs.length - slot1MaxLoad} )</div> */}
+                      <div className="loadMoreImageAnimated " style={{fontSize:'13vh'}}>
+                        {/* <ExpandCircleDownSharpIcon /> */}
+                        ￬
                       </div>
                     </div>
-                  </div>);
+                  // </div>
+                  );
                 }
                   if ((index+1 > slot1MaxLoad)&& (slotIdFilter[props.slotIndex] == '-1')){
                     return(
@@ -461,7 +463,6 @@ const UnregisteredNftSlot = (props) => {
                         </div>
                       )
                   }
-                
               })
               : <></>
               : <></>

@@ -21,6 +21,10 @@ const ContractInfoGrabber = () => {
     
     const {userErc20TokenBalance, setuserErc20TokenBalance} = useContext(NftMoreInfoContext);
     
+    const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
+
+
+
     const {machineNameString, setmachineNameString} = useContext(NftMoreInfoContext);
 
     const {sceneTransition, setsceneTransition} = useContext(NftMoreInfoContext);
@@ -31,6 +35,109 @@ const ContractInfoGrabber = () => {
 
     const {Moralis, enableWeb3, web3, isWeb3Enabled, authenticate, isAuthenticated, user, logout} = useMoralis();
   
+
+
+
+    const getRegisteredFromOnChainBySlot1 = useWeb3Contract({
+      abi: WheelABI,
+      contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+      functionName: "getAllRegisteredForSlot",
+      params:{
+        slotIndex: 0
+      }
+    });
+    const getRegisteredFromOnChainBySlot2 = useWeb3Contract({
+      abi: WheelABI,
+      contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+      functionName: "getAllRegisteredForSlot",
+      params:{
+        slotIndex: 1
+      }
+    });
+    const getRegisteredFromOnChainBySlot3 = useWeb3Contract({
+      abi: WheelABI,
+      contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+      functionName: "getAllRegisteredForSlot",
+      params:{
+        slotIndex: 2
+      }
+    });
+    const getRegisteredFromOnChainBySlot4 = useWeb3Contract({
+      abi: WheelABI,
+      contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+      functionName: "getAllRegisteredForSlot",
+      params:{
+        slotIndex: 3
+      }
+    });
+    const getRegisteredFromOnChainBySlot5 = useWeb3Contract({
+      abi: WheelABI,
+      contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+      functionName: "getAllRegisteredForSlot",
+      params:{
+        slotIndex: 4
+      }
+    });
+    const getRegisteredFromOnChainBySlot6 = useWeb3Contract({
+      abi: WheelABI,
+      contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+      functionName: "getAllRegisteredForSlot",
+      params:{
+        slotIndex: 5
+      }
+    });
+    const getRegisteredFromOnChainBySlot7 = useWeb3Contract({
+      abi: WheelABI,
+      contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+      functionName: "getAllRegisteredForSlot",
+      params:{
+        slotIndex: 6
+      }
+    });
+    const getRegisteredFromOnChainBySlot8 = useWeb3Contract({
+      abi: WheelABI,
+      contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+      functionName: "getAllRegisteredForSlot",
+      params:{
+        slotIndex: 7
+      }
+    });
+    const getRegisteredFromOnChainBySlot9 = useWeb3Contract({
+      abi: WheelABI,
+      contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+      functionName: "getAllRegisteredForSlot",
+      params:{
+        slotIndex: 8
+      }
+    });
+    const getRegisteredFromOnChainBySlot10 = useWeb3Contract({
+      abi: WheelABI,
+      contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+      functionName: "getAllRegisteredForSlot",
+      params:{
+        slotIndex: 9
+      }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const getAllCrateSlotAddresses = useWeb3Contract({
       abi: WheelABI,
       contractAddress: contractAddressWheel,
@@ -75,6 +182,7 @@ const ContractInfoGrabber = () => {
 
     useEffect(()=>{
       if (isWeb3Enabled && contractAddressWheel && (contractAddressWheel != '/')){
+          getAllRegisteredTokensInAllSlots(); // get our registered tokens for all slots
         // setTimeout(function(){
             // console.log('getting crate slot settings for contract: ',contractAddressWheel);
             // getAllCrateSlotAddresses.runContractFunction();
@@ -178,6 +286,152 @@ const ContractInfoGrabber = () => {
       });
 
     }
+
+    function getAllRegisteredTokensInAllSlots(){
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot1.runContractFunction();  },1 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot2.runContractFunction();  },400 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot3.runContractFunction();  },800 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot4.runContractFunction();  },1200 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot5.runContractFunction();  },1600 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot6.runContractFunction();  },2000 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot7.runContractFunction();  },2400 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot8.runContractFunction();  },2800 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot9.runContractFunction();  },3200 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot10.runContractFunction(); },3600 );
+      
+    }
+
+    useEffect(()=>{
+      if (getRegisteredFromOnChainBySlot1.data){
+
+        setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
+          ...getRegisteredFromOnChainBySlot,
+          [1]: getRegisteredFromOnChainBySlot1.data
+        }));
+
+      }
+    },[getRegisteredFromOnChainBySlot1.data]);
+
+    useEffect(()=>{
+      if (getRegisteredFromOnChainBySlot2.data){
+
+        setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
+          ...getRegisteredFromOnChainBySlot,
+          [2]: getRegisteredFromOnChainBySlot2.data
+        }));
+
+      }
+    },[getRegisteredFromOnChainBySlot2.data]);
+
+    useEffect(()=>{
+      if (getRegisteredFromOnChainBySlot3.data){
+
+        setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
+          ...getRegisteredFromOnChainBySlot,
+          [3]: getRegisteredFromOnChainBySlot3.data
+        }));
+
+      }
+    },[getRegisteredFromOnChainBySlot3.data]);
+
+    useEffect(()=>{
+      if (getRegisteredFromOnChainBySlot4.data){
+
+        setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
+          ...getRegisteredFromOnChainBySlot,
+          [4]: getRegisteredFromOnChainBySlot4.data
+        }));
+
+      }
+    },[getRegisteredFromOnChainBySlot4.data]);
+
+    useEffect(()=>{
+      if (getRegisteredFromOnChainBySlot5.data){
+
+        setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
+          ...getRegisteredFromOnChainBySlot,
+          [5]: getRegisteredFromOnChainBySlot5.data
+        }));
+
+      }
+    },[getRegisteredFromOnChainBySlot5.data]);
+
+    useEffect(()=>{
+      if (getRegisteredFromOnChainBySlot6.data){
+
+        setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
+          ...getRegisteredFromOnChainBySlot,
+          [6]: getRegisteredFromOnChainBySlot6.data
+        }));
+
+      }
+    },[getRegisteredFromOnChainBySlot6.data]);
+
+    useEffect(()=>{
+      if (getRegisteredFromOnChainBySlot7.data){
+
+        setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
+          ...getRegisteredFromOnChainBySlot,
+          [7]: getRegisteredFromOnChainBySlot7.data
+        }));
+
+      }
+    },[getRegisteredFromOnChainBySlot7.data]);
+
+    useEffect(()=>{
+      if (getRegisteredFromOnChainBySlot8.data){
+
+        setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
+          ...getRegisteredFromOnChainBySlot,
+          [8]: getRegisteredFromOnChainBySlot8.data
+        }));
+
+      }
+    },[getRegisteredFromOnChainBySlot8.data]);
+
+    useEffect(()=>{
+      if (getRegisteredFromOnChainBySlot9.data){
+
+        setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
+          ...getRegisteredFromOnChainBySlot,
+          [9]: getRegisteredFromOnChainBySlot9.data
+        }));
+
+      }
+    },[getRegisteredFromOnChainBySlot9.data]);
+
+    useEffect(()=>{
+      if (getRegisteredFromOnChainBySlot10.data){
+
+        setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
+          ...getRegisteredFromOnChainBySlot,
+          [10]: getRegisteredFromOnChainBySlot10.data
+        }));
+
+      }
+    },[getRegisteredFromOnChainBySlot10.data]);
+
+
+
+
+    useEffect(()=>{
+      if (registeredFromOnChainBySlot){
+        console.log('Registered Token Ids by front-end slot number',registeredFromOnChainBySlot)
+      }
+    },[registeredFromOnChainBySlot])
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     function CapsuleOpenedAnimations(){
       

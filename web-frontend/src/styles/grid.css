@@ -728,18 +728,23 @@ input[type="text"]
 
 .gradientCool {
   -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, 
-    from(rgba(0,0,0,0.7)), to(rgba(0,0,0,0)));
+    from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
 }
 
 .loadMoreImageAnimated {
-  animation: bounceArrow 1s linear infinite;
+  animation: bounceArrow 2s linear infinite;
 }
 @keyframes bounceArrow {
-  0%   { transform: scale(1,.7)    translateY(-10px); }
-  10%  { transform: scale(1.1,.7) translateY(-10px); }
-  30%  { transform: scale(.9,.8) translateY(2px); }
-  50%  { transform: scale(1,.7)    translateY(-10px); }
-  100% { transform: scale(1,.7)    translateY(-10px); }
+  0%     { transform: translateY(-50px); }
+  50%    { transform: translateY(-70px); }
+  100%   { transform: translateY(-50px); }
+
+
+  /* 0%   { transform: scale(1,.5)    translateY(-10px); }
+  10%  { transform: scale(1.1,.5) translateY(-10px); }
+  30%  { transform: scale(1.2,.6) translateY(2px); }
+  50%  { transform: scale(1,.5)    translateY(-10px); }
+  100% { transform: scale(1,.5)    translateY(-10px); } */
 }
 
 .spookyStatus {

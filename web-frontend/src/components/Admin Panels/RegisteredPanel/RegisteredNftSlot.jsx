@@ -187,7 +187,7 @@ const RegisteredNftSlot = (props) => {
         //     return true;
         // }
         switch (address){
-          case '0x726e1b4841968c0c3eebeef880e60875b745b3c0':
+          case '0x4886E559A143b323b0D230457136524cb9C045C5':
               return true;
           default:
               return false;

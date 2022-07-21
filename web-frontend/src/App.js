@@ -350,6 +350,7 @@ useEffect(() => {
   const [slotInventory10tokenInfoArray, setslotInventory10tokenInfoArray] = useState([]);
   
   const [SlotAccountUnregisteredNFTs, setSlotAccountUnregisteredNFTs] = useState([]);
+  const [registeredFromOnChainBySlot, setregisteredFromOnChainBySlot] = useState();
   
   
   
@@ -666,6 +667,7 @@ useEffect(() => {
 
 
     SlotAccountUnregisteredNFTs, setSlotAccountUnregisteredNFTs,
+    registeredFromOnChainBySlot, setregisteredFromOnChainBySlot,
 
     Slot1AccountUnregisteredNFTs, setSlot1AccountUnregisteredNFTs,
     Slot2AccountUnregisteredNFTs, setSlot2AccountUnregisteredNFTs,

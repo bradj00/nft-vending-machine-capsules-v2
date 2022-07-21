@@ -65,6 +65,8 @@ const RegisterInventory = () => {
   const {slotInventory9tokenInfoArray, setslotInventory9tokenInfoArray}    = useContext(NftMoreInfoContext);
   const {slotInventory10tokenInfoArray, setslotInventory10tokenInfoArray}    = useContext(NftMoreInfoContext);
   
+  const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot}    = useContext(NftMoreInfoContext);
+  
   
   const {displayMetaData, setdisplayMetaData}    = useContext(NftMoreInfoContext);
 
@@ -199,24 +201,28 @@ const RegisterInventory = () => {
   const {ToolTipTextSlot10, setToolTipTextSlot10} = useContext(NftMoreInfoContext);
 
   //get registered for slot directly from web3 call first..
-  const getRegisteredFromOnChainBySlot1 = useWeb3Contract({
-    abi: WheelABI,
-    contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
-    functionName: "getAllRegisteredForSlot",
-    params:{
-      slotIndex: 1
-    }
-  });
 
-  useEffect(()=>{
-    if (getRegisteredFromOnChainBySlot1.data){
-      console.log('tokens directly registered for address/slot 1:',getRegisteredFromOnChainBySlot1.data);
-    }
-  },[getRegisteredFromOnChainBySlot1.data])
+  const {getRegisteredFromOnChainBySlot, setgetRegisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
+
   
-  useEffect(()=>{
+  // const getRegisteredFromOnChainBySlot1 = useWeb3Contract({
+  //   abi: WheelABI,
+  //   contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+  //   functionName: "getAllRegisteredForSlot",
+  //   params:{
+  //     slotIndex: 0
+  //   }
+  // });
+
+  // useEffect(()=>{
+  //   if (getRegisteredFromOnChainBySlot1.data){
+  //     // console.log('slot 1 tokens registered in contract in any slot',getRegisteredFromOnChainBySlot1.data[0]);
+  //   }
+  // },[getRegisteredFromOnChainBySlot1.data])
+  
+  useEffect(()=>{ 
     if (contractAddressWheel){
-      getRegisteredFromOnChainBySlot1.runContractFunction();
+      refreshSlotRegisteredDataFromChain();
     }
   },[contractAddressWheel])
 
@@ -259,11 +265,20 @@ const RegisterInventory = () => {
             }));
           
       } 
-      const final = rinkebySlotUnregisteredTokens.result.filter(item => !getRegisteredFromOnChainBySlot1.data[0].some(second => second.tokenId == item.token_id));
+
+      const final = rinkebySlotUnregisteredTokens.result.filter(item => {
+        // console.log('item id is: ',item.token_id)
+        if (registeredFromOnChainBySlot[slotIndex][0].filter(e => parseInt(e.tokenId._hex, 16) == item.token_id).length > 0) {
+        return false;
+        }else return true;
+      }) 
+
+
+      setSlotAccountUnregisteredNFTs(SlotAccountUnregisteredNFTs => ({
+        ...SlotAccountUnregisteredNFTs,
+        [slotIndex]: final
+      }));
       
-      // console.log('1\tall ',rinkebySlotUnregisteredTokens, slotInventory1tokenInfoArray); //all from address in contract / only reg
-      // console.log('1\tonly unregistered: ',final)
-      setSlotAccountUnregisteredNFTs([{...SlotAccountUnregisteredNFTs, [slotIndex]: final.result}]);
     };
     fetchAccountNFTsForSlot();
   }
@@ -273,7 +288,7 @@ const RegisterInventory = () => {
 
   useEffect(()=>{
     if (Slot1AccountUnregisteredNFTs){
-      console.log('Slot1AccountUnregisteredNFTs: ',Slot1AccountUnregisteredNFTs, getRegisteredFromOnChainBySlot1.data);
+      // console.log('Tokens in contract for [slot1 address] but NOT registered in [slot 1]: ',Slot1AccountUnregisteredNFTs, getRegisteredFromOnChainBySlot1.data);
     }
   },[Slot1AccountUnregisteredNFTs])
 
@@ -284,8 +299,8 @@ const RegisterInventory = () => {
 
 
   useEffect(()=>{
-    console.log('*****************\t',MachineContractAddress);
-    if (isInitialized && MachineContractAddress && getRegisteredFromOnChainBySlot1.data){
+    // console.log('*****************\t',MachineContractAddress);
+    if (isInitialized && MachineContractAddress && registeredFromOnChainBySlot){
       setTimeout(()=> {loadNftsForSlot(1, NftSlotContractAddresses[0])}, 100);
       setTimeout(()=> {loadNftsForSlot(2, NftSlotContractAddresses[1])}, 500);
       setTimeout(()=> {loadNftsForSlot(3, NftSlotContractAddresses[2])}, 800);
@@ -310,7 +325,7 @@ const RegisterInventory = () => {
       // setTimeout(function(){if (NftSlotContractAddresses[9] != '0x0000000000000000000000000000000000000000'){fetchAccountNFTsForSlot10()}},2700);
 
     }
-  },[isInitialized, MachineContractAddress, getRegisteredFromOnChainBySlot1.data])
+  },[isInitialized, MachineContractAddress, registeredFromOnChainBySlot])
 
 
 
@@ -408,7 +423,7 @@ function depositClickedNft(object){
 }
 
 function refreshSlotRegisteredDataFromChain(){
-  getRegisteredFromOnChainBySlot1.runContractFunction(); //refresh slot registered data
+  // getRegisteredFromOnChainBySlot1.runContractFunction(); //refresh slot registered data
   // setTimeout(()=>{fetchAccountNFTsForSlot1()},3000);
 }
 
@@ -440,7 +455,7 @@ function registerTokens(){
 
 useEffect(()=>{
   if (AllSlotsSelectedArr){
-    console.log('\t__AllSlotsSelectedArr: ',AllSlotsSelectedArr);
+    // console.log('\t__AllSlotsSelectedArr: ',AllSlotsSelectedArr);
     let totalCount = 0;
     for (let i = 0; i < AllSlotsSelectedArr.length; i++){
       for (let q = 0; q < AllSlotsSelectedArr[i].length; q++){
@@ -455,7 +470,7 @@ useEffect(()=>{
 
 useEffect(()=>{
   setAllSlotsSelectedArr([Slot1SelectedArr, Slot2SelectedArr, Slot3SelectedArr, Slot4SelectedArr, Slot5SelectedArr, Slot6SelectedArr, Slot7SelectedArr, Slot8SelectedArr, Slot9SelectedArr, Slot10SelectedArr ]);
-  console.log('---------> ',AllSlotsSelectedArr);
+  // console.log('---------> ',AllSlotsSelectedArr);
 },[Slot1SelectedArr, Slot2SelectedArr, Slot3SelectedArr, Slot4SelectedArr, Slot5SelectedArr, Slot6SelectedArr, Slot7SelectedArr, Slot8SelectedArr, Slot9SelectedArr, Slot10SelectedArr ]);
 
 useEffect(()=>{
@@ -581,7 +596,7 @@ function determineGridSize(){
 }
 
   useEffect(()=>{
-    console.log('registerTokensInfoButton:',registerTokensInfoButton);
+    // console.log('registerTokensInfoButton:',registerTokensInfoButton);
   },[registerTokensInfoButton])
 
 
@@ -608,8 +623,8 @@ function determineGridSize(){
               <UnregisteredInventorySlotLoader slotIndex={10} isLoaded={isLoaded10} isPrevLoaded={isLoaded9} SlotAccountUnregisteredNFTs={loadedAddressTokens[NftSlotContractAddresses[9]]} setIsLoaded={setisLoaded10} slotAddress={NftSlotContractAddresses[9]} />
         </div> */}
          
-              <UnregisteredNftSlot slotIndex={"1"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[0]]: {}}    SlotshowMenu={Slot1showMenuUnregistered} setSlotshowMenu={setSlot1showMenuUnregistered}/>
-              <UnregisteredNftSlot slotIndex={"2"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[1]]: {}}    SlotshowMenu={Slot2showMenuUnregistered} setSlotshowMenu={setSlot2showMenuUnregistered}/>
+              <UnregisteredNftSlot slotIndex={"1"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[1]: {}}    SlotshowMenu={Slot1showMenuUnregistered} setSlotshowMenu={setSlot1showMenuUnregistered}/>
+              <UnregisteredNftSlot slotIndex={"2"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[2]: {}}    SlotshowMenu={Slot2showMenuUnregistered} setSlotshowMenu={setSlot2showMenuUnregistered}/>
               <UnregisteredNftSlot slotIndex={"3"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[2]]: {}}    SlotshowMenu={Slot3showMenuUnregistered} setSlotshowMenu={setSlot3showMenuUnregistered}/>
               <UnregisteredNftSlot slotIndex={"4"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[3]]: {}}    SlotshowMenu={Slot4showMenuUnregistered} setSlotshowMenu={setSlot4showMenuUnregistered}/>
               <UnregisteredNftSlot slotIndex={"5"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[4]]: {}}    SlotshowMenu={Slot5showMenuUnregistered} setSlotshowMenu={setSlot5showMenuUnregistered}/>

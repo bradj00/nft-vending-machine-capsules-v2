@@ -236,7 +236,7 @@ const VendingCurrentSlots = () => {
             if (NftSlotContractAddresses[0] != "0x0000000000000000000000000000000000000000"){
                 setTimeout(function(){
                   fetchContractInventorySlot1.runContractFunction();
-                  // console.log('fetching: [ 1 ]')
+                  console.log('fetching: [ 1 ]')
                 },0);
             }
 
@@ -335,7 +335,7 @@ const VendingCurrentSlots = () => {
 
 
 
-
+    //filter to only show tokens from our own slotIndex from the larger total list of this token_contract_address
     function filterArray(topSlotIndex, TopLevelArray) {
       if (!TopLevelArray){return}
 
