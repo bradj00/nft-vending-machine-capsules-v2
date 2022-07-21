@@ -227,7 +227,7 @@ const RegisterInventory = () => {
   },[contractAddressWheel])
 
   
-  const [loadedAddressTokens, setloadedAddressTokens] = useState();
+  const [loadedAddressTokens, setloadedAddressTokens] = useState({});
   // loadedAddressTokens = {
   //   "0x00000012": [14, 17, 20, 25],
   //   "0x00000013": [14, 17, 20, 25],
@@ -238,21 +238,31 @@ const RegisterInventory = () => {
     if (loadedAddressTokens) {
       console.log('loadedAddressTokens IS UPDATED YO: ',loadedAddressTokens);
       // console.log(NftSlotContractAddresses[0]);
+
+      if (loadedAddressTokens.latestSlotLoaded+1 <= 10){
+        loadNftsForSlot(loadedAddressTokens.latestSlotLoaded+1, NftSlotContractAddresses[loadedAddressTokens.latestSlotLoaded])
+      }
     }
   },[loadedAddressTokens]);
 
-  function loadNftsForSlot(slotIndex, slotAddress){
-    const fetchAccountNFTsForSlot = async () => {
+  async function loadNftsForSlot(slotIndex, slotAddress){
+        console.log('attempting token load for slot: ',slotIndex, slotAddress)
         let rinkebySlotUnregisteredTokens;
         // console.log('~~ ',loadedAddressTokens[0]);
-        if (loadedAddressTokens){
-          if (loadedAddressTokens[slotAddress]){ //if we have already loaded tokens for a key address 
-            // console.log('found existing cached data for ',slotAddress, loadedAddressTokens[0][slotAddress])
+
+          if (slotAddress in loadedAddressTokens){ //if we have already loaded tokens for a key address 
+            console.log('found existing cached data for ',slotAddress, loadedAddressTokens[slotAddress])
             rinkebySlotUnregisteredTokens = loadedAddressTokens[slotAddress];
-        }}else {
-            // console.log('bawk bawk need to check it manually ',slotAddress)
+
+            setloadedAddressTokens(loadedAddressTokens => ({
+              ...loadedAddressTokens,
+              latestSlotLoaded: slotIndex
+            }));
+
+        }else { 
+            console.log('bawk bawk need to check it manually ',slotAddress, loadedAddressTokens)
             rinkebySlotUnregisteredTokens = await Web3Api.account.getNFTsForContract(
-              {
+              { 
                 chain: "rinkeby",
                 address: MachineContractAddress&&MachineContractAddress!='0x0000000000000000000000000000000000000000'? MachineContractAddress: '0x0000000000000000000000000000000000000000',
                 token_address: NftSlotContractAddresses[slotIndex-1],
@@ -261,7 +271,8 @@ const RegisterInventory = () => {
             console.log('rinkebySlotUnregisteredTokens: ',rinkebySlotUnregisteredTokens);
             setloadedAddressTokens(loadedAddressTokens => ({
               ...loadedAddressTokens,
-              [slotAddress]:rinkebySlotUnregisteredTokens
+              [slotAddress]:rinkebySlotUnregisteredTokens,
+              latestSlotLoaded: slotIndex
             }));
           
       } 
@@ -279,8 +290,6 @@ const RegisterInventory = () => {
         [slotIndex]: final
       }));
       
-    };
-    fetchAccountNFTsForSlot();
   }
 
 
@@ -302,15 +311,15 @@ const RegisterInventory = () => {
     // console.log('*****************\t',MachineContractAddress);
     if (isInitialized && MachineContractAddress && registeredFromOnChainBySlot){
       setTimeout(()=> {loadNftsForSlot(1, NftSlotContractAddresses[0])}, 100);
-      setTimeout(()=> {loadNftsForSlot(2, NftSlotContractAddresses[1])}, 500);
-      setTimeout(()=> {loadNftsForSlot(3, NftSlotContractAddresses[2])}, 800);
-      setTimeout(()=> {loadNftsForSlot(4, NftSlotContractAddresses[3])}, 1200);
-      setTimeout(()=> {loadNftsForSlot(5, NftSlotContractAddresses[4])}, 1800);
-      setTimeout(()=> {loadNftsForSlot(6, NftSlotContractAddresses[5])}, 2100);
-      setTimeout(()=> {loadNftsForSlot(7, NftSlotContractAddresses[6])}, 2500);
-      setTimeout(()=> {loadNftsForSlot(8, NftSlotContractAddresses[7])}, 2900);
-      setTimeout(()=> {loadNftsForSlot(9, NftSlotContractAddresses[8])}, 3300);
-      setTimeout(()=> {loadNftsForSlot(10, NftSlotContractAddresses[9])}, 3800);
+      // setTimeout(()=> {loadNftsForSlot(2, NftSlotContractAddresses[1])}, 500);
+      // setTimeout(()=> {loadNftsForSlot(3, NftSlotContractAddresses[2])}, 800);
+      // setTimeout(()=> {loadNftsForSlot(4, NftSlotContractAddresses[3])}, 1200);
+      // setTimeout(()=> {loadNftsForSlot(5, NftSlotContractAddresses[4])}, 1800);
+      // setTimeout(()=> {loadNftsForSlot(6, NftSlotContractAddresses[5])}, 2100);
+      // setTimeout(()=> {loadNftsForSlot(7, NftSlotContractAddresses[6])}, 2500);
+      // setTimeout(()=> {loadNftsForSlot(8, NftSlotContractAddresses[7])}, 2900);
+      // setTimeout(()=> {loadNftsForSlot(9, NftSlotContractAddresses[8])}, 3300);
+      // setTimeout(()=> {loadNftsForSlot(10, NftSlotContractAddresses[9])}, 3800);
 
 
       setTimeout(function(){if (NftSlotContractAddresses[0] != '0x0000000000000000000000000000000000000000'){loadNftsForSlot(1, NftSlotContractAddresses[0])}},1);
@@ -625,14 +634,14 @@ function determineGridSize(){
          
               <UnregisteredNftSlot slotIndex={"1"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[1]: {}}    SlotshowMenu={Slot1showMenuUnregistered} setSlotshowMenu={setSlot1showMenuUnregistered}/>
               <UnregisteredNftSlot slotIndex={"2"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[2]: {}}    SlotshowMenu={Slot2showMenuUnregistered} setSlotshowMenu={setSlot2showMenuUnregistered}/>
-              <UnregisteredNftSlot slotIndex={"3"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[2]]: {}}    SlotshowMenu={Slot3showMenuUnregistered} setSlotshowMenu={setSlot3showMenuUnregistered}/>
-              <UnregisteredNftSlot slotIndex={"4"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[3]]: {}}    SlotshowMenu={Slot4showMenuUnregistered} setSlotshowMenu={setSlot4showMenuUnregistered}/>
-              <UnregisteredNftSlot slotIndex={"5"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[4]]: {}}    SlotshowMenu={Slot5showMenuUnregistered} setSlotshowMenu={setSlot5showMenuUnregistered}/>
-              <UnregisteredNftSlot slotIndex={"6"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[5]]: {}}    SlotshowMenu={Slot6showMenuUnregistered} setSlotshowMenu={setSlot6showMenuUnregistered}/>
-              <UnregisteredNftSlot slotIndex={"7"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[6]]: {}}    SlotshowMenu={Slot7showMenuUnregistered} setSlotshowMenu={setSlot7showMenuUnregistered}/>
-              <UnregisteredNftSlot slotIndex={"8"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[7]]: {}}    SlotshowMenu={Slot8showMenuUnregistered} setSlotshowMenu={setSlot8showMenuUnregistered}/>
-              <UnregisteredNftSlot slotIndex={"9"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[8]]: {}}    SlotshowMenu={Slot9showMenuUnregistered} setSlotshowMenu={setSlot9showMenuUnregistered}/>
-              <UnregisteredNftSlot slotIndex={"10"} SlotAccountUnregisteredNFTs={loadedAddressTokens? loadedAddressTokens[NftSlotContractAddresses[9]]: {}} SlotshowMenu={Slot10showMenuUnregistered} setSlotshowMenu={setSlot10showMenuUnregistered}/>
+              <UnregisteredNftSlot slotIndex={"3"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[3]: {}}    SlotshowMenu={Slot3showMenuUnregistered} setSlotshowMenu={setSlot3showMenuUnregistered}/>
+              <UnregisteredNftSlot slotIndex={"4"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[4]: {}}    SlotshowMenu={Slot4showMenuUnregistered} setSlotshowMenu={setSlot4showMenuUnregistered}/>
+              <UnregisteredNftSlot slotIndex={"5"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[5]: {}}    SlotshowMenu={Slot5showMenuUnregistered} setSlotshowMenu={setSlot5showMenuUnregistered}/>
+              <UnregisteredNftSlot slotIndex={"6"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[6]: {}}    SlotshowMenu={Slot6showMenuUnregistered} setSlotshowMenu={setSlot6showMenuUnregistered}/>
+              <UnregisteredNftSlot slotIndex={"7"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[7]: {}}    SlotshowMenu={Slot7showMenuUnregistered} setSlotshowMenu={setSlot7showMenuUnregistered}/>
+              <UnregisteredNftSlot slotIndex={"8"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[8]: {}}    SlotshowMenu={Slot8showMenuUnregistered} setSlotshowMenu={setSlot8showMenuUnregistered}/>
+              <UnregisteredNftSlot slotIndex={"9"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[9]: {}}    SlotshowMenu={Slot9showMenuUnregistered} setSlotshowMenu={setSlot9showMenuUnregistered}/>
+              <UnregisteredNftSlot slotIndex={"10"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[10]: {}} SlotshowMenu={Slot10showMenuUnregistered} setSlotshowMenu={setSlot10showMenuUnregistered}/>
              
 
 
