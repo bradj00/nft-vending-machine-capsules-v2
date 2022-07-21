@@ -176,12 +176,16 @@ const UnregisteredNftSlot = (props) => {
         setslotIdFilterDelay({...slotIdFilterDelay, [props.slotIndex]:'-1'})
         setdisplayFilterSlot(false);
       }
-      
-      // useEffect(()=>{
-        //     if (slotIdFilter){
-          //         console.log('filter: ',slotIdFilter);
-          //     }
-          // },[slotIdFilter])
+
+      function isObject(obj){
+        return obj !== undefined && obj !== null && obj.constructor == Object;
+      }
+
+      useEffect(()=>{
+            if (props.SlotAccountUnregisteredNFTs){
+                  console.log(props.slotIndex, ' SlotAccountUnregisteredNFTs: ',props.SlotAccountUnregisteredNFTs);
+              }
+          },[props.SlotAccountUnregisteredNFTs])
           
           function isMCPcontract(address){
             // if (props.slotIndex == 1){
@@ -209,9 +213,9 @@ const UnregisteredNftSlot = (props) => {
                       }
                     }, [slotIdFilterDelay]);
                     
-                    useEffect(()=>{
-                      console.log('updated: ',uniqueRegistrationSelectionIds);
-                    },[uniqueRegistrationSelectionIds])
+                    // useEffect(()=>{
+                    //   console.log('updated: ',uniqueRegistrationSelectionIds);
+                    // },[uniqueRegistrationSelectionIds])
                     
                     function updateClickedTokens(singleImage){
                       console.log('HUP DATIN ', uniqueRegistrationSelectionIds)
@@ -330,13 +334,13 @@ const UnregisteredNftSlot = (props) => {
   
             
             <div style={{textAlign:'center', border:'0px solid #00ff00', zIndex:'1',position:'absolute', top:'3vh', width:'100%',height:'80%',}}>
-              {props.SlotAccountUnregisteredNFTs? props.SlotAccountUnregisteredNFTs.map((singleImage, index)=>{
-
+              {props.SlotAccountUnregisteredNFTs ? props.SlotAccountUnregisteredNFTs.result?  props.SlotAccountUnregisteredNFTs.result.map((singleImage, index)=>{
+                !isObject(singleImage.metadata) ? singleImage.metadata = JSON.parse(singleImage.metadata):<></>;
               
 
-                // console.log('SSSSSSSSS\t single image: ',singleImage);
+                // console.log(props.slotIndex,' SSSSSSSSS\t single image: ',singleImage.metadata.image);
                 //replace pinata with moralis ipfs domain temporarily
-                singleImage.metadata? singleImage.metadata.image = singleImage.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>;
+                singleImage.metadata?singleImage.metadata.image? singleImage.metadata.image = singleImage.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>:<></>;
 
                 
                 if ((index == slot1MaxLoad)&&(props.SlotAccountUnregisteredNFTs.length > index) && ((slotIdFilter[props.slotIndex] != '-1') || (slotIdFilter[props.slotIndex] != '')) && ( !singleImage.token_id.toString().includes(slotIdFilter[props.slotIndex])) )  {
@@ -459,6 +463,7 @@ const UnregisteredNftSlot = (props) => {
                   }
                 
               })
+              : <></>
               : <></>
               } 
               

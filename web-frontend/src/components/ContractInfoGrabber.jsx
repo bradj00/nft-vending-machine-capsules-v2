@@ -112,10 +112,10 @@ const ContractInfoGrabber = () => {
         setWheelInfo(getWheelInfo.data);
         setmachineNameString(getWheelInfo.data[2]);
 
-        setNftSlotContractAddresses([]);
+        // setNftSlotContractAddresses([]);
         for (let i = 0; i < getWheelInfo.data[1].length; i++){
-            // console.log(getAllCrateSlotAddresses.data[i]);
-            setNftSlotContractAddresses(NftSlotContractAddresses => [...NftSlotContractAddresses, getWheelInfo.data[1][i]]); 
+            // console.log(i, getAllCrateSlotAddresses.data[i],'  RRRRRR');
+            setNftSlotContractAddresses(getWheelInfo.data[1]); 
         }
 
         setNftSlotOdds([]);

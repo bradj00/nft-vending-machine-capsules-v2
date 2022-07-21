@@ -349,6 +349,7 @@ useEffect(() => {
   const [slotInventory9tokenInfoArray, setslotInventory9tokenInfoArray] = useState([]);
   const [slotInventory10tokenInfoArray, setslotInventory10tokenInfoArray] = useState([]);
   
+  const [SlotAccountUnregisteredNFTs, setSlotAccountUnregisteredNFTs] = useState([]);
   
   
   
@@ -662,6 +663,9 @@ useEffect(() => {
     Slot8AccountNFTs, setSlot8AccountNFTs,
     Slot9AccountNFTs, setSlot9AccountNFTs,
     Slot10AccountNFTs, setSlot10AccountNFTs,
+
+
+    SlotAccountUnregisteredNFTs, setSlotAccountUnregisteredNFTs,
 
     Slot1AccountUnregisteredNFTs, setSlot1AccountUnregisteredNFTs,
     Slot2AccountUnregisteredNFTs, setSlot2AccountUnregisteredNFTs,
