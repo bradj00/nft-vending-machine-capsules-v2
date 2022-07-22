@@ -93,8 +93,8 @@ contract WheelFactory is MiddleData {
     //     return wheels;
     // }
 
-    // function getMyMachines() public view returns (Wheel[] memory){
-    //     return WheelsByOwner[msg.sender];
-    // }
+    function getMyMachines() public view returns (Wheel[] memory){
+        return WheelsByOwner[msg.sender];
+    }
 
 }

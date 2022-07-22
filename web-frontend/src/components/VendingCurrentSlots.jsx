@@ -230,7 +230,7 @@ const VendingCurrentSlots = () => {
       //fetching owner address for this machine
       fetchMachineOwner.runContractFunction();
       
-      // console.log('fetching inventory for each slot..');
+      console.log('---------------fetching inventory for each slot..');
         //POSSIBLY THROTTLE CALLS TO AVOID UPSETTING THE NODE GODS
         if (NftSlotContractAddresses.length > 0){
             if (NftSlotContractAddresses[0] != "0x0000000000000000000000000000000000000000"){
@@ -337,7 +337,9 @@ const VendingCurrentSlots = () => {
 
     //filter to only show tokens from our own slotIndex from the larger total list of this token_contract_address
     function filterArray(topSlotIndex, TopLevelArray) {
+      // console.log('topSlotIndex: ',topSlotIndex,'  TopLevelArray: ',TopLevelArray);
       if (!TopLevelArray){return}
+      if (!TopLevelArray[0]){return}
 
       let filteredArray = TopLevelArray[0].filter((item) => {
         if (item.index != 0){
@@ -355,6 +357,7 @@ const VendingCurrentSlots = () => {
 
     useEffect(()=>{
       if (fetchContractInventorySlot1.data != null){
+      if (fetchContractInventorySlot1.data.length > 0){
         // sethideExtraInfo(false); //should probably call this somewhere more reliable.
         setcapsuleIconAnimated(false);
         console.log('SLOT 1 : ',fetchContractInventorySlot1.data);
@@ -365,30 +368,34 @@ const VendingCurrentSlots = () => {
         setslot1Stock( deriveInStockFromRegisteredInventory(  filterArray(1, fetchContractInventorySlot1.data)[0]  ) );
 
         //these indexes will shift down 1 when we deploy our new factory due to uncommitted changes...  WALRUS
-        let updated1 = {"1":  {name: fetchContractInventorySlot1.data[2], symbol: fetchContractInventorySlot1.data[3], contract: fetchContractInventorySlot1.data[4]} } 
+        let updated1 = {"1":  {name: fetchContractInventorySlot1.data[1], symbol: fetchContractInventorySlot1.data[2], contract: fetchContractInventorySlot1.data[3]} } 
         setslotNameAndSymbol(oldValue => ({
           ...oldValue, ...updated1
         })    );
 
+        if ( filterArray(1, fetchContractInventorySlot1.data) ){
         if ( filterArray(1, fetchContractInventorySlot1.data)[0].length > 0 ){
-         setFrontSlotId1( filterArray(1, fetchContractInventorySlot1.data)[0][0] ); //NFT in this slot, at the front
-          fetch( filterArray(1, fetchContractInventorySlot1.data)[0][0].tokenURI ) 
-          .then(response => response.json())
-          .then(data => {
-            setslot1ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
-            // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
-            let updated = {"1": data.image} 
-            setslotImageObj(oldValue => ({
-              ...oldValue, ...updated
-            })    );
-          });
+        //  setFrontSlotId1( filterArray(1, fetchContractInventorySlot1.data)[0][0] ); //NFT in this slot, at the front
+        //   fetch( filterArray(1, fetchContractInventorySlot1.data)[0][0].tokenURI ) 
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     setslot1ImageUrl(data.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
+        //     // setslot1Obj({data: data, slotOdds: NftSlotOdds[0], id: parseInt(fetchContractInventorySlot1.data[0][i][0]._hex, 16)});
+        //     let updated = {"1": data.image} 
+        //     setslotImageObj(oldValue => ({
+        //       ...oldValue, ...updated
+        //     })    );
+        //   });
         }
+        }
+      }
       }
     },[fetchContractInventorySlot1.data])
 
 
     useEffect(()=>{
       if (fetchContractInventorySlot2.data != null){
+      if (fetchContractInventorySlot2.data.length > 0){
         // sethideExtraInfo(false); //should probably call this somewhere more reliable.
         setcapsuleIconAnimated(false);
         // console.log('SLOT 2 : ',fetchContractInventorySlot1.data);
@@ -418,10 +425,12 @@ const VendingCurrentSlots = () => {
           });
         }
       }
+      }
     },[fetchContractInventorySlot2.data])
 
     useEffect(()=>{
       if (fetchContractInventorySlot3.data != null){
+      if (fetchContractInventorySlot3.data.length > 0){
         // console.log('SLOT 3 : ',fetchContractInventorySlot1.data);
         // console.log('FILTERED SLOT 3: ',filterArray(3, fetchContractInventorySlot3.data))
 
@@ -449,10 +458,12 @@ const VendingCurrentSlots = () => {
           });
         }
       }
+      }
     },[fetchContractInventorySlot3.data])
 
     useEffect(()=>{
       if (fetchContractInventorySlot4.data != null){
+      if (fetchContractInventorySlot4.data.length > 0){
         // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
         // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
 
@@ -480,14 +491,16 @@ const VendingCurrentSlots = () => {
           });
         }
       }
+      }
     },[fetchContractInventorySlot4.data])
 
 
 
     useEffect(()=>{
       if (fetchContractInventorySlot5.data != null){
-        // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
-        // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
+      if (fetchContractInventorySlot5.data.length > 0){
+        console.log('SLOT 5 : ',fetchContractInventorySlot5.data);
+        console.log('FILTERED SLOT 5: ',filterArray(5, fetchContractInventorySlot5.data))
 
         setslotInventory5tokenInfoArray( filterArray(5, fetchContractInventorySlot5.data) );
         setslot5Inventory( filterArray(5, fetchContractInventorySlot5.data)[0].length );
@@ -513,12 +526,14 @@ const VendingCurrentSlots = () => {
           });
         }
       }
+      }
     },[fetchContractInventorySlot5.data])
 
 
 
     useEffect(()=>{
       if (fetchContractInventorySlot6.data != null){
+      if (fetchContractInventorySlot6.data.length > 0){
         // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
         // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
 
@@ -546,11 +561,13 @@ const VendingCurrentSlots = () => {
           });
         }
       }
+      }
     },[fetchContractInventorySlot6.data])
 
 
     useEffect(()=>{
       if (fetchContractInventorySlot7.data != null){
+      if (fetchContractInventorySlot7.data.length > 0){
         // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
         // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
 
@@ -578,12 +595,14 @@ const VendingCurrentSlots = () => {
           });
         }
       }
+      }
     },[fetchContractInventorySlot7.data])
 
 
 
     useEffect(()=>{
       if (fetchContractInventorySlot8.data != null){
+      if (fetchContractInventorySlot8.data.length > 0){
         // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
         // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
 
@@ -611,11 +630,13 @@ const VendingCurrentSlots = () => {
           });
         }
       }
+      }
     },[fetchContractInventorySlot8.data])
 
 
     useEffect(()=>{
       if (fetchContractInventorySlot9.data != null){
+      if (fetchContractInventorySlot9.data.length > 0){
         // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
         // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
   
@@ -643,11 +664,13 @@ const VendingCurrentSlots = () => {
           });
         }
       }
+      }
     },[fetchContractInventorySlot9.data])
   
   
     useEffect(()=>{
       if (fetchContractInventorySlot10.data != null){
+      if (fetchContractInventorySlot10.data.length > 0){
         // console.log('SLOT 4 : ',fetchContractInventorySlot4.data);
         // console.log('FILTERED SLOT 4: ',filterArray(4, fetchContractInventorySlot4.data))
   
@@ -674,6 +697,7 @@ const VendingCurrentSlots = () => {
             })    );
           });
         }
+      }
       }
     },[fetchContractInventorySlot10.data])
   
@@ -761,16 +785,16 @@ const VendingCurrentSlots = () => {
           
 
         
-         {fetchContractInventorySlot1.data? <CarouselNftSlot metadata={filterArray(1, fetchContractInventorySlot1.data)[0][0]} contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[0]} slotObj={slot1Obj} contractName={fetchContractInventorySlot1.data[2]}  contractSymbol={fetchContractInventorySlot1.data[3]}    tokenId={fetchContractInventorySlot1.data[0]}  thisStyle={style1}  slotIndex={1}  slotImageUrl={slot1ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot1Stock}  styleEmpty={style1Empty}/> : <CarouselNftSlot thisStyle={style1}  slotIndex={1}  styleEmpty={style1Empty}/> }                   
-         {fetchContractInventorySlot2.data? <CarouselNftSlot metadata={filterArray(2, fetchContractInventorySlot2.data)[0][0]} contractAddress={'MCPA contract'}  slotContractAddress={NftSlotContractAddresses[1]} slotObj={slot2Obj} contractName={fetchContractInventorySlot2.data[2]}  contractSymbol={fetchContractInventorySlot2.data[3]}    tokenId={fetchContractInventorySlot2.data[0]} thisStyle={style2}  slotIndex={2}  slotImageUrl={slot2ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot2Stock}  styleEmpty={style2Empty}/> : <CarouselNftSlot thisStyle={style2}  slotIndex={2}  styleEmpty={style2Empty}/> }
-         {fetchContractInventorySlot3.data? <CarouselNftSlot metadata={filterArray(3, fetchContractInventorySlot3.data)[0][0]} contractAddress={'MCPL contract'}  slotContractAddress={NftSlotContractAddresses[2]} slotObj={slot3Obj} contractName={fetchContractInventorySlot3.data[2]}  contractSymbol={fetchContractInventorySlot3.data[3]}    tokenId={fetchContractInventorySlot3.data[0]} thisStyle={style3}  slotIndex={3}  slotImageUrl={slot3ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot3Stock}  styleEmpty={style3Empty}/> : <CarouselNftSlot thisStyle={style3}  slotIndex={3}  styleEmpty={style3Empty}/>}
-         {fetchContractInventorySlot4.data? <CarouselNftSlot metadata={filterArray(4, fetchContractInventorySlot4.data)[0][0]} contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[3]} slotObj={slot4Obj} contractName={fetchContractInventorySlot4.data[2]}  contractSymbol={fetchContractInventorySlot4.data[3]}    tokenId={fetchContractInventorySlot4.data[0]} thisStyle={style4}  slotIndex={4}  slotImageUrl={slot4ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot4Stock}  styleEmpty={style4Empty}/> : <CarouselNftSlot thisStyle={style4}  slotIndex={4}  styleEmpty={style4Empty}/>}
-         {fetchContractInventorySlot5.data? <CarouselNftSlot metadata={filterArray(5, fetchContractInventorySlot5.data)[0][0]} contractAddress={'MCPA contract'}  slotContractAddress={NftSlotContractAddresses[4]} slotObj={slot5Obj} contractName={fetchContractInventorySlot5.data[2]}  contractSymbol={fetchContractInventorySlot5.data[3]}    tokenId={fetchContractInventorySlot5.data[0]} thisStyle={style5}  slotIndex={5}  slotImageUrl={slot5ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot5Stock}  styleEmpty={style5Empty}/> : <CarouselNftSlot thisStyle={style5}  slotIndex={5}  styleEmpty={style5Empty}/> }
-         {fetchContractInventorySlot6.data? <CarouselNftSlot metadata={filterArray(6, fetchContractInventorySlot6.data)[0][0]} contractAddress={'MCPL contract'}  slotContractAddress={NftSlotContractAddresses[5]} slotObj={slot6Obj} contractName={fetchContractInventorySlot6.data[2]}  contractSymbol={fetchContractInventorySlot6.data[3]}    tokenId={fetchContractInventorySlot6.data[0]} thisStyle={style6}  slotIndex={6}  slotImageUrl={slot6ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot6Stock}  styleEmpty={style6Empty}/> : <CarouselNftSlot thisStyle={style6}  slotIndex={6}  styleEmpty={style6Empty}/>}
-         {fetchContractInventorySlot7.data? <CarouselNftSlot metadata={filterArray(7, fetchContractInventorySlot7.data)[0][0]} contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[6]} slotObj={slot7Obj} contractName={fetchContractInventorySlot7.data[2]}  contractSymbol={fetchContractInventorySlot7.data[3]}    tokenId={fetchContractInventorySlot7.data[0]} thisStyle={style7}  slotIndex={7}  slotImageUrl={slot7ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot7Stock}  styleEmpty={style7Empty}/> : <CarouselNftSlot thisStyle={style7}  slotIndex={7}  styleEmpty={style7Empty}/> }
-         {fetchContractInventorySlot8.data? <CarouselNftSlot metadata={filterArray(8, fetchContractInventorySlot8.data)[0][0]} contractAddress={'MCPA contract'}  slotContractAddress={NftSlotContractAddresses[7]} slotObj={slot8Obj} contractName={fetchContractInventorySlot8.data[2]}  contractSymbol={fetchContractInventorySlot8.data[3]}    tokenId={fetchContractInventorySlot8.data[0]} thisStyle={style8}  slotIndex={8}  slotImageUrl={slot8ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot8Stock}  styleEmpty={style8Empty}/> : <CarouselNftSlot thisStyle={style8}  slotIndex={8}  styleEmpty={style8Empty}/> }
-         {fetchContractInventorySlot9.data? <CarouselNftSlot metadata={filterArray(9, fetchContractInventorySlot9.data)[0][0]} contractAddress={'MCPL contract'}  slotContractAddress={NftSlotContractAddresses[8]} slotObj={slot9Obj} contractName={fetchContractInventorySlot9.data[2]}  contractSymbol={fetchContractInventorySlot9.data[3]}    tokenId={fetchContractInventorySlot9.data[0]} thisStyle={style9}  slotIndex={9}  slotImageUrl={slot9ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot9Stock}  styleEmpty={style9Empty}/> : <CarouselNftSlot thisStyle={style9}  slotIndex={9}  styleEmpty={style9Empty}/> }
-         {fetchContractInventorySlot10.data? <CarouselNftSlot metadata={filterArray(10, fetchContractInventorySlot10.data)[0][0]} contractAddress={'MCPL contract'}  slotContractAddress={NftSlotContractAddresses[9]} slotObj={slot10Obj} contractName={fetchContractInventorySlot10.data[2]} contractSymbol={fetchContractInventorySlot10.data[3]} tokenId={fetchContractInventorySlot10.data[0]}thisStyle={style10} slotIndex={10} slotImageUrl={slot10ImageUrl} NftSlotOdds={NftSlotOdds} slotStock={slot10Stock} styleEmpty={style10Empty}/> : <CarouselNftSlot thisStyle={style10}  slotIndex={10}  styleEmpty={style10Empty}/>}
+         {fetchContractInventorySlot1.data? <CarouselNftSlot metadata={filterArray(1, fetchContractInventorySlot1.data)? filterArray(1, fetchContractInventorySlot1.data)[0][0] : <></>} contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[0]} slotObj={slot1Obj} contractName={fetchContractInventorySlot1.data[2]}  contractSymbol={fetchContractInventorySlot1.data[3]}    tokenId={fetchContractInventorySlot1.data[0]}  thisStyle={style1}  slotIndex={1}  slotImageUrl={slot1ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot1Stock}  styleEmpty={style1Empty}/> : <CarouselNftSlot thisStyle={style1}  slotIndex={1}  styleEmpty={style1Empty}/> }                   
+         {fetchContractInventorySlot2.data? <CarouselNftSlot metadata={filterArray(2, fetchContractInventorySlot2.data)? filterArray(2, fetchContractInventorySlot2.data)[0][0] : <></>} contractAddress={'MCPA contract'}  slotContractAddress={NftSlotContractAddresses[1]} slotObj={slot2Obj} contractName={fetchContractInventorySlot2.data[2]}  contractSymbol={fetchContractInventorySlot2.data[3]}    tokenId={fetchContractInventorySlot2.data[0]} thisStyle={style2}  slotIndex={2}  slotImageUrl={slot2ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot2Stock}  styleEmpty={style2Empty}/> : <CarouselNftSlot thisStyle={style2}  slotIndex={2}  styleEmpty={style2Empty}/> }
+         {fetchContractInventorySlot3.data? <CarouselNftSlot metadata={filterArray(3, fetchContractInventorySlot3.data)? filterArray(3, fetchContractInventorySlot3.data)[0][0] : <></>} contractAddress={'MCPL contract'}  slotContractAddress={NftSlotContractAddresses[2]} slotObj={slot3Obj} contractName={fetchContractInventorySlot3.data[2]}  contractSymbol={fetchContractInventorySlot3.data[3]}    tokenId={fetchContractInventorySlot3.data[0]} thisStyle={style3}  slotIndex={3}  slotImageUrl={slot3ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot3Stock}  styleEmpty={style3Empty}/> : <CarouselNftSlot thisStyle={style3}  slotIndex={3}  styleEmpty={style3Empty}/>}
+         {fetchContractInventorySlot4.data? <CarouselNftSlot metadata={filterArray(4, fetchContractInventorySlot4.data)? filterArray(4, fetchContractInventorySlot4.data)[0][0] : <></>} contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[3]} slotObj={slot4Obj} contractName={fetchContractInventorySlot4.data[2]}  contractSymbol={fetchContractInventorySlot4.data[3]}    tokenId={fetchContractInventorySlot4.data[0]} thisStyle={style4}  slotIndex={4}  slotImageUrl={slot4ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot4Stock}  styleEmpty={style4Empty}/> : <CarouselNftSlot thisStyle={style4}  slotIndex={4}  styleEmpty={style4Empty}/>}
+         {fetchContractInventorySlot5.data? <CarouselNftSlot metadata={filterArray(5, fetchContractInventorySlot5.data)? filterArray(5, fetchContractInventorySlot5.data)[0][0] : <></>} contractAddress={'MCPA contract'}  slotContractAddress={NftSlotContractAddresses[4]} slotObj={slot5Obj} contractName={fetchContractInventorySlot5.data[2]}  contractSymbol={fetchContractInventorySlot5.data[3]}    tokenId={fetchContractInventorySlot5.data[0]} thisStyle={style5}  slotIndex={5}  slotImageUrl={slot5ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot5Stock}  styleEmpty={style5Empty}/> : <CarouselNftSlot thisStyle={style5}  slotIndex={5}  styleEmpty={style5Empty}/> }
+         {fetchContractInventorySlot6.data? <CarouselNftSlot metadata={filterArray(6, fetchContractInventorySlot6.data)? filterArray(6, fetchContractInventorySlot6.data)[0][0] : <></>} contractAddress={'MCPL contract'}  slotContractAddress={NftSlotContractAddresses[5]} slotObj={slot6Obj} contractName={fetchContractInventorySlot6.data[2]}  contractSymbol={fetchContractInventorySlot6.data[3]}    tokenId={fetchContractInventorySlot6.data[0]} thisStyle={style6}  slotIndex={6}  slotImageUrl={slot6ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot6Stock}  styleEmpty={style6Empty}/> : <CarouselNftSlot thisStyle={style6}  slotIndex={6}  styleEmpty={style6Empty}/>}
+         {fetchContractInventorySlot7.data? <CarouselNftSlot metadata={filterArray(7, fetchContractInventorySlot7.data)? filterArray(7, fetchContractInventorySlot7.data)[0][0] : <></>} contractAddress={'MCPC contract'}  slotContractAddress={NftSlotContractAddresses[6]} slotObj={slot7Obj} contractName={fetchContractInventorySlot7.data[2]}  contractSymbol={fetchContractInventorySlot7.data[3]}    tokenId={fetchContractInventorySlot7.data[0]} thisStyle={style7}  slotIndex={7}  slotImageUrl={slot7ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot7Stock}  styleEmpty={style7Empty}/> : <CarouselNftSlot thisStyle={style7}  slotIndex={7}  styleEmpty={style7Empty}/> }
+         {fetchContractInventorySlot8.data? <CarouselNftSlot metadata={filterArray(8, fetchContractInventorySlot8.data)? filterArray(8, fetchContractInventorySlot8.data)[0][0] : <></>} contractAddress={'MCPA contract'}  slotContractAddress={NftSlotContractAddresses[7]} slotObj={slot8Obj} contractName={fetchContractInventorySlot8.data[2]}  contractSymbol={fetchContractInventorySlot8.data[3]}    tokenId={fetchContractInventorySlot8.data[0]} thisStyle={style8}  slotIndex={8}  slotImageUrl={slot8ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot8Stock}  styleEmpty={style8Empty}/> : <CarouselNftSlot thisStyle={style8}  slotIndex={8}  styleEmpty={style8Empty}/> }
+         {fetchContractInventorySlot9.data? <CarouselNftSlot metadata={filterArray(9, fetchContractInventorySlot9.data)? filterArray(9, fetchContractInventorySlot9.data)[0][0] : <></>} contractAddress={'MCPL contract'}  slotContractAddress={NftSlotContractAddresses[8]} slotObj={slot9Obj} contractName={fetchContractInventorySlot9.data[2]}  contractSymbol={fetchContractInventorySlot9.data[3]}    tokenId={fetchContractInventorySlot9.data[0]} thisStyle={style9}  slotIndex={9}  slotImageUrl={slot9ImageUrl}  NftSlotOdds={NftSlotOdds} slotStock={slot9Stock}  styleEmpty={style9Empty}/> : <CarouselNftSlot thisStyle={style9}  slotIndex={9}  styleEmpty={style9Empty}/> }
+         {fetchContractInventorySlot10.data? <CarouselNftSlot metadata={filterArray(10, fetchContractInventorySlot10.data)? filterArray(10, fetchContractInventorySlot10.data)[0][0] : <></>} contractAddress={'MCPL contract'}  slotContractAddress={NftSlotContractAddresses[9]} slotObj={slot10Obj} contractName={fetchContractInventorySlot10.data[2]} contractSymbol={fetchContractInventorySlot10.data[3]} tokenId={fetchContractInventorySlot10.data[0]}thisStyle={style10} slotIndex={10} slotImageUrl={slot10ImageUrl} NftSlotOdds={NftSlotOdds} slotStock={slot10Stock} styleEmpty={style10Empty}/> : <CarouselNftSlot thisStyle={style10}  slotIndex={10}  styleEmpty={style10Empty}/>}
             
             
 

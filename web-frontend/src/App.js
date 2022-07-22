@@ -122,7 +122,7 @@ useEffect(() => {
 
   const [ManageSalesInventoryColor, setManageSalesInventoryColor]    = useState("#666");
 
-  const [slotNameAndSymbol , setslotNameAndSymbol]    = useState({});
+  const [slotNameAndSymbol , setslotNameAndSymbol]    = useState({1:{},2:{},3:{},4:{},5:{},6:{},7:{},8:{},9:{},10:{}});
   const [didSlotAlreadyLoadObj, setdidSlotAlreadyLoadObj] = useState({});
   
   const [inventoryMap, setinventoryMap] = useState({});
@@ -330,13 +330,14 @@ useEffect(() => {
   const [MachineContractAddress, setMachineContractAddress] = useState();
   const [WheelInfo, setWheelInfo] = useState();
   
-  
+  const [TotalRegisterTokenCount, setTotalRegisterTokenCount] = useState(0);
   
   const [selectedSlotBorderColor, setselectedSlotBorderColor] = useState();
   const [selectedSlotBackgroundColor, setselectedSlotBackgroundColor] = useState();
   
   const [selectedSlotAddress, setselectedSlotAddress] = useState();
   
+  const [refreshRegisteredSlotData, setrefreshRegisteredSlotData] = useState(false);
   
   const [slotInventory1tokenInfoArray, setslotInventory1tokenInfoArray] = useState([]);
   const [slotInventory2tokenInfoArray, setslotInventory2tokenInfoArray] = useState([]);
@@ -506,7 +507,7 @@ useEffect(() => {
     slot8Obj, setslot8Obj,
     slot9Obj, setslot9Obj,
     slot10Obj, setslot10Obj,
-
+    TotalRegisterTokenCount, setTotalRegisterTokenCount,
     sceneTransition, setsceneTransition,
     confettiDisplay, setconfettiDisplay,
     confettiZIndex, setconfettiZIndex,
@@ -665,7 +666,7 @@ useEffect(() => {
     Slot9AccountNFTs, setSlot9AccountNFTs,
     Slot10AccountNFTs, setSlot10AccountNFTs,
 
-
+    refreshRegisteredSlotData, setrefreshRegisteredSlotData,
     SlotAccountUnregisteredNFTs, setSlotAccountUnregisteredNFTs,
     registeredFromOnChainBySlot, setregisteredFromOnChainBySlot,
 

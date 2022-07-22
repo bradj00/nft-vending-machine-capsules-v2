@@ -31,6 +31,8 @@ const CarouselNftSlot = (props) => {
     //     }
     //   },[metadataObj]);
 
+
+    //loads metadata for area above carousel slot
       useEffect(()=>{
         if (props.metadata){
             // console.log(props.slotIndex,'  metadata: ',props.metadata);

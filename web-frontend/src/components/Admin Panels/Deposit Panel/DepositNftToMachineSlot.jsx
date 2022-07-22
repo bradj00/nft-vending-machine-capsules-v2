@@ -229,7 +229,7 @@ const DepositNftToMachine = (props) => {
         //     return true;
         // }
         switch (address){
-          case '0x726e1b4841968c0c3eebeef880e60875b745b3c0':
+          case '0x726e1b4841968c0c3eebeef880e60875b745b3cx':
               return true;
           default:
               return false;
@@ -243,6 +243,10 @@ const DepositNftToMachine = (props) => {
     //     }
     //   },[slotIdFilter])
 
+  useEffect(()=>{
+    console.log('props.SlotAccountUnregisteredNFTs: ',props.SlotAccountUnregisteredNFTs);
+  },[props.SlotAccountUnregisteredNFTs])
+
 
     useEffect(() => {
         if(slotIdFilterDelay[props.slotIndex] != '-1'){
@@ -253,6 +257,7 @@ const DepositNftToMachine = (props) => {
 
   return (
     <div>
+      
         {slotNameAndSymbol[props.slotIndex]?<div  style={{fontSize:'0.85vw', zIndex:'2',position:'relative', display:'flex', justifyContent:'left',width:'100%',border:'0px solid #00ff00',  }}>
               <div onClick={()=>{setdisplayFilterSlot(!displayFilterSlot)}} className={filtersApplied() ? "filterIconActive" : "filterIcon"} style={{position:'absolute',top:'0%',right:'0%',}}>
               <FilterAltOffIcon /> 
@@ -266,9 +271,9 @@ const DepositNftToMachine = (props) => {
                 Slot {parseInt(props.slotIndex)}
               </div>
               <div style={{position:'relative',}}>
-                {
+                {/* {
                   slotNameAndSymbol[props.slotIndex]? slotNameAndSymbol[props.slotIndex].name :<></>
-                }  
+                }   */}
               </div>
               
               {displayFilterSlot?
@@ -345,7 +350,10 @@ const DepositNftToMachine = (props) => {
   
             
             <div style={{textAlign:'center', border:'0px solid #00ff00', zIndex:'1',position:'absolute', top:'3vh', width:'100%',height:'80%',}}>
+              
               {props.SlotAccountUnregisteredNFTs? props.SlotAccountUnregisteredNFTs.map((singleImage, index)=>{
+                
+                console.log('SSSS single image: ',singleImage);
                 if (tokensToHideBecauseWeDeposited.includes(singleImage.token_id)){
                   return(<></>)
                 }else{ 

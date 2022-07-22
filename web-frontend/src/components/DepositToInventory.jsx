@@ -652,7 +652,9 @@ function determineGridSize(){
     return ('repeat(10, 1fr)');
 }
 
-
+useEffect(()=>{
+  console.log('Slot1AccountDepositNFTs: ',Slot1AccountDepositNFTs);
+},[Slot1AccountDepositNFTs])
 
   return (
     <div style={{overflowY:'scroll', backgroundColor :'rgba(165, 221, 255 ,0.15)',top:'9.9vh',alignContent:'center',color: "#fff",height: '80%',marginBottom:'10vh', position:'absolute',display:'flex',justifyContent:'center', width:'100%'}}>
@@ -663,7 +665,7 @@ function determineGridSize(){
 
  
     <div style={{display:'flex', justifyContent:'center', zIndex:'1',display:'grid', gridTemplateColumns:determineGridSize(), gap:'0.5vw',border:'0px solid #00ffff', width:'95%', paddingTop:'5vh',}}>
-    
+  
     <DepositNftToMachine slotIndex={"1"} SlotAccountUnregisteredNFTs={Slot1AccountDepositNFTs} SlotshowMenu={Slot1showMenu} setSlotshowMenu={setSlot1showMenu}/>
     <DepositNftToMachine slotIndex={"2"} SlotAccountUnregisteredNFTs={Slot2AccountDepositNFTs} SlotshowMenu={Slot2showMenu} setSlotshowMenu={setSlot2showMenu}/>
     <DepositNftToMachine slotIndex={"3"} SlotAccountUnregisteredNFTs={Slot3AccountDepositNFTs} SlotshowMenu={Slot3showMenu} setSlotshowMenu={setSlot3showMenu}/>

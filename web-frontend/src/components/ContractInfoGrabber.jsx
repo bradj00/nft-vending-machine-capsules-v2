@@ -22,6 +22,7 @@ const ContractInfoGrabber = () => {
     const {userErc20TokenBalance, setuserErc20TokenBalance} = useContext(NftMoreInfoContext);
     
     const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
+    const {refreshRegisteredSlotData, setrefreshRegisteredSlotData} = useContext(NftMoreInfoContext);
 
 
 
@@ -286,6 +287,13 @@ const ContractInfoGrabber = () => {
       });
 
     }
+
+    useEffect(()=>{
+      if (refreshRegisteredSlotData){
+        setrefreshRegisteredSlotData(false);
+        getAllRegisteredTokensInAllSlots();
+      }
+    },[refreshRegisteredSlotData]);
 
     function getAllRegisteredTokensInAllSlots(){
         setTimeout(()=>{ getRegisteredFromOnChainBySlot1.runContractFunction();  },1 );

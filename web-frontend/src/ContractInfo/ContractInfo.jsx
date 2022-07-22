@@ -28,7 +28,7 @@
 
 
 
-export const WheelFactoryContractAddress = "0xECA967A97747Ff646DC8938a81E907567711F082";
+export const WheelFactoryContractAddress = "0x24a4f604036C0Cdea9382f477Ef4F5d306cc8551";
 
 export const BuyCapsuleContractABI = [
 	{
@@ -82,7 +82,7 @@ export const BuyCapsuleContractABI = [
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "wheelAddress",
 				"type": "uint256"
 			}
 		],
@@ -486,6 +486,19 @@ export const WheelFactoryABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "getMyMachines",
+		"outputs": [
+			{
+				"internalType": "contract Wheel[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -794,25 +807,6 @@ export const WheelABI = [
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": false,
-				"internalType": "bytes32",
-				"name": "requestId",
-				"type": "bytes32"
-			},
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "requesterAddress",
-				"type": "address"
-			}
-		],
-		"name": "RequestNewRandomNumber",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
 				"indexed": true,
 				"internalType": "address",
 				"name": "from",
@@ -926,14 +920,20 @@ export const WheelABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256[][]",
-				"name": "theList",
-				"type": "uint256[][]"
+				"internalType": "uint256",
+				"name": "slotIndex",
+				"type": "uint256"
 			}
 		],
-		"name": "ejectNftArray",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"name": "findLowestIndexofSlot",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "qq",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -972,6 +972,16 @@ export const WheelABI = [
 				"internalType": "struct Wheel.slotInhabitant[]",
 				"name": "",
 				"type": "tuple[]"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
 			},
 			{
 				"internalType": "address",
@@ -1174,7 +1184,13 @@ export const WheelABI = [
 			}
 		],
 		"name": "mintCapsule",
-		"outputs": [],
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},

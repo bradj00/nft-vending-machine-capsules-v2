@@ -29,28 +29,28 @@ const DisplayContractInfo = () => {
   const {ContractErrorMessage, setContractErrorMessage}     = useContext(NftMoreInfoContext);
 
 
-  // useEffect(() => {
-  //   if (!isWeb3Enabled) {
-  //   // console.log('enabling web3...'); 
-  //   enableWeb3();
-  //   }else {
-  //     getUserRegisteredMachines.runContractFunction({
-  //       onError: (error) =>{
-  //         console.log('aaaaa big ERROR: ',error); 
-  //       }
-  //     });
-  //   }
-  // }, [isWeb3Enabled]);
+  useEffect(() => {
+    if (!isWeb3Enabled) {
+    // console.log('enabling web3...'); 
+    enableWeb3();
+    }else {
+      getUserRegisteredMachines.runContractFunction({
+        onError: (error) =>{
+          console.log('aaaaa big ERROR: ',error); 
+        }
+      });
+    }
+  }, [isWeb3Enabled]);
 
 
   //WALRUS - we cant do this via contract anymore because we hit our limit (thanks a lot, spurious dragon >_> )
   //we must create Moralis cloud code to index our wheels and give us a nice list
 
-  // const getUserRegisteredMachines = useWeb3Contract({
-  //   abi: WheelFactoryABI,  
-  //   contractAddress: WheelFactoryContractAddress,
-  //   functionName: "getMyMachines",    
-  // });
+  const getUserRegisteredMachines = useWeb3Contract({
+    abi: WheelFactoryABI,  
+    contractAddress: WheelFactoryContractAddress,
+    functionName: "getMyMachines",    
+  });
 
   useEffect(()=>{
 
@@ -58,12 +58,12 @@ const DisplayContractInfo = () => {
 
   },[])
 
-  // useEffect(()=>{
-  //   if (getUserRegisteredMachines.data){
-  //       // console.log('...zomg here are our registered machines: ',getUserRegisteredMachines.data);
-  //       setUserMachinesArray(getUserRegisteredMachines.data);
-  //   }
-  // },[getUserRegisteredMachines.data])
+  useEffect(()=>{
+    if (getUserRegisteredMachines.data){
+        // console.log('...zomg here are our registered machines: ',getUserRegisteredMachines.data);
+        setUserMachinesArray(getUserRegisteredMachines.data);
+    }
+  },[getUserRegisteredMachines.data])
 
 
 

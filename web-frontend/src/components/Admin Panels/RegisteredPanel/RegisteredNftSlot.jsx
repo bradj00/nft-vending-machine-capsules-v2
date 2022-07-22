@@ -223,9 +223,9 @@ const RegisteredNftSlot = (props) => {
                 Slot {parseInt(props.slotIndex)}
               </div>
               <div style={{position:'relative',}}>
-                {
+                {/* {
                   slotNameAndSymbol[props.slotIndex]? slotNameAndSymbol[props.slotIndex].name :<></>
-                }  
+                }   */}
               </div>
               
               {displayFilterSlot?

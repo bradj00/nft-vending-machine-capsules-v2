@@ -41,7 +41,9 @@ const RegisterInventory = () => {
 
   const {SlotAccountUnregisteredNFTs, setSlotAccountUnregisteredNFTs} = useContext(NftMoreInfoContext);
 
+  const {refreshRegisteredSlotData, setrefreshRegisteredSlotData} = useContext(NftMoreInfoContext);
 
+  const {uniqueRegistrationSelectionIds, setuniqueRegistrationSelectionIds}    = useContext(NftMoreInfoContext);
 
   const {Slot1AccountUnregisteredNFTs, setSlot1AccountUnregisteredNFTs} = useContext(NftMoreInfoContext);
   const {Slot2AccountUnregisteredNFTs, setSlot2AccountUnregisteredNFTs} = useContext(NftMoreInfoContext);
@@ -125,7 +127,7 @@ const RegisterInventory = () => {
   const [displayedItems, setdisplayedItems] = useState({});
 
 
-  const [TotalRegisterTokenCount, setTotalRegisterTokenCount] = useState(0);
+  const {TotalRegisterTokenCount, setTotalRegisterTokenCount} = useContext(NftMoreInfoContext);
 
 
   const [mcpStatGTLT, setmcpStatGTLT] = useState(true);
@@ -236,7 +238,7 @@ const RegisterInventory = () => {
 
   useEffect(()=>{
     if (loadedAddressTokens) {
-      console.log('loadedAddressTokens IS UPDATED YO: ',loadedAddressTokens);
+      // console.log('loadedAddressTokens IS UPDATED YO: ',loadedAddressTokens);
       // console.log(NftSlotContractAddresses[0]);
 
       if (loadedAddressTokens.latestSlotLoaded+1 <= 10){
@@ -246,7 +248,7 @@ const RegisterInventory = () => {
   },[loadedAddressTokens]);
 
   async function loadNftsForSlot(slotIndex, slotAddress){
-        console.log('attempting token load for slot: ',slotIndex, slotAddress)
+        // console.log('attempting token load for slot: ',slotIndex, slotAddress)
         let rinkebySlotUnregisteredTokens;
         // console.log('~~ ',loadedAddressTokens[0]);
 
@@ -259,28 +261,31 @@ const RegisterInventory = () => {
               latestSlotLoaded: slotIndex
             }));
 
-        }else { 
-            console.log('bawk bawk need to check it manually ',slotAddress, loadedAddressTokens)
-            rinkebySlotUnregisteredTokens = await Web3Api.account.getNFTsForContract(
-              { 
-                chain: "rinkeby",
-                address: MachineContractAddress&&MachineContractAddress!='0x0000000000000000000000000000000000000000'? MachineContractAddress: '0x0000000000000000000000000000000000000000',
-                token_address: NftSlotContractAddresses[slotIndex-1],
-              }
-            );
-            console.log('rinkebySlotUnregisteredTokens: ',rinkebySlotUnregisteredTokens);
-            setloadedAddressTokens(loadedAddressTokens => ({
-              ...loadedAddressTokens,
-              [slotAddress]:rinkebySlotUnregisteredTokens,
-              latestSlotLoaded: slotIndex
-            }));
-          
+        }
+        else { 
+          console.log('bawk bawk need to check it manually ',slotAddress, loadedAddressTokens)
+          rinkebySlotUnregisteredTokens = await Web3Api.account.getNFTsForContract(
+            { 
+              chain: "rinkeby",
+              address: MachineContractAddress&&MachineContractAddress!='0x0000000000000000000000000000000000000000'? MachineContractAddress: '0x0000000000000000000000000000000000000000',
+              token_address: NftSlotContractAddresses[slotIndex-1],
+            }
+          );
+          // console.log('rinkebySlotUnregisteredTokens: ',rinkebySlotUnregisteredTokens);
+          setloadedAddressTokens(loadedAddressTokens => ({
+            ...loadedAddressTokens,
+            [slotAddress]:rinkebySlotUnregisteredTokens,
+            latestSlotLoaded: slotIndex
+          }));
+        
       } 
-
+      // const final = rinkebySlotUnregisteredTokens.result;
       const final = rinkebySlotUnregisteredTokens.result.filter(item => {
-        // console.log('item id is: ',item.token_id)
-        if (registeredFromOnChainBySlot[slotIndex][0].filter(e => parseInt(e.tokenId._hex, 16) == item.token_id).length > 0) {
-        return false;
+        if (registeredFromOnChainBySlot[slotIndex][0]){
+          if (registeredFromOnChainBySlot[slotIndex][0].filter(e => parseInt(e.tokenId._hex, 16) == item.token_id).length > 0) {
+            return false;
+          }
+          else return true;
         }else return true;
       }) 
 
@@ -434,6 +439,11 @@ function depositClickedNft(object){
 function refreshSlotRegisteredDataFromChain(){
   // getRegisteredFromOnChainBySlot1.runContractFunction(); //refresh slot registered data
   // setTimeout(()=>{fetchAccountNFTsForSlot1()},3000);
+  console.log('fetching fresh slot registration data..')
+  setloadedAddressTokens(loadedAddressTokens => ({
+    ...loadedAddressTokens,
+    latestSlotLoaded: 0
+  }));
 }
 
 
@@ -442,13 +452,30 @@ function registerTokens(){
     onSuccess : async (tx)=>tx.wait().then(newTx => {
       console.log('SUCCESS! Check machine',tx)
       setregisterTokensInfoButton('Success!');
+      setrefreshRegisteredSlotData(true);
+
       setTimeout(()=>{
-        refreshSlotRegisteredDataFromChain();
+        // refreshSlotRegisteredDataFromChain();
         setregisterTokensInfoButton('Register Tokens');
         
         setTotalRegisterTokenCount(0);
-        setAllSlotsSelectedArr([]);
-      },20000) //long timeout to let chain and database data update...then re-enable the register button
+
+        setSlot1showMenuUnregistered({});
+        setSlot2showMenuUnregistered({});
+        setSlot3showMenuUnregistered({});
+        setSlot4showMenuUnregistered({});
+        setSlot5showMenuUnregistered({});
+        setSlot6showMenuUnregistered({});
+        setSlot7showMenuUnregistered({});
+        setSlot8showMenuUnregistered({});
+        setSlot9showMenuUnregistered({});
+        setSlot10showMenuUnregistered({});
+
+
+        setuniqueRegistrationSelectionIds({});
+
+
+      },5000) //long timeout to let chain and database data update...then re-enable the register button
     }),
     onComplete : (tx) => {
       console.log('Registered all IDs in their slots! Check machine',tx)
@@ -464,7 +491,7 @@ function registerTokens(){
 
 useEffect(()=>{
   if (AllSlotsSelectedArr){
-    // console.log('\t__AllSlotsSelectedArr: ',AllSlotsSelectedArr);
+    console.log(AllSlotsSelectedArr.length,'\t__AllSlotsSelectedArr: ',AllSlotsSelectedArr);
     let totalCount = 0;
     for (let i = 0; i < AllSlotsSelectedArr.length; i++){
       for (let q = 0; q < AllSlotsSelectedArr[i].length; q++){
@@ -486,7 +513,7 @@ useEffect(()=>{
   if (Slot1showMenuUnregistered){
     let temp1 = [];
     for(var key in Slot1showMenuUnregistered){
-      if (Slot1showMenuUnregistered[key] == true) {
+      if (Slot1showMenuUnregistered[key] == true ) {
         temp1.push(key);
       }
       setSlot1SelectedArr(temp1);
@@ -607,7 +634,10 @@ function determineGridSize(){
   useEffect(()=>{
     // console.log('registerTokensInfoButton:',registerTokensInfoButton);
   },[registerTokensInfoButton])
-
+  
+  useEffect(()=>{
+    console.log('Slot showMenuUnregistered: ',Slot1showMenuUnregistered, Slot2showMenuUnregistered, Slot3showMenuUnregistered, Slot4showMenuUnregistered, Slot5showMenuUnregistered, Slot6showMenuUnregistered, Slot7showMenuUnregistered, Slot8showMenuUnregistered, Slot9showMenuUnregistered, Slot10showMenuUnregistered,);
+  },[Slot1showMenuUnregistered, Slot2showMenuUnregistered, Slot3showMenuUnregistered, Slot4showMenuUnregistered, Slot5showMenuUnregistered, Slot6showMenuUnregistered, Slot7showMenuUnregistered, Slot8showMenuUnregistered, Slot9showMenuUnregistered, Slot10showMenuUnregistered, ])
 
   return (
     <div style={{overflowY:'scroll', backgroundColor :'rgba(165, 221, 255 ,0.15)',top:'9.9vh',alignContent:'center',color: "#fff",height: '80%',marginBottom:'10vh', position:'absolute',display:'flex',justifyContent:'center', width:'100%'}}>
@@ -630,7 +660,7 @@ function determineGridSize(){
               <UnregisteredInventorySlotLoader slotIndex={8} isLoaded={isLoaded8} isPrevLoaded={isLoaded7}   SlotAccountUnregisteredNFTs={loadedAddressTokens[NftSlotContractAddresses[7]]} setIsLoaded={setisLoaded8}  slotAddress={NftSlotContractAddresses[7]} />
               <UnregisteredInventorySlotLoader slotIndex={9} isLoaded={isLoaded9} isPrevLoaded={isLoaded8}   SlotAccountUnregisteredNFTs={loadedAddressTokens[NftSlotContractAddresses[8]]} setIsLoaded={setisLoaded9}  slotAddress={NftSlotContractAddresses[8]} />
               <UnregisteredInventorySlotLoader slotIndex={10} isLoaded={isLoaded10} isPrevLoaded={isLoaded9} SlotAccountUnregisteredNFTs={loadedAddressTokens[NftSlotContractAddresses[9]]} setIsLoaded={setisLoaded10} slotAddress={NftSlotContractAddresses[9]} />
-        </div> */}
+        </div> */} 
          
               <UnregisteredNftSlot slotIndex={"1"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[1]: {}}    SlotshowMenu={Slot1showMenuUnregistered} setSlotshowMenu={setSlot1showMenuUnregistered}/>
               <UnregisteredNftSlot slotIndex={"2"} SlotAccountUnregisteredNFTs={SlotAccountUnregisteredNFTs? SlotAccountUnregisteredNFTs[2]: {}}    SlotshowMenu={Slot2showMenuUnregistered} setSlotshowMenu={setSlot2showMenuUnregistered}/>
@@ -659,7 +689,7 @@ function determineGridSize(){
                   <div className="breathingText" onClick={()=>{registerTokens()}} style={{position:'fixed',bottom:'2vh',left:'34vw',fontSize:'2vw',color:'#ffff00', padding:'0.3vw'}}>
                     {registerTokensInfoButton}
                   </div>
-                :<></>}
+                :<></>} 
 
                 {(registerTokensInfoButton=='Success!') ?
                   <div className="breathingText" style={{position:'fixed',bottom:'2vh',left:'43vw',fontSize:'2vw',color:'#00ff00', padding:'0.3vw'}}>

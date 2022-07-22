@@ -86,8 +86,8 @@ const UnregisteredNftSlot = (props) => {
     const [displayedItems, setdisplayedItems] = useState({});
   
   
-    const [TotalRegisterTokenCount, setTotalRegisterTokenCount] = useState(0);
-  
+    
+    const {TotalRegisterTokenCount, setTotalRegisterTokenCount} = useContext(NftMoreInfoContext);
   
     const [mcpStatGTLT, setmcpStatGTLT] = useState(true);
     const [displayFilterSlot, setdisplayFilterSlot] = useState(false);
@@ -181,11 +181,11 @@ const UnregisteredNftSlot = (props) => {
         return obj !== undefined && obj !== null && obj.constructor == Object;
       }
 
-      useEffect(()=>{
-            if (props.SlotAccountUnregisteredNFTs){
-                  console.log(props.slotIndex, ' SlotAccountUnregisteredNFTs: ',props.SlotAccountUnregisteredNFTs);
-              }
-          },[props.SlotAccountUnregisteredNFTs])
+      // useEffect(()=>{
+      //       if (props.SlotAccountUnregisteredNFTs){
+      //             console.log(props.slotIndex, ' SlotAccountUnregisteredNFTs: ',props.SlotAccountUnregisteredNFTs);
+      //         }
+      //     },[props.SlotAccountUnregisteredNFTs])
           
           function isMCPcontract(address){
             // if (props.slotIndex == 1){
@@ -255,9 +255,9 @@ const UnregisteredNftSlot = (props) => {
                 Slot {parseInt(props.slotIndex)}
               </div>
               <div style={{position:'relative',}}>
-                {
+                {/* {
                   slotNameAndSymbol[props.slotIndex]? slotNameAndSymbol[props.slotIndex].name :<></>
-                }  
+                }   */}
               </div>
               
               {displayFilterSlot?
