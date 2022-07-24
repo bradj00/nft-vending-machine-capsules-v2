@@ -72,7 +72,7 @@ contract WheelFactory is MiddleData {
         wheels.push(machine);
         WheelsByOwner[msg.sender].push(machine);
         
-        BuyCapsuleByMachine[machine] = buycapsule;
+        BuyCapsuleByMachine[machine] = buycapsule; //must add "wheelAddress" to name in ABI each time we copy it off. Research how to explicitly define this or reference
 
         buycapsule.setWheelContract(address(machine));
         // machine.setBCC(buycapsule);

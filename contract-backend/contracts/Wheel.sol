@@ -22,12 +22,6 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
     event RefundCapsule(bytes32 requestId, address requesterAddress);                                           //VRF tried to operate on empty slot. Refund a capsule
 /////////////////////////////
 
-    struct slotInhabitant {
-        uint256 tokenId;    //id of single token
-        uint256 index;      //index of single token within a slot
-        uint256 slotIndex;  //slot index
-        string tokenURI;    //should live here for easier tracking client-side
-    }
 
     bool public isGamePaused = true; //game starts paused. Becomes unpaused when all slots are filled with at least 1 token
     // uint256 public  isGamePausedSlot = 0;
@@ -40,7 +34,8 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
     // mapping(address => slotInhabitant[]) public NftTokensRegisteredInMachine;  //input contract address, get all registered tokens and what slot they're in
     mapping(uint256 => uint256[]) public registeredTokensInSlots;
     // uint256[10][] registeredTokensInSlots;    
-    uint256[] winnerOffset;                 //increments every time a winning token is chosen for a given slot 
+    mapping(uint256 => uint256) public winnerOffset;
+    // uint256[] public winnerOffset;                                                //increments every time a winning token is chosen for a given slot 
 
     uint256[] private oddsArray;
     address[] private addyArray;
@@ -110,6 +105,14 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
         _;
     }
 
+
+    function getslotWinnerOffsets() public view returns(uint256[10] memory){
+        uint256[10] memory temp;
+        for (uint256 x = 0; x<10; x++){
+            temp[x] = ( winnerOffset[x] );
+        }
+        return(temp);
+    }
     //update frontend because we're looking for contract space here..
     function getWheelInfo() public view returns(OddsStruct memory, SlotStruct memory, string memory){
         return(allOdds, allSlotAddresses, MachineString);
@@ -167,57 +170,6 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
 
 
     // function ejectNftArray(uint _tokenId, address tokenAddress, uint _slotNumber) public onlyOwner {
-    
-    //this could probably be slimmed down to eject 1 at a time in order to save space..
-    // function ejectNftArray(uint256[][] memory theList) public  onlyOwner {
-    //         for (uint256 x = 0; x < theList.length; x++){
-    //             for (uint256 z = 0; z < theList[x].length; z++){
-    //                 // ERC721 nftContract;
-    //                 // nftContract = ERC721(addyArray[x]);
-                    
-    //                 // address tokenOwner = ERC721(addyArray[x]).ownerOf(theList[x][z]);        //get owner's address for NFT id from contract       
-    //                 require (ERC721(addyArray[x]).ownerOf(theList[x][z]) == address(this), "N");  //if this contract owns the NFT...
-                    
-    //                  ERC721(addyArray[x]).safeTransferFrom(address(this), owner, theList[x][z]);
-    //                 emit EjectNft(theList[x][z], addyArray[x]);
-                    
-    //                 //MUST ALSO DE-REGISTER NFT ID FROM ANY SLOT HERE.
-    //                 //////////////////////////////////////////////////
-    //                 uint m = 99999999;
-    //                 for (uint k = 0; k < NftTokensRegisteredInMachine[addyArray[x]].length; k++){
-    //                     if (NftTokensRegisteredInMachine[addyArray[x]][k].tokenId==theList[x][z]){        //search for tokenId match from unordered array
-    //                         m = k;
-    //                         break;
-    //                     }
-    //                 }
-
-    //                 if (m != 99999999){                       //indicating we found a match in our unordered array. If not, this token was never registered only deposited
-    //                     NftTokensRegisteredInMachine[ addyArray[x] ][m].index = 0; //set index to zero, indicating de-activation in array since we are ejecting it
-    //                 }
-                    
-    //                 uint lastSlot = NftTokensRegisteredInMachine[addyArray[x] ].length;
-
-    //                 // for (uint r = 0; r> 0; r--){
-                    
-    //                 for (uint r = lastSlot-1; r< lastSlot; r++){
-    //                     if (NftTokensRegisteredInMachine[ addyArray[x] ][r].index == 0){
-    //                         continue;
-    //                     }
-    //                     lastSlot = r;
-    //                 }
-    //                 if (lastSlot != NftTokensRegisteredInMachine[addyArray[x] ].length){ //if it's still the same untouched value the tube must be empty
-
-    //                     NftTokensRegisteredInMachine[ addyArray[x] ][ lastSlot ].index = 1;
-    //                 }
-    //                 // else {
-    //                 //     // emptyTube[x] = true;
-    //                 //     // isGamePaused = true;
-    //                 //     // isGamePausedSlot = x+1;
-    //                 // }
-    //                 //////////////////////////////////////////////////
-    //             }
-    //         }
-    //     checkEmptySlots();
     // }
 
 
@@ -227,8 +179,8 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
             for (uint256 z = 0; z < theList[x].length; z++){     //for each tokenId in each slot
                 ERC721 nftContract;
                 nftContract = ERC721(addyArray[x]);
-                // address tokenOwner = nftContract.ownerOf(theList[x][z]);        //get owner's address for NFT id from contract       
-                // require (tokenOwner == address(this), "token not owned");       //if this contract owns the NFT...
+                address tokenOwner = nftContract.ownerOf(theList[x][z]);        //get owner's address for NFT id from contract       
+                require (tokenOwner == address(this), "token not owned");       //if this contract owns the NFT...
 
                 uint256 tokenId = theList[x][z];
                 registeredTokensInSlots[x+1].push( tokenId );           
@@ -236,25 +188,23 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
 
             }
         }
-        // checkEmptySlots();
+        checkEmptySlots();
 
 
     }
 
-    function checkEmptySlots() private returns (bool){
+    function checkEmptySlots() public {
        bool topLevel = false;
        for (uint x = 0; x < 10; x++){
-           if (registeredTokensInSlots[x].length == winnerOffset[x]){ //if the length of the registered token list in slot is the same as our offset, it has reached the end and is empty
+           if ((registeredTokensInSlots[x+1].length == winnerOffset[x]) && (oddsArray[x] != 0) ){ //if the length of the registered token list in slot is the same as our offset, it has reached the end and is empty
                topLevel = true;
            }
        }
        if (topLevel == true) {
            isGamePaused = true;
-           return (true);
        }
        else {
            isGamePaused = false;
-           return (false); 
         }
     }
 
@@ -264,7 +214,7 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
 
 
     function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override  {
-        if  (checkEmptySlots() == true){
+        if  (isGamePaused == true){
             //we have an empty slot and cannot proceed. Give the user a capsule refund to try again later
             //this should help with high traffic calls to a single wheel where multiple VRF requests are in flight
             mintCapsule(openChestCaller[requestId]);
@@ -276,6 +226,10 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
             uint256 offset = 0;
             uint256 slotWinner;
 
+
+            //PICK WINNER
+            /////////////////////////////
+            /////////////////////////////
             for (uint256 i = 0; i < oddsArray.length; i++){
                 if (oddsArray[i] == 0){continue;}           //disabled vending slot
 
@@ -286,6 +240,10 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
                     offset = offset + oddsArray[i];
                 }
             }
+            /////////////////////////////
+            /////////////////////////////
+
+
 
             ERC721 nftContract;
             nftContract = ERC721(addyArray[slotWinner]);
