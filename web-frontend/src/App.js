@@ -237,6 +237,7 @@ useEffect(() => {
   const [slot9ProbabilityValue, setslot9ProbabilityValue]       = useState(0);
   const [slot10ProbabilityValue, setslot10ProbabilityValue]     = useState(0);
   
+  const [slotOffset, setslotOffset]     = useState(false);
   
   const [slot1isExplicit, setslot1isExplicit]     = useState(false);
   const [slot2isExplicit, setslot2isExplicit]     = useState(false);
@@ -537,7 +538,7 @@ useEffect(() => {
     slot10ImageUrl, setslot10ImageUrl,
 
     slotImageObj, setslotImageObj,
-
+    slotOffset, setslotOffset,
     winningSlotNumber, setwinningSlotNumber,
 
     contractAddressWheel, setcontractAddressWheel,

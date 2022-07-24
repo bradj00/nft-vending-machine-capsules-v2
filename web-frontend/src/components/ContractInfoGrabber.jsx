@@ -163,6 +163,8 @@ const ContractInfoGrabber = () => {
       }
     });
   
+
+
     const getWheelInfo = useWeb3Contract({
       abi: WheelABI,
       contractAddress: contractAddressWheel,
@@ -190,9 +192,7 @@ const ContractInfoGrabber = () => {
       if (isWeb3Enabled && contractAddressWheel && (contractAddressWheel != '/')){
           getAllRegisteredTokensInAllSlots(); // get our registered tokens for all slots
         
-        
-        
-          // setTimeout(function(){
+               // setTimeout(function(){
             // console.log('getting crate slot settings for contract: ',contractAddressWheel);
             // getAllCrateSlotAddresses.runContractFunction();
 
@@ -203,6 +203,11 @@ const ContractInfoGrabber = () => {
 
             // console.log('***** getting LINK contract balance..');
             getChainLinkContractBalance.runContractFunction();
+
+
+
+
+
 
             getWheelInfo.runContractFunction({
               onError: (error) =>{
@@ -246,6 +251,8 @@ const ContractInfoGrabber = () => {
 
       }
     },[getWheelInfo.data]);
+
+  
 
     useEffect(()=>{
       if (getChainLinkContractBalance.data){

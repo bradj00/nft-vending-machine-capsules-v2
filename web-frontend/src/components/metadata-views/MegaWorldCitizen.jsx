@@ -53,6 +53,12 @@ function clickedThisImage(imageUrl, slotNumber){
             console.log('SOME NEW METADATA: ',props.metadata);
         }
     },[props.metadata]);
+    
+  useEffect(()=>{
+        if (props.slotImageUrl){
+            console.log('SOME NEW slotImageUrl: ',props.slotImageUrl);
+        }
+    },[props.slotImageUrl]);
 
     return (
     <>

@@ -29,7 +29,7 @@
 
 
 
-export const WheelFactoryContractAddress = "0xb3385b723A56a3411a1A02608B7a5151b77A97b9";
+export const WheelFactoryContractAddress = "0x6a72E6E423e11E4fc3c54C5949e882D84815ab38";
 
 export const BuyCapsuleContractABI = [
 	{
@@ -1039,6 +1039,11 @@ export const WheelABI = [
 				"internalType": "string",
 				"name": "",
 				"type": "string"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
 			}
 		],
 		"stateMutability": "view",
@@ -1341,6 +1346,25 @@ export const WheelABI = [
 		"name": "transferFrom",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "winnerOffset",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	}
 ];
