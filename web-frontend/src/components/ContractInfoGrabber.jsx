@@ -125,7 +125,7 @@ const ContractInfoGrabber = () => {
       }
     });
 
-
+    
 
 
 
@@ -230,8 +230,10 @@ const ContractInfoGrabber = () => {
 
     useEffect(()=>{
       if (getWheelInfo.data){
-        console.log('got all 3 back: ',getWheelInfo.data); //addresses, slot percentages, wheel title
+        console.log('got all 4 back: ',getWheelInfo.data); //addresses, slot percentages, wheel title, all slots winnerOffset values
         setWheelInfo(getWheelInfo.data);
+        // WheelInfo[4][x] //slot winnerOffset array
+
         setmachineNameString(getWheelInfo.data[2]);
 
         // setNftSlotContractAddresses([]);
