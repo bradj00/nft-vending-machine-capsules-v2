@@ -237,6 +237,7 @@ useEffect(() => {
   const [slot9ProbabilityValue, setslot9ProbabilityValue]       = useState(0);
   const [slot10ProbabilityValue, setslot10ProbabilityValue]     = useState(0);
   
+  const [WheelSlotWinnerOffsets, setWheelSlotWinnerOffsets]     = useState(0);
   const [slotOffset, setslotOffset]     = useState(false);
   
   const [slot1isExplicit, setslot1isExplicit]     = useState(false);
@@ -483,6 +484,8 @@ useEffect(() => {
     slot8Inventory, setslot8Inventory,
     slot9Inventory, setslot9Inventory,
     slot10Inventory, setslot10Inventory,
+
+    WheelSlotWinnerOffsets, setWheelSlotWinnerOffsets,
 
     slot1Stock, setslot1Stock,
     slot2Stock, setslot2Stock,

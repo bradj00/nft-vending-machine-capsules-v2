@@ -18,10 +18,12 @@ const CarouselNftSlot = (props) => {
     const {selectedSlotContractName, setselectedSlotContractName} = useContext(NftMoreInfoContext);
     const {selectedSlotContractSymbol, setselectedSlotContractSymbol} = useContext(NftMoreInfoContext);
     const {NftSlotContractAddresses, setNftSlotContractAddresses}    = useContext(OddsAndSlotAddys);
-
+    
+    const {WheelSlotWinnerOffsets, setWheelSlotWinnerOffsets} = useContext(NftMoreInfoContext);
+    
     const {WheelTokensHeldByAddress, setWheelTokensHeldByAddress} = useContext(NftMoreInfoContext);
     const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
-    const {slotOffset, setslotOffset} = useContext(NftMoreInfoContext);
+    // const {slotOffset, setslotOffset} = useContext(NftMoreInfoContext);
 
 
     const [displayedTokenId, setdisplayedTokenId] = useState();
@@ -36,20 +38,26 @@ const CarouselNftSlot = (props) => {
     //WheelTokensHeldByAddress
 
       useEffect(()=>{
-        if (WheelTokensHeldByAddress && props.slotContractAddress && registeredFromOnChainBySlot && registeredFromOnChainBySlot[props.slotIndex][0]){
+        if (WheelTokensHeldByAddress && WheelTokensHeldByAddress[props.slotContractAddress]&& props.slotContractAddress && registeredFromOnChainBySlot && registeredFromOnChainBySlot[props.slotIndex]){
             const result = WheelTokensHeldByAddress[props.slotContractAddress].result.filter((item)=>{
-                return parseInt(registeredFromOnChainBySlot[props.slotIndex][0 + slotOffset]._hex,16) == item.token_id; //must start at zero + slotOffset
+                return parseInt(registeredFromOnChainBySlot[props.slotIndex][WheelSlotWinnerOffsets[props.slotIndex]]) == item.token_id; //must start at zero + WheelSlotWinnerOffsets
             })   
-            // console.log(props.slotIndex, ' THE APPROPRIATE TOKEN TO DISPLAY IS: ',result); 
+            console.log(props.slotIndex, ' THE APPROPRIATE TOKEN TO DISPLAY IS: ',result, registeredFromOnChainBySlot[props.slotIndex], WheelSlotWinnerOffsets); 
             setTokenDisplayed(result);
             // console.log(props.slotIndex, ' THE APPROPRIATE TOKEN TO DISPLAY IS: ',parseInt(registeredFromOnChainBySlot[props.slotIndex][0]._hex,16)); 
             // console.log(props.slotIndex, ' THE APPROPRIATE TOKEN TO DISPLAY IS: ',WheelTokensHeldByAddress[props.slotContractAddress].result); 
         } 
-      },[WheelTokensHeldByAddress, props.slotContractAddress, registeredFromOnChainBySlot, slotOffset[ props.slotIndex-1 ]]);
+      },[WheelTokensHeldByAddress, props.slotContractAddress, registeredFromOnChainBySlot, WheelSlotWinnerOffsets]);
     
         useEffect(()=>{
+          if (registeredFromOnChainBySlot){
+              console.log('registeredFromOnChainBySlot :',registeredFromOnChainBySlot);
+          }
+        },[registeredFromOnChainBySlot]);
+     
+        useEffect(()=>{
           if (TokenDisplayed){
-              console.log(props.slotIndex,'  token on display: ',TokenDisplayed);
+            //   console.log(props.slotIndex,'  token on display: ',TokenDisplayed);
           }
         },[TokenDisplayed]);
      
@@ -65,14 +73,16 @@ const CarouselNftSlot = (props) => {
     //loads metadata for area above carousel slot
       useEffect(()=>{
         if (TokenDisplayed){
+        if (TokenDisplayed[0]){
         if (TokenDisplayed[0].metadata){
-            console.log(props.slotIndex,'  image URL: ',JSON.parse(TokenDisplayed[0].metadata).image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
+            // console.log(props.slotIndex,'  image URL: ',JSON.parse(TokenDisplayed[0].metadata).image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
             fetch( TokenDisplayed[0].token_uri )
             .then(response => response.json())
             .then(data => {
                 setmetadataObj(data);
                 setImageUrl( JSON.parse(TokenDisplayed[0].metadata).image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com') );
             })
+        }
         }
         }
       },[TokenDisplayed]);

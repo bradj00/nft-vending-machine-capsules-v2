@@ -26,6 +26,7 @@ const ContractInfoGrabber = () => {
 
 
     const {WheelTokensHeldByAddress, setWheelTokensHeldByAddress} = useContext(NftMoreInfoContext);
+    const {WheelSlotWinnerOffsets, setWheelSlotWinnerOffsets} = useContext(NftMoreInfoContext);
 
 
     const Web3Api = useMoralisWeb3Api();
@@ -141,6 +142,12 @@ const ContractInfoGrabber = () => {
 
 
 
+  
+      const getSlotWinnerOffsets = useWeb3Contract({
+        abi: WheelABI,
+        contractAddress: contractAddressWheel,
+        functionName: "getslotWinnerOffsets",
+      });
 
 
 
@@ -203,8 +210,14 @@ const ContractInfoGrabber = () => {
 
             // console.log('***** getting LINK contract balance..');
             getChainLinkContractBalance.runContractFunction();
-
-
+            
+            
+            getSlotWinnerOffsets.runContractFunction({
+              onError: (error) =>{
+                console.log('getSlotWinnerOffsets ERROR: ',error);
+                setContractErrorMessage(error.error.message);
+              },
+            });
 
 
 
@@ -232,7 +245,7 @@ const ContractInfoGrabber = () => {
       if (getWheelInfo.data){
         console.log('got all 3 back: ',getWheelInfo.data); //addresses, slot percentages, wheel title, 
         setWheelInfo(getWheelInfo.data);
-        
+
         // WheelInfo[4][x] //slot winnerOffset array
 
         setmachineNameString(getWheelInfo.data[2]);
@@ -255,6 +268,18 @@ const ContractInfoGrabber = () => {
       }
     },[getWheelInfo.data]);
 
+
+    useEffect(()=>{
+      if (getSlotWinnerOffsets.data){
+        console.log('all slotWinner offsets: ',getSlotWinnerOffsets.data )
+        let temp = [];
+        for (let q = 0; q < getSlotWinnerOffsets.data.length; q++){
+          temp.push(parseInt(getSlotWinnerOffsets.data[q]._hex,16))
+        }
+
+        setWheelSlotWinnerOffsets(temp);
+      }
+    },[getSlotWinnerOffsets.data]);
   
 
     useEffect(()=>{
@@ -363,7 +388,7 @@ const ContractInfoGrabber = () => {
 
     useEffect(()=>{
       if (getRegisteredFromOnChainBySlot1.data){
-        console.log("RUBBER BABY BUGGY BUMPER: ",getRegisteredFromOnChainBySlot1.data)
+
         setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
           ...getRegisteredFromOnChainBySlot,
           [1]: getRegisteredFromOnChainBySlot1.data
