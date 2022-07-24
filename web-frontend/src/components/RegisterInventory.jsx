@@ -281,8 +281,8 @@ const RegisterInventory = () => {
       } 
       // const final = rinkebySlotUnregisteredTokens.result;
       const final = rinkebySlotUnregisteredTokens.result.filter(item => {
-        if (registeredFromOnChainBySlot[slotIndex][0]){
-          if (registeredFromOnChainBySlot[slotIndex][0].filter(e => parseInt(e.tokenId._hex, 16) == item.token_id).length > 0) {
+        if (registeredFromOnChainBySlot[slotIndex]){
+          if (registeredFromOnChainBySlot[slotIndex].filter(e => parseInt(e._hex, 16) == item.token_id).length > 0) {
             return false;
           }
           else return true;
@@ -344,7 +344,7 @@ const RegisterInventory = () => {
 
 
   
-  const registerTokensForSlot = useWeb3Contract({
+  const registerTokensForSlot = useWeb3Contract({ 
     abi: WheelABI,
     contractAddress: contractAddressWheel,
     functionName: "RegisterListOfNftIds",
@@ -479,7 +479,7 @@ function registerTokens(){
     }),
     onComplete : (tx) => {
       console.log('Registered all IDs in their slots! Check machine',tx)
-      setregisterTokensInfoButton('Awaiting chain confirmation...');
+      // setregisterTokensInfoButton('Awaiting chain confirmation...');
     },
     onError: (error) =>{
     console.log('frrrr big ERROR: ',error,"_____",WheelABI,contractAddressWheel,AllSlotsSelectedArr); 

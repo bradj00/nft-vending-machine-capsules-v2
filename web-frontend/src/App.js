@@ -131,6 +131,8 @@ useEffect(() => {
 
   const [displayMetaData, setdisplayMetaData] = useState(false);
   
+  const [WheelTokensHeldByAddress, setWheelTokensHeldByAddress] = useState(false);
+  
   const [capsuleTokenPaymentContract, setcapsuleTokenPaymentContract] = useState();
   //defined as per-second intervals
   const [domainThrottleSettings, setdomainThrottleSettings]   = useState(
@@ -351,7 +353,18 @@ useEffect(() => {
   const [slotInventory10tokenInfoArray, setslotInventory10tokenInfoArray] = useState([]);
   
   const [SlotAccountUnregisteredNFTs, setSlotAccountUnregisteredNFTs] = useState([]);
-  const [registeredFromOnChainBySlot, setregisteredFromOnChainBySlot] = useState();
+  const [registeredFromOnChainBySlot, setregisteredFromOnChainBySlot] = useState({
+    1:[],
+    2:[],
+    3:[],
+    4:[],
+    5:[],
+    6:[],
+    7:[],
+    8:[],
+    9:[],
+    10:[],
+  });
   
   
   
@@ -491,7 +504,6 @@ useEffect(() => {
     frontSlotId8, setfrontSlotId8,
     frontSlotId9, setfrontSlotId9,
     frontSlotId10, setfrontSlotId10,
-
     NftSlotContractAddresses, setNftSlotContractAddresses,
     NftSlotOdds, setNftSlotOdds,
 
@@ -535,7 +547,7 @@ useEffect(() => {
     hideExtraInfo, sethideExtraInfo,
 
     machineLinkBalance, setmachineLinkBalance,
-
+    WheelTokensHeldByAddress, setWheelTokensHeldByAddress,
     activeSlotCounter, setActiveSlotCounter,
 
     didSlotAlreadyLoadObj, setdidSlotAlreadyLoadObj,
@@ -833,7 +845,7 @@ useEffect(() => {
             </div>
           : <></>}
 
-
+          
 
 
 

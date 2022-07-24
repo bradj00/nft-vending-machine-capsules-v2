@@ -81,18 +81,6 @@ contract WheelFactory is MiddleData {
     }
 
 
-//redundant since BuyCapsuleByMachine[] is public
-    // function BuyCapsulesByMachineAddress(Wheel machineAddress) public view returns (BuyCapsules){
-    //     return( BuyCapsuleByMachine[machineAddress] );
-    // }
-
-
-//redundant...update front ui
-    // function allMachines() public view returns (Wheel[] memory)
-    // {
-    //     return wheels;
-    // }
-
     function getMyMachines() public view returns (Wheel[] memory){
         return WheelsByOwner[msg.sender];
     }

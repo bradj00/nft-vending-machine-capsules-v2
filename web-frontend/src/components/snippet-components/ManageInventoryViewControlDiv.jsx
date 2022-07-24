@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react'
 import { NftMoreInfoContext } from '../../App';
-
+import ConstructionIcon from '@mui/icons-material/Construction';
 const ManageInventoryViewControlDiv = () => {
     const {ManageSalesInventoryColor, setManageSalesInventoryColor} = useContext(NftMoreInfoContext);
     const {DepositInventoryColor, setDepositInventoryColor} = useContext(NftMoreInfoContext);
@@ -8,6 +8,7 @@ const ManageInventoryViewControlDiv = () => {
     const {RegisteredInventoryColor,   setRegisteredInventoryColor  } = useContext(NftMoreInfoContext);
     const {showRegisteredInventory,   setshowRegisteredInventory  } = useContext(NftMoreInfoContext);
     const {displayMetaData,   setdisplayMetaData  } = useContext(NftMoreInfoContext);
+    const {displayDiagnosticPage,   setdisplayDiagnosticPage  } = useContext(NftMoreInfoContext);
   
     function showRegistered(){
         setRegisteredInventoryColor("#666");
@@ -57,6 +58,9 @@ const ManageInventoryViewControlDiv = () => {
         <div onClick={()=>{ console.log(displayMetaData); setdisplayMetaData(!displayMetaData) }} style={{display:'flex', justifyContent:'right', alignItems:'center', backgroundColor:'rgba(255,255,255,0.1)',cursor:'pointer', color:displayMetaData?'#fff' : "#888",position:'fixed', top:'5vh',right:'20vw',height:'4vh',padding:'1vw',borderRadius:'25px', border:'0.5px solid #999'}}>
             {displayMetaData? <><i className="fa-solid fa-eye"></i>&nbsp; MetaData</> : <><i className="fa-solid fa-eye-slash"></i>&nbsp; MetaData</>}
         </div>
+        {/* <div onClick={()=>{ console.log(displayDiagnosticPage); setdisplayDiagnosticPage(!displayDiagnosticPage) }} style={{display:'flex', justifyContent:'right', alignItems:'center', backgroundColor:'rgba(255,255,255,0.1)',cursor:'pointer', color:displayDiagnosticPage?'#fff' : "#888",position:'fixed', top:'5vh',right:'10vw',height:'4vh',padding:'1vw',borderRadius:'25px', border:'0.5px solid #999'}}>
+            {displayDiagnosticPage? <><ConstructionIcon /> &nbsp; Diagnostics</> : <><ConstructionIcon />&nbsp; Diagnostics</>}
+        </div> */}
     </div>
   )
 }

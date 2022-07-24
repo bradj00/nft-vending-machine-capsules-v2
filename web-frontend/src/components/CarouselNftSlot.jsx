@@ -19,10 +19,31 @@ const CarouselNftSlot = (props) => {
     const {selectedSlotContractSymbol, setselectedSlotContractSymbol} = useContext(NftMoreInfoContext);
     const {NftSlotContractAddresses, setNftSlotContractAddresses}    = useContext(OddsAndSlotAddys);
 
+    const {WheelTokensHeldByAddress, setWheelTokensHeldByAddress} = useContext(NftMoreInfoContext);
+    const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
+
+
     const [displayedTokenId, setdisplayedTokenId] = useState();
     const [metadataObj, setmetadataObj] = useState();
 
+    //props.slot index goes 1-10
 
+
+    //slotContractAddress
+    //WheelTokensHeldByAddress
+
+      useEffect(()=>{
+        if (WheelTokensHeldByAddress && props.slotContractAddress && registeredFromOnChainBySlot && registeredFromOnChainBySlot[props.slotIndex][0]){
+            const result = WheelTokensHeldByAddress[props.slotContractAddress].result.filter((item)=>{
+                return parseInt(registeredFromOnChainBySlot[props.slotIndex][0]._hex,16) == item.token_id;
+            })  
+            console.log(props.slotIndex, ' THE APPROPRIATE TOKEN TO DISPLAY IS: ',result); 
+            // console.log(props.slotIndex, ' THE APPROPRIATE TOKEN TO DISPLAY IS: ',parseInt(registeredFromOnChainBySlot[props.slotIndex][0]._hex,16)); 
+            // console.log(props.slotIndex, ' THE APPROPRIATE TOKEN TO DISPLAY IS: ',WheelTokensHeldByAddress[props.slotContractAddress].result); 
+        } 
+      },[WheelTokensHeldByAddress, props.slotContractAddress, registeredFromOnChainBySlot]);
+    
+     
 
 
     //   useEffect(()=>{

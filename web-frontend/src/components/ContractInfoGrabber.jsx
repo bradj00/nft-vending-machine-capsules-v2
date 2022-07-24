@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {WheelABI, contractAddressWheel, contractAddressChainLinkTokenABI} from '../ContractInfo/ContractInfo.jsx';
 import VendingCurrentSlots from './VendingCurrentSlots';
 import TreasureChestCount from './TreasureChestCount';
-import Moralis, {useWeb3Contract, useMoralis, MoralisProvider, useERC20Balances} from "react-moralis";
+import Moralis, {useWeb3Contract, useMoralis, MoralisProvider, useERC20Balances, useMoralisWeb3Api} from "react-moralis";
 import { OddsAndSlotAddys } from '../App.js'; 
 import { NftMoreInfoContext } from '../App.js';
 import {ethers} from 'ethers';
@@ -18,12 +18,17 @@ const ContractInfoGrabber = () => {
     const {machineLinkBalance, setmachineLinkBalance} = useContext(NftMoreInfoContext);
     const {ContractErrorMessage, setContractErrorMessage}     = useContext(NftMoreInfoContext);
     const {WheelInfo, setWheelInfo}     = useContext(NftMoreInfoContext);
-    
+    const {MachineContractAddress, setMachineContractAddress,}    = useContext(NftMoreInfoContext);
     const {userErc20TokenBalance, setuserErc20TokenBalance} = useContext(NftMoreInfoContext);
     
     const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
     const {refreshRegisteredSlotData, setrefreshRegisteredSlotData} = useContext(NftMoreInfoContext);
 
+
+    const {WheelTokensHeldByAddress, setWheelTokensHeldByAddress} = useContext(NftMoreInfoContext);
+
+
+    const Web3Api = useMoralisWeb3Api();
 
 
     const {machineNameString, setmachineNameString} = useContext(NftMoreInfoContext);
@@ -184,7 +189,10 @@ const ContractInfoGrabber = () => {
     useEffect(()=>{
       if (isWeb3Enabled && contractAddressWheel && (contractAddressWheel != '/')){
           getAllRegisteredTokensInAllSlots(); // get our registered tokens for all slots
-        // setTimeout(function(){
+        
+        
+        
+          // setTimeout(function(){
             // console.log('getting crate slot settings for contract: ',contractAddressWheel);
             // getAllCrateSlotAddresses.runContractFunction();
 
@@ -217,7 +225,7 @@ const ContractInfoGrabber = () => {
 
     useEffect(()=>{
       if (getWheelInfo.data){
-        console.log('got all 3 back: ',getWheelInfo.data);
+        console.log('got all 3 back: ',getWheelInfo.data); //addresses, slot percentages, wheel title
         setWheelInfo(getWheelInfo.data);
         setmachineNameString(getWheelInfo.data[2]);
 
@@ -309,9 +317,43 @@ const ContractInfoGrabber = () => {
       
     }
 
+    async function preLoadSlotContractTokenInfo(){
+      //
+
+    }
+
+    useEffect(()=>{
+      if (NftSlotContractAddresses && MachineContractAddress){
+        let tempArray = Array.from(new Set(NftSlotContractAddresses));
+        if (tempArray[0]!='0x0000000000000000000000000000000000000000'){
+          console.log(NftSlotContractAddresses.length,' filtered to: ',tempArray.length,' :',tempArray);
+          
+          for (let i = 0; i < tempArray.length; i++){
+            const fetchUniqueSlotData = async ()=>{
+              const options = {
+                chain: "rinkeby",
+                address: MachineContractAddress&&MachineContractAddress!='0x0000000000000000000000000000000000000000'? MachineContractAddress: '0x0000000000000000000000000000000000000000',
+                token_address: tempArray[i],
+              };
+              const wheelAddressTokensHeldForContract = await Web3Api.account.getNFTsForContract(options);
+              console.log(tempArray[i],' ayy: ',wheelAddressTokensHeldForContract);
+
+              setWheelTokensHeldByAddress(WheelTokensHeldByAddress => ({
+                ...WheelTokensHeldByAddress,
+                [tempArray[i]]: wheelAddressTokensHeldForContract
+              }));
+
+            }
+            fetchUniqueSlotData();
+          }
+        }
+      }
+    },[NftSlotContractAddresses, MachineContractAddress]);
+
+
     useEffect(()=>{
       if (getRegisteredFromOnChainBySlot1.data){
-
+        console.log("RUBBER BABY BUGGY BUMPER: ",getRegisteredFromOnChainBySlot1.data)
         setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
           ...getRegisteredFromOnChainBySlot,
           [1]: getRegisteredFromOnChainBySlot1.data

@@ -304,7 +304,7 @@ const RegisteredNftSlot = (props) => {
             <div style={{textAlign:'center', border:'0px solid #00ff00', zIndex:'1',position:'absolute', top:'3vh', width:'100%',height:'80%',}}>
 
               {props.SlotAccountRegisteredNFTs? props.SlotAccountRegisteredNFTs.map((singleImage, index)=>{
-                // console.log('SINGLE IMAGE: ',singleImage, index);
+                console.log('SINGLE IMAGE: ',singleImage, index);
                 //replace pinata with moralis ipfs domain temporarily
                 singleImage.metadata? singleImage.metadata.image = singleImage.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>;
 
@@ -337,6 +337,7 @@ const RegisteredNftSlot = (props) => {
                         return(
                         <div style={{border:'1px solid #00ff00',marginBottom:'0.2vw',borderRadius:'10px',border: ActiveNetworkBorderColor?ActiveNetworkBorderColor: '1px solid #666', backgroundColor: ActiveNetworkThemeColorDarker? ActiveNetworkThemeColorDarker: 'rgba(50,50,50,0.6)',}}>
                         <div key={index} style={{position:'relative', display:'flex',justifyContent:'center', alignItems:'center', marginBottom:'4px', paddingLeft:'6px'}}>
+                            <div style={{position:'absolute', top:'0',left:'10%'}}>{singleImage.token_id} </div>
                             {/* <img width="100%" className="imgBorder" onClick={()=>{clickedThisImage(singleImage, 1, index)}} src={singleImage}></img> */}
                             {singleImage.metadata?<img width="100%" className="imgBorder" onClick={()=>{props.setSlotshowMenu({...props.SlotshowMenu, [singleImage.token_id]: !props.SlotshowMenu[singleImage.token_id]})}} src={singleImage.metadata? singleImage.metadata.image : "https://i.imgur.com/8LIxN7y.png"}></img>
                             :<NoImageTokenDescriptionDiv tokenInfo={singleImage}/>}
@@ -406,6 +407,7 @@ const RegisteredNftSlot = (props) => {
                   }else if ( ((singleImage.token_id.toString().includes(slotIdFilter[props.slotIndex].toString()) || (slotIdFilter[props.slotIndex] == '-1') )) ){
                       return(
                         <div key={index} style={{position:'relative', display:'flex',justifyContent:'center', alignItems:'center', marginBottom:'4px', paddingLeft:'6px'}}>
+                        <div style={{position:'absolute', top:'0',left:'10%'}}>{singleImage.token_id} </div>
                         {/* <img width="100%" className="imgBorder" onClick={()=>{clickedThisImage(singleImage, 1, index)}} src={singleImage}></img> */}
                         {singleImage.metadata?<img width="100%" className="imgBorder" onClick={()=>{props.setSlotshowMenu({...props.SlotshowMenu, [singleImage.token_id]: !props.SlotshowMenu[singleImage.token_id]})}} src={singleImage.metadata? singleImage.metadata.image : "https://i.imgur.com/8LIxN7y.png"}></img>
                         : <NoImageTokenDescriptionDiv tokenInfo={singleImage}/>}

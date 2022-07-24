@@ -13,8 +13,9 @@
 		//46000 gen C male executive
 
 //rinkeby MCP testnet addressess:
-//0x9CA82D971ACebd276c2290E917CcE441E04Be449	citizens
-//0x4886E559A143b323b0D230457136524cb9C045C5	citizensv2
+
+//0x03ff78D3800688068D2Bd4E1eb55AF681bbd8DB3	citizens
+
 
 //0x75E1817c8B16F29995eD9De9cAe2bD08A9244fC2	land
 //0x775752df06Df60a3Bb4FA32A12B3fd592328CA71	appliance
@@ -28,7 +29,7 @@
 
 
 
-export const WheelFactoryContractAddress = "0x24a4f604036C0Cdea9382f477Ef4F5d306cc8551";
+export const WheelFactoryContractAddress = "0xb3385b723A56a3411a1A02608B7a5151b77A97b9";
 
 export const BuyCapsuleContractABI = [
 	{
@@ -82,7 +83,7 @@ export const BuyCapsuleContractABI = [
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "wheelAddress",
+				"name": "",
 				"type": "uint256"
 			}
 		],
@@ -831,45 +832,6 @@ export const WheelABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "NftTokensRegisteredInMachine",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "index",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "slotIndex",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "tokenURI",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "uint256[][]",
 				"name": "theList",
 				"type": "uint256[][]"
@@ -925,68 +887,12 @@ export const WheelABI = [
 				"type": "uint256"
 			}
 		],
-		"name": "findLowestIndexofSlot",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "qq",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "slotIndex",
-				"type": "uint256"
-			}
-		],
 		"name": "getAllRegisteredForSlot",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "index",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "slotIndex",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "tokenURI",
-						"type": "string"
-					}
-				],
-				"internalType": "struct Wheel.slotInhabitant[]",
+				"internalType": "uint256[]",
 				"name": "",
-				"type": "tuple[]"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
+				"type": "uint256[]"
 			}
 		],
 		"stateMutability": "view",
@@ -1268,6 +1174,30 @@ export const WheelABI = [
 		"name": "rawFulfillRandomness",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "registeredTokensInSlots",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
