@@ -55,7 +55,7 @@ const RevenueStats = () => {
     });
   const getErc721BalanceMCPC = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: "0x03ff78D3800688068D2Bd4E1eb55AF681bbd8DB3",
+      contractAddress: "0x1a7b2b6F7Ad590555CeE80E490EA730aFB4638C6",
       functionName: "balanceOf",
       params:{
         owner: account

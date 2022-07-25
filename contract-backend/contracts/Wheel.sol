@@ -130,17 +130,19 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
         return newItemId;
     }
 
+
+    function openMultipleChests(uint256[] memory chestIds) public {
+        for (uint256 q=0; q < chestIds.length; q++){
+            openChest(chestIds[q]);
+        }
+    }
+
     function openChest(uint256 chestId) public {
         require(ownerOf(chestId) == msg.sender, "n");
-        // require(requestStatusIdByNftId[chestId] == 0x0000000000000000000000000000000000000000000000000000000000000000, "Chest has been opened");
-        // ^^^ if chainlink vrf call fails we need this to revert back to unopened state..currently does not
-
         require(isGamePaused == false, "p"); //require game is not paused, or return the empty slot 
-        
         require(LINK.balanceOf(address(this)) >= fee, "L");
 
         bytes32 requestId = requestRandomness(keyHash, fee);
-        
 
         //tell machine factory we asked for a CL VRF 
         // WheelFactory mfEvent;
