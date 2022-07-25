@@ -52,7 +52,7 @@ const ManageInventoryViewControlDiv = () => {
         In-Service
         </div>
         <div className="adminButton" onClick={()=>{showRevenue()}} style={{width:'100%', height:'80%', backgroundColor:'rgba(255,255,255,0.1)',borderRadius:'15px', display:'flex', justifyContent:'center', alignItems:'center', zIndex:'1', cursor:'pointer', color: ManageSalesInventoryColor, paddingLeft:'0.1vw',paddingRight:'0.1vw',fontSize:'100%', }}>
-        Revenue
+        Diagnostics
         </div>
 
         <div onClick={()=>{ console.log(displayMetaData); setdisplayMetaData(!displayMetaData) }} style={{display:'flex', justifyContent:'right', alignItems:'center', backgroundColor:'rgba(255,255,255,0.1)',cursor:'pointer', color:displayMetaData?'#fff' : "#888",position:'fixed', top:'5vh',right:'20vw',height:'4vh',padding:'1vw',borderRadius:'25px', border:'0.5px solid #999'}}>

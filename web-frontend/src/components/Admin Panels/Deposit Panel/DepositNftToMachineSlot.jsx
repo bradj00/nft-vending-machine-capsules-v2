@@ -353,7 +353,7 @@ const DepositNftToMachine = (props) => {
               
               {props.SlotAccountUnregisteredNFTs? props.SlotAccountUnregisteredNFTs.map((singleImage, index)=>{
                 
-                console.log('SSSS single image: ',singleImage);
+                // console.log('SSSS single image: ',singleImage);
                 if (tokensToHideBecauseWeDeposited.includes(singleImage.token_id)){
                   return(<></>)
                 }else{ 

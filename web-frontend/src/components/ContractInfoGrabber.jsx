@@ -335,12 +335,20 @@ const ContractInfoGrabber = () => {
       if (refreshRegisteredSlotData){
         setrefreshRegisteredSlotData(false);
         getAllRegisteredTokensInAllSlots();
+
+        getSlotWinnerOffsets.runContractFunction({
+          onError: (error) =>{
+            console.log('getSlotWinnerOffsets ERROR: ',error);
+            setContractErrorMessage(error.error.message);
+          },
+        });
+
       }
     },[refreshRegisteredSlotData]);
 
     function getAllRegisteredTokensInAllSlots(){
-        setTimeout(()=>{ getRegisteredFromOnChainBySlot1.runContractFunction();  },1 );
-        setTimeout(()=>{ getRegisteredFromOnChainBySlot2.runContractFunction();  },400 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot1.runContractFunction();  },200 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot2.runContractFunction();  },500 );
         setTimeout(()=>{ getRegisteredFromOnChainBySlot3.runContractFunction();  },800 );
         setTimeout(()=>{ getRegisteredFromOnChainBySlot4.runContractFunction();  },1200 );
         setTimeout(()=>{ getRegisteredFromOnChainBySlot5.runContractFunction();  },1600 );

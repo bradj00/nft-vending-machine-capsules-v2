@@ -15,6 +15,9 @@ const RevenueStats = () => {
   const {Moralis} = useMoralis();
   const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
   const [BuyCapsuleContractBalance , setBuyCapsuleContractBalance] = useState();
+  const {WheelSlotWinnerOffsets, setWheelSlotWinnerOffsets} = useContext(NftMoreInfoContext);
+  const [AllRegisteredTokens , setAllRegisteredTokens] = useState([]);
+
 
   const {isWeb3Enabled, account} = useMoralis();
   function returnToMachineView(){
@@ -44,7 +47,7 @@ const RevenueStats = () => {
 
   const getErc721BalanceGTNT = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: "0x9B6ACf19D0773079A8260E5fdED2EDE22feaB5d1",
+      contractAddress: "0x70F49fe6495eC79CEaEF637fB81AC381c4530e8e",
       functionName: "balanceOf",
       params:{
         owner: account
@@ -52,7 +55,7 @@ const RevenueStats = () => {
     });
   const getErc721BalanceMCPC = useWeb3Contract({
       abi: WheelABI,
-      contractAddress: "0x4886E559A143b323b0D230457136524cb9C045C5",
+      contractAddress: "0x03ff78D3800688068D2Bd4E1eb55AF681bbd8DB3",
       functionName: "balanceOf",
       params:{
         owner: account
@@ -64,11 +67,11 @@ const openChest = useWeb3Contract({
     contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
     functionName: "openChest",
     params:{
-      chestId: 1
+      chestId: 3
     }
   });
 
-const getAllRegisteredForSlot = useWeb3Contract({
+const getAllRegisteredForSlot1 = useWeb3Contract({
     abi: WheelABI,
     contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
     functionName: "getAllRegisteredForSlot",
@@ -84,7 +87,76 @@ const getAllRegisteredForSlot2 = useWeb3Contract({
       slotIndex: 1
     }
   });
+const getAllRegisteredForSlot3 = useWeb3Contract({
+    abi: WheelABI,
+    contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+    functionName: "getAllRegisteredForSlot",
+    params:{
+      slotIndex: 2
+    }
+  });
+const getAllRegisteredForSlot4 = useWeb3Contract({
+    abi: WheelABI,
+    contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+    functionName: "getAllRegisteredForSlot",
+    params:{
+      slotIndex: 3
+    }
+  });
+const getAllRegisteredForSlot5 = useWeb3Contract({
+    abi: WheelABI,
+    contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+    functionName: "getAllRegisteredForSlot",
+    params:{
+      slotIndex: 4
+    }
+  });
+const getAllRegisteredForSlot6 = useWeb3Contract({
+    abi: WheelABI,
+    contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+    functionName: "getAllRegisteredForSlot",
+    params:{
+      slotIndex: 5
+    }
+  });
+const getAllRegisteredForSlot7 = useWeb3Contract({
+    abi: WheelABI,
+    contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+    functionName: "getAllRegisteredForSlot",
+    params:{
+      slotIndex: 6
+    }
+  });
+const getAllRegisteredForSlot8 = useWeb3Contract({
+    abi: WheelABI,
+    contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+    functionName: "getAllRegisteredForSlot",
+    params:{
+      slotIndex: 7
+    }
+  });
+const getAllRegisteredForSlot9 = useWeb3Contract({
+    abi: WheelABI,
+    contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+    functionName: "getAllRegisteredForSlot",
+    params:{
+      slotIndex: 8
+    }
+  });
+const getAllRegisteredForSlot10 = useWeb3Contract({
+    abi: WheelABI,
+    contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
+    functionName: "getAllRegisteredForSlot",
+    params:{
+      slotIndex: 9
+    }
+  });
 
+  const getSlotWinnerOffsets = useWeb3Contract({
+    abi: WheelABI,
+    contractAddress: contractAddressWheel,
+    functionName: "getslotWinnerOffsets",
+  });
 
 const gamePaused = useWeb3Contract({
     abi: WheelABI,
@@ -101,6 +173,11 @@ const gamePaused = useWeb3Contract({
   // useEffect(()=>{
   //     console.log('gamePaused.data: ',gamePaused.data);
   // },[gamePaused.data])
+  useEffect(()=>{
+    // console.log('slot data: ',' 1:',getAllRegisteredForSlot1.data,' 2:', getAllRegisteredForSlot2.data,' 3:', getAllRegisteredForSlot3.data,' 4:',getAllRegisteredForSlot4.data, ' 5:',getAllRegisteredForSlot5.data,' 6:',getAllRegisteredForSlot6.data, ' 7:',getAllRegisteredForSlot7.data,' 8:', getAllRegisteredForSlot8.data,' 9:', getAllRegisteredForSlot9.data, ' 10:',getAllRegisteredForSlot10.data,)
+    setAllRegisteredTokens([getAllRegisteredForSlot1.data, getAllRegisteredForSlot2.data, getAllRegisteredForSlot3.data, getAllRegisteredForSlot4.data, getAllRegisteredForSlot5.data, getAllRegisteredForSlot6.data, getAllRegisteredForSlot7.data, getAllRegisteredForSlot8.data, getAllRegisteredForSlot9.data, getAllRegisteredForSlot10.data]);
+  
+  },[getAllRegisteredForSlot1.data, getAllRegisteredForSlot2.data, getAllRegisteredForSlot3.data, getAllRegisteredForSlot4.data, getAllRegisteredForSlot5.data, getAllRegisteredForSlot6.data, getAllRegisteredForSlot7.data, getAllRegisteredForSlot8.data, getAllRegisteredForSlot9.data, getAllRegisteredForSlot10.data, ])
 
   function openTheChest() {
     openChest.runContractFunction(); 
@@ -111,15 +188,43 @@ const gamePaused = useWeb3Contract({
   function refreshTheData() {
 
     gamePaused.runContractFunction();
-    getAllRegisteredForSlot.runContractFunction(); 
-    // getAllRegisteredForSlot2.runContractFunction();
+
+    getAllRegisteredForSlot1.runContractFunction();
+    getAllRegisteredForSlot2.runContractFunction();
+    getAllRegisteredForSlot3.runContractFunction();
+    getAllRegisteredForSlot4.runContractFunction();
+    getAllRegisteredForSlot5.runContractFunction();
+    getAllRegisteredForSlot6.runContractFunction();
+    getAllRegisteredForSlot7.runContractFunction();
+    getAllRegisteredForSlot8.runContractFunction();
+    getAllRegisteredForSlot9.runContractFunction();
+    getAllRegisteredForSlot10.runContractFunction();
+
     
+
     getErc721BalanceMCPC.runContractFunction();
     getErc721BalanceGTNT.runContractFunction();
+
+    getSlotWinnerOffsets.runContractFunction({
+      onError: (error) =>{
+        console.log('getSlotWinnerOffsets ERROR: ',error);
+      },
+    });
+
   }
+  useEffect(()=>{
+    if (getSlotWinnerOffsets.data){
+      console.log('all slotWinner offsets: ',getSlotWinnerOffsets.data )
+      let temp = [];
+      for (let q = 0; q < getSlotWinnerOffsets.data.length; q++){
+        temp.push(parseInt(getSlotWinnerOffsets.data[q]._hex,16))
+      }
 
+      setWheelSlotWinnerOffsets(temp);
+    }
+  },[getSlotWinnerOffsets.data]);
 
-const thisArray = [1,2,3,4,5,6,7,8,9,10];
+const thisArray = [0,1,2,3,4,5,6,7,8,9];
 
 
   return (
@@ -154,7 +259,7 @@ const thisArray = [1,2,3,4,5,6,7,8,9,10];
     
     <div  style={{padding:'0.5vw',cursor:'pointer', position:'absolute', top:'5%', left:'40%',fontSize:'3vh'}}>
       {/* token count: {getAllRegisteredForSlot.data && getAllRegisteredForSlot2.data? getAllRegisteredForSlot.data[0].length + getAllRegisteredForSlot2.data[0].length:'...'} */}
-      token count: {getAllRegisteredForSlot.data ? getAllRegisteredForSlot.data[0].length:'...'}
+      {/* token count: {getAllRegisteredForSlot.data ? getAllRegisteredForSlot.data[0].length:'...'} */}
     </div>
    
    <div style={{ padding:'0.5vw',cursor:'pointer', position:'absolute', top:'5%', left:'35%',fontSize:'3vh'}}>
@@ -170,37 +275,27 @@ const thisArray = [1,2,3,4,5,6,7,8,9,10];
     </div>
 
 
-    <div style={{position:'absolute', top:'15%',display:'flex', width:'100%',}}>
+    <div style={{position:'absolute', top:'15%',display:'flex', maxHeight:'90%',width:'100%',}}>
 
     {thisArray.map((slot)=>{
       return(
-      <table style={{marginRight:'10px',}}>
+      <table style={{ marginRight:'10px',}}>
         <tr>
-          <th style={{fontSize:'4vh',}}>{slot}</th>      
+          <th style={{height:'5%', fontSize:'4vh',}}>{slot+1}</th>      
         </tr>
-        {getAllRegisteredForSlot.data? 
-          getAllRegisteredForSlot.data.map((item, index)=>{
-            if (parseInt(item.slotIndex._hex, 16 ) == slot){
+        <td style={{height:'5%', backgroundColor:'#333', color:'#00ff00',fontSize:'3vh',}}>
+          + {WheelSlotWinnerOffsets[slot]}
+        </td>
+
+        {AllRegisteredTokens && AllRegisteredTokens[slot] ? 
+          AllRegisteredTokens[slot].map((item, index)=>{
+
               return(
-              <tr key={index}>
-                {parseInt(item.index._hex, 16 ) == 0?<td style={{color:'#fff', backgroundColor:'#ff0000'}}>{ parseInt(item.index._hex, 16 )} </td> : <td style={{color:'cyan'}}>{parseInt(item.index._hex, 16 )}</td>}
-                <td>{parseInt(item.tokenId._hex, 16 )} </td>
+              <tr key={index}>                
+                <td style={{backgroundColor: WheelSlotWinnerOffsets[slot] == index? "#660000": WheelSlotWinnerOffsets[slot] < index? '#333':'#333', filter:WheelSlotWinnerOffsets[slot] > index? 'opacity(0.1)':'opacity(1)'}}>{ parseInt(item._hex, 16 )} </td>
               </tr>
               )
-            }else return <></>
-          })
-        : <></>
-        }
-        {getAllRegisteredForSlot2.data? 
-          getAllRegisteredForSlot2.data[0].map((item, index)=>{
-            if (parseInt(item.slotIndex._hex, 16 ) == slot){
-              return(
-              <tr key={index}>
-                {parseInt(item.index._hex, 16 ) == 0?<td style={{color:'#fff', backgroundColor:'#ff0000'}}>{ parseInt(item.index._hex, 16 )} </td> : <td style={{color:'magenta'}}>{parseInt(item.index._hex, 16 )}</td>}
-                <td>{ parseInt(item.tokenId._hex, 16 )} </td>
-              </tr>
-              )
-            }else return <></>
+
           })
         : <></>
         }

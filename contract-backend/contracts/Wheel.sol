@@ -32,9 +32,8 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
     // mapping(bytes32 => uint256) private openChestStatus;                        //get tokenId from ChainLink requestId
     // mapping(uint256 => bytes32) private requestStatusIdByNftId;                 //get Chainlink requestId from tokenId
     // mapping(address => slotInhabitant[]) public NftTokensRegisteredInMachine;  //input contract address, get all registered tokens and what slot they're in
-    mapping(uint256 => uint256[]) public registeredTokensInSlots;
-    // uint256[10][] registeredTokensInSlots;    
-    mapping(uint256 => uint256) public winnerOffset;
+    mapping(uint256 => uint256[]) public registeredTokensInSlots; //1-10 index
+    mapping(uint256 => uint256) public winnerOffset;              //1-10 index
     // uint256[] public winnerOffset;                                                //increments every time a winning token is chosen for a given slot 
 
     uint256[] private oddsArray;
@@ -108,23 +107,15 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
 
     function getslotWinnerOffsets() public view returns(uint256[10] memory){
         uint256[10] memory temp;
-        for (uint256 x = 0; x<10; x++){
-            temp[x] = ( winnerOffset[x] );
+        for (uint256 x = 1; x<=10; x++){
+            temp[x-1] = ( winnerOffset[x] );
         }
-        return(temp);
+        return(temp); //slot index here is 1-10 not 0-9
     }
     //update frontend because we're looking for contract space here..
     function getWheelInfo() public view returns(OddsStruct memory, SlotStruct memory, string memory){
         return(allOdds, allSlotAddresses, MachineString);
     }
-    // function getAllAddys() public view returns(SlotStruct memory){
-    //     return(allSlotAddresses);
-    // }
-
-    // function getMachineString() public view returns(string memory){
-    //     return MachineString;
-    // }
-
 
 
     function mintCapsule(address player) public returns(uint256) //wheel owner may give out capsules if they want
@@ -195,8 +186,10 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
 
     function checkEmptySlots() public {
        bool topLevel = false;
-       for (uint x = 0; x < 10; x++){
-           if ((registeredTokensInSlots[x+1].length == winnerOffset[x]) && (oddsArray[x] != 0) ){ //if the length of the registered token list in slot is the same as our offset, it has reached the end and is empty
+       for (uint x = 1; x <= 10; x++){
+           if (oddsArray[x-1] == 0) { continue; }
+                                        //one of these is not lining up correctly and causing issues
+           if ( registeredTokensInSlots[x].length <= winnerOffset[x] ) { //if the length of the registered token list in slot is the same as our offset, it has reached the end and is empty
                topLevel = true;
            }
        }
@@ -206,10 +199,11 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
        else {
            isGamePaused = false;
         }
+
     }
 
-    function getAllRegisteredForSlot(uint256 slotIndex) public view returns (uint256 [] memory){
-        return( registeredTokensInSlots[slotIndex+1] );
+    function getAllRegisteredForSlot(uint256 slotIndex) public view returns (uint256 [] memory, uint256, uint256){
+        return( registeredTokensInSlots[slotIndex+1], registeredTokensInSlots[slotIndex+1].length, winnerOffset[slotIndex+1] );
     }
 
 
@@ -249,8 +243,8 @@ contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
             nftContract = ERC721(addyArray[slotWinner]);
             address chestOpener = openChestCaller[requestId];
 
-            uint256 winnerTokenInSlot = registeredTokensInSlots[slotWinner][ winnerOffset[slotWinner] ];
-            winnerOffset[slotWinner] += 1; //increment the offset by 1 
+            uint256 winnerTokenInSlot = registeredTokensInSlots[slotWinner+1][ winnerOffset[slotWinner+1] ];
+            winnerOffset[slotWinner + 1] += 1; //increment the offset by 1 
             nftContract.safeTransferFrom( address(this), chestOpener, winnerTokenInSlot ); 
             
 
