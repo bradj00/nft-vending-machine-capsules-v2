@@ -19,3 +19,6 @@ table {
   /* tr:nth-child(odd) {
     background-color: #111;
   } */
+  .hoverTD:hover {
+    border: 2px solid #ff0000;
+  }

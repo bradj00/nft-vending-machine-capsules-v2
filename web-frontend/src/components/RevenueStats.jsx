@@ -5,7 +5,6 @@ import { useERC20Balances, useMoralis, useWeb3Contract } from "react-moralis";
 import { useEffect } from 'react';
 import { WheelFactoryContractAddress, WheelFactoryABI } from '../ContractInfo/ContractInfo';
 import {WheelABI} from '../ContractInfo/ContractInfo.jsx';
-
 import '../styles/tempStyles.css';
 const RevenueStats = () => {
   const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
@@ -228,7 +227,7 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
 
 
   return (
-  <div style={{overflowY:'scroll', backgroundColor :'rgba(165, 221, 255 ,0.15)',top:'9.9vh',alignContent:'center',color: "#fff",height: '80%',marginBottom:'10vh', position:'absolute',display:'flex',alignItems:'center', justifyContent:'center', width:'100%'}}>
+  <div style={{overflowY:'scroll', backgroundColor :'rgba(165, 221, 255 ,0.15)',top:'9.9vh',alignContent:'center',color: "#fff",height: '90%',marginBottom:'10vh', position:'absolute',display:'flex',alignItems:'center', justifyContent:'center', width:'100%'}}>
     {/* <div style={{fontSize:'1.5vw',marginLeft:'1.2vw', marginTop:'-0.3vw', color:"#ffff00"}}>
       Analytics coming soon
     </div>
@@ -275,24 +274,25 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
     </div>
 
 
-    <div style={{position:'absolute', top:'15%',display:'flex', maxHeight:'90%',width:'100%',}}>
+    <div style={{position:'absolute', top:'15%',display:'flex', overflow:'scroll', maxHeight:'75vh',width:'75%', left:'1vw',}}>
+    
 
     {thisArray.map((slot)=>{
       return(
       <table style={{ marginRight:'10px',}}>
-        <tr>
+        <tr style={{position:'sticky', top:'0',width:'100%',}}>
           <th style={{height:'5%', fontSize:'4vh',}}>{slot+1}</th>      
         </tr>
-        <td style={{height:'5%', backgroundColor:'#333', color:'#00ff00',fontSize:'3vh',}}>
+        {/* <td style={{height:'5%', backgroundColor:'#333', color:'#00ff00',fontSize:'3vh',}}>
           + {WheelSlotWinnerOffsets[slot]}
-        </td>
+        </td> */}
 
         {AllRegisteredTokens && AllRegisteredTokens[slot] ? 
           AllRegisteredTokens[slot].map((item, index)=>{
 
               return(
               <tr key={index}>                
-                <td style={{backgroundColor: WheelSlotWinnerOffsets[slot] == index? "#660000": WheelSlotWinnerOffsets[slot] < index? '#333':'#333', filter:WheelSlotWinnerOffsets[slot] > index? 'opacity(0.1)':'opacity(1)'}}>{ parseInt(item._hex, 16 )} </td>
+                <td className="hoverTD" style={{cursor:'pointer', backgroundColor: WheelSlotWinnerOffsets[slot] == index? "#660000": WheelSlotWinnerOffsets[slot] < index? '#333':'#333', filter:WheelSlotWinnerOffsets[slot] > index? 'opacity(0.1)':'opacity(1)'}}>{ parseInt(item._hex, 16 )} </td>
               </tr>
               )
 
@@ -310,7 +310,9 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
 
 
     </div>
-
+    <div style={{border:'1px solid #00ff00', position:'absolute', top:'15%',display:'flex', justifyContent:'center', alignItems:'center', width:'22vw', height:'75vh', right:'1vw',}}>
+      Clicked Token Picture and Info
+    </div>
 
 
 
