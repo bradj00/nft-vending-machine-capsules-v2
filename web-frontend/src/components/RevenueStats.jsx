@@ -6,16 +6,22 @@ import { useEffect } from 'react';
 import { WheelFactoryContractAddress, WheelFactoryABI } from '../ContractInfo/ContractInfo';
 import {WheelABI} from '../ContractInfo/ContractInfo.jsx';
 import '../styles/tempStyles.css';
+import { OddsAndSlotAddys } from '../App';
+
 const RevenueStats = () => {
   const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
   const {BuyCapsuleContract, setBuyCapsuleContract} = useContext(NftMoreInfoContext)
   const { fetchERC20Balances, data, isLoading, isFetching, error } = useERC20Balances();
   const {capsuleTokenPaymentContract, setcapsuleTokenPaymentContract} = useContext(NftMoreInfoContext)
   const {Moralis} = useMoralis();
+
   const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
   const [BuyCapsuleContractBalance , setBuyCapsuleContractBalance] = useState();
   const {WheelSlotWinnerOffsets, setWheelSlotWinnerOffsets} = useContext(NftMoreInfoContext);
   const [AllRegisteredTokens , setAllRegisteredTokens] = useState([]);
+  const [MoreTokenInfo , setMoreTokenInfo] = useState();
+  const {NftSlotContractAddresses}    = useContext(OddsAndSlotAddys);
+  const {WheelTokensHeldByAddress, setWheelTokensHeldByAddress} = useContext(NftMoreInfoContext);
 
 
   const {isWeb3Enabled, account} = useMoralis();
@@ -23,8 +29,28 @@ const RevenueStats = () => {
     setmanagingInventory(!managingInventory);
   }
 
-
+  useEffect(()=>{
+    if (MoreTokenInfo){
+      console.log('cached info for token: ', MoreTokenInfo);
+    }
+  },[MoreTokenInfo]);
  
+  function updateClickedToken (tokenId, slotNumber){
+    const isEjected = WheelTokensHeldByAddress[NftSlotContractAddresses[slotNumber - 1] ].result.filter((item)=>{ return tokenId == parseInt(item.token_id) });
+    if (isEjected.length == 0){ setMoreTokenInfo('not in db') }
+    else {
+      let temp = WheelTokensHeldByAddress[NftSlotContractAddresses[slotNumber - 1] ].result.filter((item)=>{ return tokenId == parseInt(item.token_id) });
+      temp = temp[0];
+      console.log('TEMP: ',temp);
+      if (temp["metadata"] && typeof temp.metadata != "object"){
+        temp["metadata"] = JSON.parse(temp.metadata);
+      }
+      console.log(tokenId, slotNumber, NftSlotContractAddresses[slotNumber - 1], );
+      setMoreTokenInfo( temp )
+    }
+  }
+
+
   useEffect(()=>{
     if (data){
       console.log('user ERC20 balances: ',data)
@@ -289,10 +315,10 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
 
         {AllRegisteredTokens && AllRegisteredTokens[slot] ? 
           AllRegisteredTokens[slot].map((item, index)=>{
-
+              // console.log('ITEMMMM: ',item);
               return(
-              <tr key={index}>                
-                <td className="hoverTD" style={{cursor:'pointer', backgroundColor: WheelSlotWinnerOffsets[slot] == index? "#660000": WheelSlotWinnerOffsets[slot] < index? '#333':'#333', filter:WheelSlotWinnerOffsets[slot] > index? 'opacity(0.1)':'opacity(1)'}}>{ parseInt(item._hex, 16 )} </td>
+              <tr key={index}  style={{zIndex:'9999'}}>                
+                <td className="hoverTD"  onClick={ () => { updateClickedToken(parseInt(item._hex,16) , slot+1) } } style={{cursor:'pointer', backgroundColor: WheelSlotWinnerOffsets[slot] == index? "#660000": WheelSlotWinnerOffsets[slot] < index? '#333':'#333', filter:WheelSlotWinnerOffsets[slot] > index? 'opacity(0.1)':'opacity(1)'}}>{ parseInt(item._hex, 16 )} </td>
               </tr>
               )
 
@@ -310,8 +336,63 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
 
 
     </div>
-    <div style={{border:'1px solid #00ff00', position:'absolute', top:'15%',display:'flex', justifyContent:'center', alignItems:'center', width:'22vw', height:'75vh', right:'1vw',}}>
-      Clicked Token Picture and Info
+    <div style={{backgroundColor:'rgba(0,0,0,0.2)', border:'1px solid rgba(0,0,0,0.2)',borderRadius:'5px', position:'absolute', top:'15%',display:'flex', justifyContent:'center', alignItems:'center', width:'22vw', height:'75vh', right:'1vw',}}>
+      <div style={{display:'flex', borderRadius:'5px',justifyContent:'center', alignItems:'center', width:'90%',backgroundColor:'rgba(0,0,0,0.5)', height:'40%', top:'2%',position:'absolute'}}>
+        {MoreTokenInfo == 'not in db'?<>ejected from contract</>:<img style={{maxHeight:'100%', objectFit:'scale-down'}} src={MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>:<></>}></img>}
+      </div>
+      
+      <div style={{display:'flex',justifyContent:'center',fontSize:'1vw', backgroundColor:'rgba(0,0,0,0.5)',borderRadius:'5px', position:'absolute', width:'95%', height:'56%', bottom:'0.5%'}}>
+        <div style={{position:'absolute', top:'3%', left:'4%',}}>
+          View token: 
+        </div>
+        <div className="hoverIcon" style={{position:'absolute', top:'3%',height:'7%', left:'30%',}}>
+          <img  style={{maxHeight:'100%',objectFit:'scale-down'}} src="https://etherscan.io/images/brandassets/etherscan-logo-light-circle.png"></img>
+          
+        </div>
+        <div className="hoverIcon" style={{position:'absolute', top:'3%', height:'7%', left:'40%',}}>
+          <img  style={{maxHeight:'100%',objectFit:'scale-down'}} src="https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.png"></img>
+        </div>
+
+        <div className="hoverViewMetadata" style={{border:'1px solid rgba(250,250,250,0.3)',padding:'0.5vh', position:'absolute', top:'2%', right:'3%',}}>
+          Metadata 
+        </div>
+        <div className="hoverViewMetadata" style={{border:'1px solid rgba(250,250,250,0.3)',padding:'0.5vh', position:'absolute', top:'15%', right:'3%',}}>
+          Carousel View
+        </div>
+        
+        
+        <div style={{color:'magenta',fontWeight:'bold', position:'absolute', top:'13%', left:'4%', width:'55%', }}>
+          ERC-721
+        </div>
+
+        <div style={{ position:'absolute', top:'29%', left:'4%',width:'55%',}}>
+          <div style={{position:'absolute',left:'0%'}}>Token Id:</div>  <div style={{position:'absolute', right:'0%', color:'cyan'}}>14214</div>
+        </div>
+
+        <div style={{position:'absolute', top:'39%', left:'4%',width:'55%',}}>
+          <div style={{position:'absolute', left:'0%'}}>Contract:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>0x123..456</div> 
+        </div>
+
+        <div style={{position:'absolute', top:'49%', left:'4%',width:'55%',}}>
+          <div style={{position:'absolute', left:'0%'}}>Symbol:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>MCPTNT</div>
+        </div>
+
+        <div style={{position:'absolute', top:'59%', left:'4%',width:'55%', }}>
+         <div style={{position:'absolute', left:'0%'}}> Slot: </div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>3</div>
+        </div>
+        <div style={{position:'absolute', top:'69%', left:'4%',width:'55%', }}>
+         <div style={{position:'absolute', left:'0%'}}> Position: </div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>14</div>
+        </div>
+        
+        
+        <div className="hoverEjectToken" style={{display:'flex',justifyContent:'center',border:'1px solid rgba(250,150,150,0.5)', padding:'0.5vh', position:'absolute', width:'35%', bottom:'5%', }}>
+          Eject Token
+        </div>
+
+
+
+      </div>
+
     </div>
 
 

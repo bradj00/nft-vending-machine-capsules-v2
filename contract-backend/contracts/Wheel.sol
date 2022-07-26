@@ -2,12 +2,15 @@
 pragma solidity 0.8.1;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+
 import "@openzeppelin/contracts/utils/Counters.sol"; 
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol"; 
 import "./MiddleData.sol";
-import "./WheelFactory.sol";
+import "./WheelFactory.sol"; 
  
  
 contract Wheel is MiddleData, ERC721URIStorage, VRFConsumerBase{
