@@ -624,11 +624,11 @@ function determineGridSize(){
         tempcount++;
       }
     }
-    let gridStyle = 'repeat('+tempcount+', 1fr)'
+    let gridStyle = 'repeat('+tempcount+', 1fr ) '
     return(gridStyle)
   }
   else 
-    return ('repeat(10, 1fr)');
+    return ('repeat(10, 1fr) ');
 }
 
   useEffect(()=>{
@@ -647,7 +647,7 @@ function determineGridSize(){
     
 
  
-    <div style={{display:'flex', justifyContent:'center', zIndex:'1',display:'grid', gridTemplateColumns:determineGridSize(), gap:'0.5vw',border:'0px solid #00ffff', width:'95%', paddingTop:'5vh',}}>
+    <div style={{display:'flex', justifyContent:'center', zIndex:'1',display:'grid', gridTemplateColumns:'repeat(10, 1fr)', gap:'0.5vw',border:'0px solid #00ffff', width:'95%', paddingTop:'5vh',}}>
  
         {/* <div style={{position:'absolute'}}>
               <UnregisteredInventorySlotLoader slotIndex={1} isLoaded={isLoaded1} isPrevLoaded={true}        SlotAccountUnregisteredNFTs={loadedAddressTokens[NftSlotContractAddresses[0]]} qqr={NftSlotContractAddresses} setIsLoaded={setisLoaded1}  slotAddress={NftSlotContractAddresses[0]} />

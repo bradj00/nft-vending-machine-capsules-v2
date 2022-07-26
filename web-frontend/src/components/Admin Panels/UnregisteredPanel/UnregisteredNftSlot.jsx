@@ -241,7 +241,7 @@ const UnregisteredNftSlot = (props) => {
                     }
 
   return (
-    <div>
+    <div >
         {slotNameAndSymbol[props.slotIndex]?<div  style={{fontSize:'0.85vw', zIndex:'2',position:'relative', display:'flex', justifyContent:'left',width:'100%',border:'0px solid #00ff00',  }}>
               <div onClick={()=>{setdisplayFilterSlot(!displayFilterSlot)}} className={filtersApplied() ? "filterIconActive" : "filterIcon"} style={{position:'absolute',top:'0%',right:'0%',}}>
               <FilterAltOffIcon /> 

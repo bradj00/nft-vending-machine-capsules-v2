@@ -252,6 +252,10 @@ const gamePaused = useWeb3Contract({
 const thisArray = [0,1,2,3,4,5,6,7,8,9];
 
 
+  useEffect(()=>{
+    console.log('WheelTokensHeldByAddress: ',WheelTokensHeldByAddress)
+  },[WheelTokensHeldByAddress]);
+
   return (
   <div style={{overflowY:'scroll', backgroundColor :'rgba(165, 221, 255 ,0.15)',top:'9.9vh',alignContent:'center',color: "#fff",height: '90%',marginBottom:'10vh', position:'absolute',display:'flex',alignItems:'center', justifyContent:'center', width:'100%'}}>
     {/* <div style={{fontSize:'1.5vw',marginLeft:'1.2vw', marginTop:'-0.3vw', color:"#ffff00"}}>
@@ -303,15 +307,20 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
     <div style={{position:'absolute', top:'15%',display:'flex', overflow:'scroll', maxHeight:'75vh',width:'75%', left:'1vw',}}>
     
 
-    {thisArray.map((slot)=>{
+    {thisArray.map((slot, index1)=>{
       return(
-      <table style={{ marginRight:'10px',}}>
+      <table key={index1} style={{ marginRight:'10px',}}>
         <tr style={{position:'sticky', top:'0',width:'100%',}}>
           <th style={{height:'5%', fontSize:'4vh',}}>{slot+1}</th>      
         </tr>
         {/* <td style={{height:'5%', backgroundColor:'#333', color:'#00ff00',fontSize:'3vh',}}>
           + {WheelSlotWinnerOffsets[slot]}
         </td> */}
+
+        {/* Slot Contract Symbol */}
+        <td style={{cursor:'pointer', position:'sticky', top:'9%',height:'5%',backgroundColor:'#111', color:'cyan', fontWeight:'bold', fontSize:'1.5vh',}}>
+          {WheelTokensHeldByAddress? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0].symbol : <></>}
+        </td>
 
         {AllRegisteredTokens && AllRegisteredTokens[slot] ? 
           AllRegisteredTokens[slot].map((item, index)=>{
@@ -336,6 +345,10 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
 
 
     </div>
+
+
+    {/* More Token Info DIV */}
+    {/* ------------------- */}
     <div style={{backgroundColor:'rgba(0,0,0,0.2)', border:'1px solid rgba(0,0,0,0.2)',borderRadius:'5px', position:'absolute', top:'15%',display:'flex', justifyContent:'center', alignItems:'center', width:'22vw', height:'75vh', right:'1vw',}}>
       <div style={{display:'flex', borderRadius:'5px',justifyContent:'center', alignItems:'center', width:'90%',backgroundColor:'rgba(0,0,0,0.5)', height:'40%', top:'2%',position:'absolute'}}>
         {MoreTokenInfo == 'not in db'?<>ejected from contract</>:<img style={{maxHeight:'100%', objectFit:'scale-down'}} src={MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>:<></>}></img>}
@@ -361,7 +374,7 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
         </div>
         
         
-        <div style={{color:'magenta',fontWeight:'bold', position:'absolute', top:'13%', left:'4%', width:'55%', }}>
+        <div style={{color:'magenta',fontWeight:'bold', position:'absolute', top:'15%', left:'4%', width:'55%', }}>
           ERC-721
         </div>
 
@@ -394,7 +407,7 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
       </div>
 
     </div>
-
+    {/* ------------------- */}
 
 
   </div>

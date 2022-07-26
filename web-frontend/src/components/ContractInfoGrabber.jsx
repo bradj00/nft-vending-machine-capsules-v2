@@ -20,6 +20,7 @@ const ContractInfoGrabber = () => {
     const {WheelInfo, setWheelInfo}     = useContext(NftMoreInfoContext);
     const {MachineContractAddress, setMachineContractAddress,}    = useContext(NftMoreInfoContext);
     const {userErc20TokenBalance, setuserErc20TokenBalance} = useContext(NftMoreInfoContext);
+
     
     const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
     const {refreshRegisteredSlotData, setrefreshRegisteredSlotData} = useContext(NftMoreInfoContext);
@@ -125,9 +126,6 @@ const ContractInfoGrabber = () => {
         slotIndex: 9
       }
     });
-
-    
-
 
 
 
@@ -267,6 +265,15 @@ const ContractInfoGrabber = () => {
 
       }
     },[getWheelInfo.data]);
+
+   
+
+
+
+    // useEffect(()=>{
+
+    // },[fetchSlotContractAddressName.data, fetchSlotContractAddressSymbol]);
+
 
 
     useEffect(()=>{

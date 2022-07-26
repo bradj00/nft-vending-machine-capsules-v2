@@ -129,6 +129,7 @@ useEffect(() => {
   const [userErc20TokenBalance, setuserErc20TokenBalance] = useState();
   const [TimerOuter, setTimerOuter] = useState({});
 
+
   const [displayMetaData, setdisplayMetaData] = useState(false);
   
   const [WheelTokensHeldByAddress, setWheelTokensHeldByAddress] = useState(false);
@@ -829,8 +830,8 @@ useEffect(() => {
               <>
 
             <div style={{zIndex:'1', position:'fixed',top:'0.5vh',display:'flex',justifyContent:'center', width:'32vw',left:'30vw', height:'9vh',border:'1px solid #ccc', backgroundColor:'rgba(165, 221, 255 ,0.15)'}}>
-              <div style={{color:'#fff', fontSize:'1vw', position:'absolute',  left:'0%',paddingLeft:'1.5%',paddingRight:'1.5%',borderBottomRightRadius:'10px',border:'1px solid #ccc', top:'0%',backgroundColor:ActiveNetworkThemeColorLighter?ActiveNetworkThemeColorLighter:"#ccc"}}>
-                ADMIN CONTROL PANEL
+              <div style={{color:'#fff', fontSize:'1vw', position:'absolute',  textAlign:'center', paddingLeft:'1.5%',paddingRight:'1.5%',borderBottomRightRadius:'10px',borderBottomLeftRadius:'10px',border:'1px solid #ccc', top:'0%',backgroundColor:ActiveNetworkThemeColorLighter?ActiveNetworkThemeColorLighter:"#ccc"}}>
+                ADMIN WHEEL CONTROL
               </div>
 
               
