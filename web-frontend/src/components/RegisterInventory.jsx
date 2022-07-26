@@ -253,7 +253,7 @@ const RegisterInventory = () => {
         // console.log('~~ ',loadedAddressTokens[0]);
 
           if (slotAddress in loadedAddressTokens){ //if we have already loaded tokens for a key address 
-            console.log('found existing cached data for ',slotAddress, loadedAddressTokens[slotAddress])
+            // console.log('found existing cached data for ',slotAddress, loadedAddressTokens[slotAddress])
             rinkebySlotUnregisteredTokens = loadedAddressTokens[slotAddress];
 
             setloadedAddressTokens(loadedAddressTokens => ({

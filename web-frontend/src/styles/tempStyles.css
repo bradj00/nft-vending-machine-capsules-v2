@@ -33,3 +33,14 @@ table {
   .hoverIcon:hover {
     cursor: pointer;
   }
+
+
+  .disabledhoverRefreshIcon {
+    color:rgba(255,50,50,0.3);
+  }
+  .hoverRefreshIcon {
+    color:#aaa;
+  }
+  .hoverRefreshIcon:hover {
+    color:#fff;
+  }

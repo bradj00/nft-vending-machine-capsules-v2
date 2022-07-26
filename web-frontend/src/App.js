@@ -117,7 +117,7 @@ useEffect(() => {
   enableWeb3();
   }
 }, [web3]);
-
+  const [AllRegisteredTokens , setAllRegisteredTokens] = useState([]);
   const queryClient = new QueryClient();
 
   const [ManageSalesInventoryColor, setManageSalesInventoryColor]    = useState("#666");
@@ -654,7 +654,7 @@ useEffect(() => {
     Slot8showMenu, setSlot8showMenu,
     Slot9showMenu, setSlot9showMenu,
     Slot10showMenu, setSlot10showMenu,
-    
+    AllRegisteredTokens , setAllRegisteredTokens,
     ToolTipTextSlot1, setToolTipTextSlot1,
     ToolTipTextSlot2, setToolTipTextSlot2,
     ToolTipTextSlot3, setToolTipTextSlot3,

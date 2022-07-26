@@ -514,11 +514,11 @@ const ContractInfoGrabber = () => {
 
 
 
-    useEffect(()=>{
-      if (registeredFromOnChainBySlot){
-        console.log('Registered Token Ids by front-end slot number',registeredFromOnChainBySlot)
-      }
-    },[registeredFromOnChainBySlot])
+    // useEffect(()=>{
+    //   if (registeredFromOnChainBySlot){
+    //     console.log('Registered Token Ids by front-end slot number',registeredFromOnChainBySlot)
+    //   }
+    // },[registeredFromOnChainBySlot])
 
 
 

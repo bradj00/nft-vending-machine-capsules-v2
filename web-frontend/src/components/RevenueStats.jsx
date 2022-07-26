@@ -3,10 +3,10 @@ import { NftMoreInfoContext } from '../App';
 import RevenueChart from './Admin Panels/Revenue Panel/RevenueChart.jsx';
 import { useERC20Balances, useMoralis, useWeb3Contract } from "react-moralis";
 import { useEffect } from 'react';
-import { WheelFactoryContractAddress, WheelFactoryABI } from '../ContractInfo/ContractInfo';
-import {WheelABI} from '../ContractInfo/ContractInfo.jsx';
+import { WheelFactoryContractAddress, WheelFactoryABI, WheelABI } from '../ContractInfo/ContractInfo';
 import '../styles/tempStyles.css';
 import { OddsAndSlotAddys } from '../App';
+import { getEllipsisTxt } from '../helpers/formatters';
 
 const RevenueStats = () => {
   const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
@@ -18,7 +18,7 @@ const RevenueStats = () => {
   const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
   const [BuyCapsuleContractBalance , setBuyCapsuleContractBalance] = useState();
   const {WheelSlotWinnerOffsets, setWheelSlotWinnerOffsets} = useContext(NftMoreInfoContext);
-  const [AllRegisteredTokens , setAllRegisteredTokens] = useState([]);
+  const {AllRegisteredTokens , setAllRegisteredTokens} = useContext(NftMoreInfoContext);
   const [MoreTokenInfo , setMoreTokenInfo] = useState();
   const {NftSlotContractAddresses}    = useContext(OddsAndSlotAddys);
   const {WheelTokensHeldByAddress, setWheelTokensHeldByAddress} = useContext(NftMoreInfoContext);
@@ -35,7 +35,7 @@ const RevenueStats = () => {
     }
   },[MoreTokenInfo]);
  
-  function updateClickedToken (tokenId, slotNumber){
+  function updateClickedToken (tokenId, slotNumber, indexInSlot){
     const isEjected = WheelTokensHeldByAddress[NftSlotContractAddresses[slotNumber - 1] ].result.filter((item)=>{ return tokenId == parseInt(item.token_id) });
     if (isEjected.length == 0){ setMoreTokenInfo('not in db') }
     else {
@@ -45,6 +45,8 @@ const RevenueStats = () => {
       if (temp["metadata"] && typeof temp.metadata != "object"){
         temp["metadata"] = JSON.parse(temp.metadata);
       }
+      temp.indexInSlot = indexInSlot;
+      temp.slotNumber = slotNumber;
       console.log(tokenId, slotNumber, NftSlotContractAddresses[slotNumber - 1], );
       setMoreTokenInfo( temp )
     }
@@ -278,33 +280,30 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
     </div> */}
 
  
-    <div onClick={()=>{ refreshTheData()}} style={{border:'1px solid #4444aa', padding:'0.5vw',cursor:'pointer', borderRadius:'15px',backgroundColor:'rgba(0,0,0,0.3)', position:'absolute', top:'5%', left:'3%',fontSize:'3vh'}}>
+    {/* <div onClick={()=>{ refreshTheData()}} style={{border:'1px solid #4444aa', padding:'0.5vw',cursor:'pointer', borderRadius:'15px',backgroundColor:'rgba(0,0,0,0.3)', position:'absolute', top:'5%', left:'3%',fontSize:'3vh'}}>
       refresh data
-    </div>
+    </div> */}
    
-    <div onClick={()=>{ openTheChest()}} style={{border:'1px solid #4444aa', padding:'0.5vw',cursor:'pointer', borderRadius:'15px',backgroundColor:'rgba(0,0,0,0.3)', position:'absolute', top:'5%', left:'15%',fontSize:'3vh'}}>
+    {/* <div onClick={()=>{ openTheChest()}} style={{border:'1px solid #4444aa', padding:'0.5vw',cursor:'pointer', borderRadius:'15px',backgroundColor:'rgba(0,0,0,0.3)', position:'absolute', top:'5%', left:'15%',fontSize:'3vh'}}>
       open chest
-    </div>
+    </div> */}
     
-    <div  style={{padding:'0.5vw',cursor:'pointer', position:'absolute', top:'5%', left:'40%',fontSize:'3vh'}}>
-      {/* token count: {getAllRegisteredForSlot.data && getAllRegisteredForSlot2.data? getAllRegisteredForSlot.data[0].length + getAllRegisteredForSlot2.data[0].length:'...'} */}
-      {/* token count: {getAllRegisteredForSlot.data ? getAllRegisteredForSlot.data[0].length:'...'} */}
-    </div>
    
-   <div style={{ padding:'0.5vw',cursor:'pointer', position:'absolute', top:'5%', left:'35%',fontSize:'3vh'}}>
+   
+   {/* <div style={{ padding:'0.5vw',cursor:'pointer', position:'absolute', top:'5%', left:'35%',fontSize:'3vh'}}>
       <div style={{position:'absolute', right:'0', top:'0%',color:gamePaused.data?'#ff0000':'#00ff00' }}>{gamePaused.data?'Paused':'UnPaused'}</div>
-    </div>
+    </div> */}
 
-   <div style={{ padding:'0.5vw',cursor:'pointer', position:'absolute', top:'1%', right:'35%',fontSize:'3vh'}}>
+   {/* <div style={{ padding:'0.5vw',cursor:'pointer', position:'absolute', top:'1%', right:'35%',fontSize:'3vh'}}>
       <div style={{position:'absolute', right:'0', top:'0%',color:'#00ff00',  }}>MCPC: {getErc721BalanceMCPC.data? parseInt(getErc721BalanceMCPC.data._hex, 16):'...'}</div>
    </div>
 
    <div style={{ padding:'0.5vw',cursor:'pointer', position:'absolute', top:'1%', right:'15%',fontSize:'3vh'}}>
       <div style={{position:'absolute', right:'0', top:'0%',color:'#ff0000',  }}>GTNT: {getErc721BalanceGTNT.data? parseInt(getErc721BalanceGTNT.data._hex, 16):'...'}</div>
-    </div>
+    </div> */}
 
 
-    <div style={{position:'absolute', top:'15%',display:'flex', overflow:'scroll', maxHeight:'75vh',width:'75%', left:'1vw',}}>
+    <div style={{position:'absolute', top:'3%',display:'flex', overflow:'scroll', maxHeight:'85vh',width:'75%', left:'1vw',}}>
     
 
     {thisArray.map((slot, index1)=>{
@@ -327,7 +326,7 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
               // console.log('ITEMMMM: ',item);
               return(
               <tr key={index}  style={{zIndex:'9999'}}>                
-                <td className="hoverTD"  onClick={ () => { updateClickedToken(parseInt(item._hex,16) , slot+1) } } style={{cursor:'pointer', backgroundColor: WheelSlotWinnerOffsets[slot] == index? "#660000": WheelSlotWinnerOffsets[slot] < index? '#333':'#333', filter:WheelSlotWinnerOffsets[slot] > index? 'opacity(0.1)':'opacity(1)'}}>{ parseInt(item._hex, 16 )} </td>
+                <td className="hoverTD"  onClick={ () => { updateClickedToken(parseInt(item._hex,16) , slot+1, index+1) } } style={{cursor:'pointer', backgroundColor: WheelSlotWinnerOffsets[slot] == index? "#660000": WheelSlotWinnerOffsets[slot] < index? '#333':'#333', filter:WheelSlotWinnerOffsets[slot] > index? 'opacity(0.1)':'opacity(1)'}}>{ parseInt(item._hex, 16 )} </td>
               </tr>
               )
 
@@ -349,7 +348,7 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
 
     {/* More Token Info DIV */}
     {/* ------------------- */}
-    <div style={{backgroundColor:'rgba(0,0,0,0.2)', border:'1px solid rgba(0,0,0,0.2)',borderRadius:'5px', position:'absolute', top:'15%',display:'flex', justifyContent:'center', alignItems:'center', width:'22vw', height:'75vh', right:'1vw',}}>
+    <div style={{backgroundColor:'rgba(0,0,0,0.2)', border:'1px solid rgba(0,0,0,0.2)',borderRadius:'5px', position:'absolute', top:'3%',display:'flex', justifyContent:'center', alignItems:'center', width:'22vw', height:'75vh', right:'1vw',}}>
       <div style={{display:'flex', borderRadius:'5px',justifyContent:'center', alignItems:'center', width:'90%',backgroundColor:'rgba(0,0,0,0.5)', height:'40%', top:'2%',position:'absolute'}}>
         {MoreTokenInfo == 'not in db'?<>ejected from contract</>:<img style={{maxHeight:'100%', objectFit:'scale-down'}} src={MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>:<></>}></img>}
       </div>
@@ -379,22 +378,22 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
         </div>
 
         <div style={{ position:'absolute', top:'29%', left:'4%',width:'55%',}}>
-          <div style={{position:'absolute',left:'0%'}}>Token Id:</div>  <div style={{position:'absolute', right:'0%', color:'cyan'}}>14214</div>
+          <div style={{position:'absolute',left:'0%'}}>Token Id:</div>  <div style={{position:'absolute', right:'0%', color:'cyan'}}> {MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.token_id:<></>:<></>} </div>
         </div>
 
         <div style={{position:'absolute', top:'39%', left:'4%',width:'55%',}}>
-          <div style={{position:'absolute', left:'0%'}}>Contract:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>0x123..456</div> 
+          <div style={{position:'absolute', left:'0%'}}>Contract:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}> {MoreTokenInfo? MoreTokenInfo != 'not in db'? getEllipsisTxt(MoreTokenInfo.token_address, 4):<></>:<></>} </div> 
         </div>
 
         <div style={{position:'absolute', top:'49%', left:'4%',width:'55%',}}>
-          <div style={{position:'absolute', left:'0%'}}>Symbol:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>MCPTNT</div>
+          <div style={{position:'absolute', left:'0%'}}>Symbol:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>{MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.symbol:<></>:<></>} </div>
         </div>
 
         <div style={{position:'absolute', top:'59%', left:'4%',width:'55%', }}>
-         <div style={{position:'absolute', left:'0%'}}> Slot: </div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>3</div>
+         <div style={{position:'absolute', left:'0%'}}> Slot: </div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}> {MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.slotNumber:<></>:<></>} </div>
         </div>
         <div style={{position:'absolute', top:'69%', left:'4%',width:'55%', }}>
-         <div style={{position:'absolute', left:'0%'}}> Position: </div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>14</div>
+         <div style={{position:'absolute', left:'0%'}}> Position: </div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}> {MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.indexInSlot - WheelSlotWinnerOffsets[MoreTokenInfo.slotNumber-1]:<></>:<></>} </div>
         </div>
         
         
