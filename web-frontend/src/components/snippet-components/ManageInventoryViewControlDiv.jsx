@@ -229,7 +229,7 @@ const ManageInventoryViewControlDiv = () => {
         <div style={{position:'fixed', right:'20%', top:'3%',color:'#fff', border:gamePaused.data?'1px solid #f00':'1px solid #0f0', width:'6%', display:'flex', justifyContent:'center'}}>
             <div style={{textAlign:'center'}}>
                 Wheel:<br></br>
-                <div style={{color:gamePaused.data?'#ff0000':'#00ff00'}}>{gamePaused.data?'Paused':'UnPaused'}</div>
+                <div style={{color:gamePaused.data?'#ff0000':'#00ff00'}}>{gamePaused.data?'Paused':'Active'}</div>
             </div>
         </div>
         
