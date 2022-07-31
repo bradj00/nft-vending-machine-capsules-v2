@@ -8,7 +8,7 @@ import '../styles/tempStyles.css';
 import { OddsAndSlotAddys } from '../App';
 import { getEllipsisTxt } from '../helpers/formatters';
 
-const RevenueStats = () => {
+const RegisterInventory2 = () => {
   const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
   const {BuyCapsuleContract, setBuyCapsuleContract} = useContext(NftMoreInfoContext)
   const { fetchERC20Balances, data, isLoading, isFetching, error } = useERC20Balances();
@@ -326,7 +326,7 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
               // console.log('ITEMMMM: ',item);
               return(
               <tr key={index}  style={{zIndex:'9999'}}>                
-                <td className="hoverTD"  onClick={ () => { updateClickedToken(parseInt(item._hex,16) , slot+1, index+1) } } style={{cursor:'pointer', backgroundColor: WheelSlotWinnerOffsets[slot] == index? "#660000": WheelSlotWinnerOffsets[slot] < index? '#333':'#333', filter:WheelSlotWinnerOffsets[slot] > index? 'opacity(0.1)':'opacity(1)'}}>{ parseInt(item._hex, 16 )} </td>
+                <td className="hoverTD"   style={{cursor:'pointer', backgroundColor: "#333"}}> { parseInt(item.token_id )} </td>
               </tr>
               )
 
@@ -413,4 +413,4 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
   )
 }
 
-export default RevenueStats
+export default RegisterInventory2

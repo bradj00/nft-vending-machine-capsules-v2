@@ -34,6 +34,7 @@ import ImageControlledLoader from './components/snippet-components/ImageControll
 import RevenueStats from './components/RevenueStats';
 import Manager from './components/Manager.js';
 import StatusMessageDiv from './components/StatusMessageDiv.jsx';
+import RegisterInventory2 from './components/RegisterInventory2.jsx';
 
 
 export const OddsAndSlotAddys = React.createContext({});
@@ -893,6 +894,15 @@ useEffect(() => {
                 showRegisteredInventory==1? 
                   <div >
                     <RegisterInventory />
+                  </div>
+                : 
+                  <></>
+                  : <></>
+            }
+            { managingInventory?
+                showRegisteredInventory==11? 
+                  <div >
+                    <RegisterInventory2 />
                   </div>
                 : 
                   <></>
