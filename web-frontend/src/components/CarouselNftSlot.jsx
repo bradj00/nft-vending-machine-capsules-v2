@@ -42,7 +42,7 @@ const CarouselNftSlot = (props) => {
             const result = WheelTokensHeldByAddress[props.slotContractAddress].result.filter((item)=>{
                 return parseInt(registeredFromOnChainBySlot[props.slotIndex][WheelSlotWinnerOffsets[props.slotIndex]]) == item.token_id; //must start at zero + WheelSlotWinnerOffsets
             })   
-            console.log(props.slotIndex, ' THE APPROPRIATE TOKEN TO DISPLAY IS: ',result, registeredFromOnChainBySlot[props.slotIndex], WheelSlotWinnerOffsets); 
+            // console.log(props.slotIndex, ' THE APPROPRIATE TOKEN TO DISPLAY IS: ',result, registeredFromOnChainBySlot[props.slotIndex], WheelSlotWinnerOffsets); 
             setTokenDisplayed(result);
             // console.log(props.slotIndex, ' THE APPROPRIATE TOKEN TO DISPLAY IS: ',parseInt(registeredFromOnChainBySlot[props.slotIndex][0]._hex,16)); 
             // console.log(props.slotIndex, ' THE APPROPRIATE TOKEN TO DISPLAY IS: ',WheelTokensHeldByAddress[props.slotContractAddress].result); 
@@ -51,7 +51,7 @@ const CarouselNftSlot = (props) => {
     
         useEffect(()=>{
           if (registeredFromOnChainBySlot){
-              console.log('registeredFromOnChainBySlot :',registeredFromOnChainBySlot);
+            //   console.log('registeredFromOnChainBySlot :',registeredFromOnChainBySlot);
           }
         },[registeredFromOnChainBySlot]);
      

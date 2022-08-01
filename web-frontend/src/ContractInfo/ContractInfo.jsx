@@ -15,6 +15,7 @@
 //rinkeby MCP testnet addressess:
 
 //0x03ff78D3800688068D2Bd4E1eb55AF681bbd8DB3	citizens
+//0x65bAA849d1A823009ffc2a45CB0f1e3220392d93	mint 50 citizens
 
 
 //0x75E1817c8B16F29995eD9De9cAe2bD08A9244fC2	land

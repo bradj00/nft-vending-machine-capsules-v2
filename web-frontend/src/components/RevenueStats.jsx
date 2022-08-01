@@ -321,8 +321,8 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
           {WheelTokensHeldByAddress? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0]? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0].symbol : <></>: <></>}
         </td>
 
-        {WheelTokensHeldByAddress && WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result ? 
-          WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result.map((item, index)=>{
+        {AllRegisteredTokens && AllRegisteredTokens[slot] ? 
+          AllRegisteredTokens[slot].map((item, index)=>{
               // console.log('ITEMMMM: ',item);
               return(
               <tr key={index}  style={{zIndex:'9999'}}>                
@@ -348,7 +348,7 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
 
     {/* More Token Info DIV */}
     {/* ------------------- */}
-    <div style={{backgroundColor:'rgba(0,0,0,0.2)', border:'1px solid rgba(0,0,0,0.2)',borderRadius:'5px', position:'absolute', top:'3%',display:'flex', justifyContent:'center', alignItems:'center', width:'22vw', height:'75vh', right:'1vw',}}>
+    <div style={{backgroundColor:'rgba(0,0,0,0.2)', border:'1px solid rgba(0,0,0,0.2)',borderRadius:'5px', position:'absolute', top:'3%',display:'flex', justifyContent:'center', alignItems:'center', width:'22vw', height:'85vh', right:'1vw',}}>
       <div style={{display:'flex', borderRadius:'5px',justifyContent:'center', alignItems:'center', width:'90%',backgroundColor:'rgba(0,0,0,0.5)', height:'40%', top:'2%',position:'absolute'}}>
         {MoreTokenInfo == 'not in db'?<>ejected from contract</>:<img style={{maxHeight:'100%', objectFit:'scale-down'}} src={MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>:<></>}></img>}
       </div>

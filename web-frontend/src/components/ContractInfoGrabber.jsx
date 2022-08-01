@@ -9,6 +9,8 @@ import {ethers} from 'ethers';
 
 
 const ContractInfoGrabber = () => {
+    
+    const {account, isInitialized} = useMoralis();
     const {NftSlotContractAddresses}    = useContext(OddsAndSlotAddys);
     const {setNftSlotContractAddresses} = useContext(OddsAndSlotAddys);
     const {NftSlotOdds}    = useContext(OddsAndSlotAddys);
@@ -20,9 +22,12 @@ const ContractInfoGrabber = () => {
     const {WheelInfo, setWheelInfo}     = useContext(NftMoreInfoContext);
     const {MachineContractAddress, setMachineContractAddress,}    = useContext(NftMoreInfoContext);
     const {userErc20TokenBalance, setuserErc20TokenBalance} = useContext(NftMoreInfoContext);
+    const {SlotAccountUnregisteredNFTs, setSlotAccountUnregisteredNFTs} = useContext(NftMoreInfoContext);
 
     
     const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
+    const {registeredFromOnChainByAddress, setregisteredFromOnChainByAddress} = useContext(NftMoreInfoContext);
+
     const {refreshRegisteredSlotData, setrefreshRegisteredSlotData} = useContext(NftMoreInfoContext);
 
 
@@ -128,16 +133,139 @@ const ContractInfoGrabber = () => {
     });
 
 
+//if wallet address == wheel owner...
+//pre-load the filtered list of unregistered tokens in wheel's possession for admin panel display
+//--------------------------------------------------
+//--------------------------------------------------
 
 
+const [loadSlotsCounter, setloadSlotsCounter] = useState(0);
+
+useEffect(()=>{
+  if ((NftSlotOdds[loadSlotsCounter] != 0) && (isWeb3Enabled)){
+    console.log('LOADING SLOT: ',loadSlotsCounter+1)
+    loadNftsForSlot(loadSlotsCounter+1, NftSlotContractAddresses[loadSlotsCounter]) //slotIndex, slotAddress
+  }
+},[loadSlotsCounter, isWeb3Enabled])
+
+const [loadedAddressTokens, setloadedAddressTokens] = useState({});
+
+async function loadNftsForSlot(slotIndex, slotAddress){
+  // console.log('attempting token load for slot: ',slotIndex, slotAddress)
+  let rinkebySlotUnregisteredTokens;
+  // console.log('~~ ',loadedAddressTokens[0]);
+  
+  if (slotAddress in loadedAddressTokens){ //if we have already loaded tokens for a key address 
+    console.log('found existing cached data for ',slotAddress, loadedAddressTokens[slotAddress])
+    rinkebySlotUnregisteredTokens = loadedAddressTokens[slotAddress];
+    
+    setloadedAddressTokens(loadedAddressTokens => ({
+      ...loadedAddressTokens,
+      latestSlotLoaded: slotIndex
+    }));
+    
+  }
+  else { 
+    console.log('bawk bawk need to check it manually ',slotAddress, loadedAddressTokens)
+    rinkebySlotUnregisteredTokens = await Web3Api.account.getNFTsForContract(
+      { 
+        chain: "rinkeby",
+        address: MachineContractAddress&&MachineContractAddress!='0x0000000000000000000000000000000000000000'? MachineContractAddress: '0x0000000000000000000000000000000000000000',
+        token_address: NftSlotContractAddresses[slotIndex-1],
+      }
+      );
+      // console.log('rinkebySlotUnregisteredTokens: ',rinkebySlotUnregisteredTokens);
+      setloadedAddressTokens(loadedAddressTokens => ({
+        ...loadedAddressTokens,
+        [slotAddress]:rinkebySlotUnregisteredTokens,
+        latestSlotLoaded: slotIndex
+      }));
+      
+    } 
+    // const final = rinkebySlotUnregisteredTokens.result;
+
+    //this filter only filters if it's registered in this particular slot. We need it to filter if it shows in ANY of the slots for that contract address
+    const final = rinkebySlotUnregisteredTokens.result.filter(item => {
+      if (registeredFromOnChainByAddress[ NftSlotContractAddresses[slotIndex] ]){
+        if (registeredFromOnChainByAddress[ NftSlotContractAddresses[slotIndex] ].filter(e => parseInt(e._hex, 16) == item.token_id).length > 0) {
+          return false;
+        }
+        else return true;
+      }else return true;
+    }) 
+    
+    
+    setSlotAccountUnregisteredNFTs(SlotAccountUnregisteredNFTs => ({
+      ...SlotAccountUnregisteredNFTs,
+      [slotIndex]: final
+    }));
+    setTimeout(()=>{ setloadSlotsCounter(loadSlotsCounter+1); },100);
+    
+    
+  }
+  useEffect(()=>{
+    if (SlotAccountUnregisteredNFTs){
+      //get highest numerical key in SlotAccountUnregisteredNFTs and use that to fetch next highest call of loadNftsForSlot(slotIndex, slotAddress)
+
+      
+    }
+  },[SlotAccountUnregisteredNFTs]);
+
+  useEffect(()=>{
+    if (registeredFromOnChainBySlot){
+      // console.log('registeredFromOnChainByAddress: ',registeredFromOnChainByAddress,registeredFromOnChainBySlot);
+
+      //every time this is updated, trigger a delayed timeout that if succeeds will filter out duplicates from this list
+      //WALRUS
 
 
+    }
+  },[registeredFromOnChainBySlot]);
+  
+  useEffect(()=>{
+    if (registeredFromOnChainByAddress){
+      console.log('registeredFromOnChainByAddress: ',registeredFromOnChainByAddress);
+    }
 
-
-
-
-
-
+  },[registeredFromOnChainByAddress]);
+  
+  
+  useEffect(()=>{
+    // console.log('*****************\t',MachineContractAddress);
+    if (isInitialized && MachineContractAddress && registeredFromOnChainBySlot){
+      // setTimeout(()=> {NftSlotContractAddresses[0]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(1, NftSlotContractAddresses[0]): <></>}, 100);
+      // setTimeout(()=> {NftSlotContractAddresses[1]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(2, NftSlotContractAddresses[1]): <></>}, 500);
+      // setTimeout(()=> {NftSlotContractAddresses[2]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(3, NftSlotContractAddresses[2]): <></>}, 800);
+      // setTimeout(()=> {NftSlotContractAddresses[3]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(4, NftSlotContractAddresses[3]): <></>}, 1200);
+      // setTimeout(()=> {NftSlotContractAddresses[4]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(5, NftSlotContractAddresses[4]): <></>}, 1800);
+      // setTimeout(()=> {NftSlotContractAddresses[5]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(6, NftSlotContractAddresses[5]): <></>}, 2100);
+      // setTimeout(()=> {NftSlotContractAddresses[6]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(7, NftSlotContractAddresses[6]): <></>}, 2500);
+      // setTimeout(()=> {NftSlotContractAddresses[7]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(8, NftSlotContractAddresses[7]): <></>}, 2900);
+      // setTimeout(()=> {NftSlotContractAddresses[8]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(9, NftSlotContractAddresses[8]): <></>}, 3300);
+      // setTimeout(()=> {NftSlotContractAddresses[9]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(10, NftSlotContractAddresses[9]): <></>}, 3800);
+      
+      
+      // setTimeout(function(){{loadNftsForSlot(1, NftSlotContractAddresses[0])}},1);
+      // setTimeout(function(){{loadNftsForSlot(2, NftSlotContractAddresses[1])}},1000);
+      // setTimeout(function(){{loadNftsForSlot(3, NftSlotContractAddresses[2])}},1500);
+      // setTimeout(function(){{loadNftsForSlot(4, NftSlotContractAddresses[3])}},2000);
+      // setTimeout(function(){{loadNftsForSlot(5, NftSlotContractAddresses[4])}},2500);
+      // setTimeout(function(){{loadNftsForSlot(6, NftSlotContractAddresses[5])}},3000);
+      // setTimeout(function(){{loadNftsForSlot(7, NftSlotContractAddresses[6])}},3500);
+      // setTimeout(function(){{loadNftsForSlot(8, NftSlotContractAddresses[7])}},4000);
+      // setTimeout(function(){{loadNftsForSlot(9, NftSlotContractAddresses[8])}},4500);
+      // setTimeout(function(){{loadNftsForSlot(10, NftSlotContractAddresses[9])}},5000);
+      
+    }
+  },[isInitialized, MachineContractAddress, registeredFromOnChainBySlot])
+  //--------------------------------------------------
+  //--------------------------------------------------
+  
+  
+  
+  
+  
+  
 
 
   
@@ -379,6 +507,7 @@ const ContractInfoGrabber = () => {
           console.log(NftSlotContractAddresses.length,' filtered to: ',tempArray.length,' :',tempArray);
           
           for (let i = 0; i < tempArray.length; i++){
+            if (tempArray[i] == '0x0000000000000000000000000000000000000000') { continue; }
             const fetchUniqueSlotData = async ()=>{
               const options = {
                 chain: "rinkeby",
@@ -403,14 +532,34 @@ const ContractInfoGrabber = () => {
 
     useEffect(()=>{
       if (getRegisteredFromOnChainBySlot1.data){
-
+ 
+        
         setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
           ...getRegisteredFromOnChainBySlot,
           [1]: getRegisteredFromOnChainBySlot1.data
         }));
-
+        
+        registeredFromOnChainByAddress[ NftSlotContractAddresses[0]]?
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+             [ NftSlotContractAddresses[0] ]: [...registeredFromOnChainByAddress[ NftSlotContractAddresses[0] ], getRegisteredFromOnChainBySlot1.data.map((item)=>{
+              return item;
+            })
+            
+            ]  
+        }) )
+          // {0x65bAA849d1A823009ffc2a45CB0f1e3220392d93: [2002,2016,2040,2091] }
+          :
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+          [ NftSlotContractAddresses[0] ]:  getRegisteredFromOnChainBySlot1.data.map((item)=>{
+            return item;
+          })
+        }) )
       }
-    },[getRegisteredFromOnChainBySlot1.data]);
+    },[getRegisteredFromOnChainBySlot1.data]); 
+
+
 
     useEffect(()=>{
       if (getRegisteredFromOnChainBySlot2.data){
@@ -419,7 +568,7 @@ const ContractInfoGrabber = () => {
           ...getRegisteredFromOnChainBySlot,
           [2]: getRegisteredFromOnChainBySlot2.data
         }));
-
+        
       }
     },[getRegisteredFromOnChainBySlot2.data]);
 
@@ -431,6 +580,8 @@ const ContractInfoGrabber = () => {
           [3]: getRegisteredFromOnChainBySlot3.data
         }));
 
+        
+
       }
     },[getRegisteredFromOnChainBySlot3.data]);
 
@@ -441,7 +592,7 @@ const ContractInfoGrabber = () => {
           ...getRegisteredFromOnChainBySlot,
           [4]: getRegisteredFromOnChainBySlot4.data
         }));
-
+        
       }
     },[getRegisteredFromOnChainBySlot4.data]);
 
@@ -452,6 +603,7 @@ const ContractInfoGrabber = () => {
           ...getRegisteredFromOnChainBySlot,
           [5]: getRegisteredFromOnChainBySlot5.data
         }));
+       
 
       }
     },[getRegisteredFromOnChainBySlot5.data]);
@@ -463,7 +615,7 @@ const ContractInfoGrabber = () => {
           ...getRegisteredFromOnChainBySlot,
           [6]: getRegisteredFromOnChainBySlot6.data
         }));
-
+       
       }
     },[getRegisteredFromOnChainBySlot6.data]);
 
@@ -474,6 +626,7 @@ const ContractInfoGrabber = () => {
           ...getRegisteredFromOnChainBySlot,
           [7]: getRegisteredFromOnChainBySlot7.data
         }));
+       
 
       }
     },[getRegisteredFromOnChainBySlot7.data]);
@@ -485,7 +638,7 @@ const ContractInfoGrabber = () => {
           ...getRegisteredFromOnChainBySlot,
           [8]: getRegisteredFromOnChainBySlot8.data
         }));
-
+        
       }
     },[getRegisteredFromOnChainBySlot8.data]);
 
@@ -496,6 +649,7 @@ const ContractInfoGrabber = () => {
           ...getRegisteredFromOnChainBySlot,
           [9]: getRegisteredFromOnChainBySlot9.data
         }));
+        
 
       }
     },[getRegisteredFromOnChainBySlot9.data]);
@@ -507,6 +661,7 @@ const ContractInfoGrabber = () => {
           ...getRegisteredFromOnChainBySlot,
           [10]: getRegisteredFromOnChainBySlot10.data
         }));
+        
 
       }
     },[getRegisteredFromOnChainBySlot10.data]);

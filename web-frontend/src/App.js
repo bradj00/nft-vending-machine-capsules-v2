@@ -158,6 +158,7 @@ useEffect(() => {
   const [Slot8showMenuUnregistered, setSlot8showMenuUnregistered] = useState({});
   const [Slot9showMenuUnregistered, setSlot9showMenuUnregistered] = useState({});
   const [Slot10showMenuUnregistered, setSlot10showMenuUnregistered] = useState({});
+  const [registeredFromOnChainByAddress, setregisteredFromOnChainByAddress] = useState({});
 
   const [Slot1AccountDepositNFTs, setSlot1AccountDepositNFTs] = useState([]);
   const [Slot2AccountDepositNFTs, setSlot2AccountDepositNFTs] = useState([]);
@@ -631,6 +632,8 @@ useEffect(() => {
     slot8ProbabilityValue, setslot8ProbabilityValue,
     slot9ProbabilityValue, setslot9ProbabilityValue,
     slot10ProbabilityValue, setslot10ProbabilityValue,
+
+    registeredFromOnChainByAddress, setregisteredFromOnChainByAddress,
 
     slot1isExplicit, setslot1isExplicit,
     slot2isExplicit, setslot2isExplicit,
