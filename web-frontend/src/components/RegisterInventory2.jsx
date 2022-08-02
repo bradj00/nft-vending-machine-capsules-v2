@@ -474,7 +474,7 @@ useEffect(()=>{
           View token: 
         </div>
         <div title="View On Etherscan" className="hoverIcon" style={{position:'absolute', top:'3%',height:'7%', left:'30%',}}>
-          <a href={clickedSlotObj? "https://rinkeby.etherscan.io/token/"+clickedSlotObj.token_address+"?a="+clickedSlotObj.token_id+"#inventory" : <></>} target="asdlfksdjf" >
+          <a href={clickedSlotObj? "https://rinkeby.etherscan.io/token/"+clickedSlotObj.token_address+"?a="+clickedSlotObj.token_id : <></>} target="asdlfksdjf" >
             <img  style={{maxHeight:'100%',objectFit:'scale-down'}} src="https://etherscan.io/images/brandassets/etherscan-logo-light-circle.png"></img>
           </a>
         </div>

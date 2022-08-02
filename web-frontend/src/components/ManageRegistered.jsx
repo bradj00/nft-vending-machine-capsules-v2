@@ -354,15 +354,18 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
       </div>
       
       <div style={{display:'flex',justifyContent:'center',fontSize:'1vw', backgroundColor:'rgba(0,0,0,0.5)',borderRadius:'5px', position:'absolute', width:'95%', height:'56%', bottom:'0.5%'}}>
-        <div style={{position:'absolute', top:'3%', left:'4%',}}>
+      <div style={{position:'absolute', top:'3%', left:'4%',}}>
           View token: 
         </div>
-        <div className="hoverIcon" style={{position:'absolute', top:'3%',height:'7%', left:'30%',}}>
-          <img  style={{maxHeight:'100%',objectFit:'scale-down'}} src="https://etherscan.io/images/brandassets/etherscan-logo-light-circle.png"></img>
-          
+        <div title="View On Etherscan" className="hoverIcon" style={{position:'absolute', top:'3%',height:'7%', left:'30%',}}>
+          <a href={MoreTokenInfo? "https://rinkeby.etherscan.io/token/"+MoreTokenInfo.token_address+"?a="+MoreTokenInfo.token_id : <></>} target="asdlfksdjf" >
+            <img  style={{maxHeight:'100%',objectFit:'scale-down'}} src="https://etherscan.io/images/brandassets/etherscan-logo-light-circle.png"></img>
+          </a>
         </div>
-        <div className="hoverIcon" style={{position:'absolute', top:'3%', height:'7%', left:'40%',}}>
-          <img  style={{maxHeight:'100%',objectFit:'scale-down'}} src="https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.png"></img>
+        <div title="View On OpenSea" className="hoverIcon" style={{position:'absolute', top:'3%', height:'7%', left:'40%',}}>
+          <a href={MoreTokenInfo? "https://testnets.opensea.io/assets/rinkeby/"+MoreTokenInfo.token_address+"/"+MoreTokenInfo.token_id : <></>} target="asdlfksdjf" >
+            <img  style={{maxHeight:'100%',objectFit:'scale-down'}} src="https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.png"></img>
+          </a>
         </div>
 
         <div className="hoverViewMetadata" style={{border:'1px solid rgba(250,250,250,0.3)',padding:'0.5vh', position:'absolute', top:'2%', right:'3%',}}>
@@ -373,20 +376,20 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
         </div>
         
         
-        <div style={{color:'magenta',fontWeight:'bold', position:'absolute', top:'15%', left:'4%', width:'55%', }}>
-          ERC-721
+        <div style={{color:'magenta',fontWeight:'bold', position:'absolute', top:'15%', left:'4%', width:'65%', }}>
+          {MoreTokenInfo? MoreTokenInfo.contract_type.replace(/ERC/, "ERC-"):<></>}
         </div>
 
-        <div style={{ position:'absolute', top:'29%', left:'4%',width:'55%',}}>
-          <div style={{position:'absolute',left:'0%'}}>Token Id:</div>  <div style={{position:'absolute', right:'0%', color:'cyan'}}> {MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.token_id:<></>:<></>} </div>
+        <div style={{ position:'absolute', top:'35%', width:'65%',}}>
+          <div style={{position:'absolute',left:'0%'}}>Token Id:</div>  <div style={{position:'absolute', right:'0%', color:'cyan'}}> {MoreTokenInfo? MoreTokenInfo.token_id: <>...</>} </div>
         </div>
 
-        <div style={{position:'absolute', top:'39%', left:'4%',width:'55%',}}>
-          <div style={{position:'absolute', left:'0%'}}>Contract:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}> {MoreTokenInfo? MoreTokenInfo != 'not in db'? getEllipsisTxt(MoreTokenInfo.token_address, 4):<></>:<></>} </div> 
+        <div style={{position:'absolute', top:'45%', width:'65%',}}>
+          <div style={{position:'absolute', left:'0%'}}>Contract:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}> {MoreTokenInfo? getEllipsisTxt(MoreTokenInfo.token_address, 4): <>...</>} </div> 
         </div>
 
-        <div style={{position:'absolute', top:'49%', left:'4%',width:'55%',}}>
-          <div style={{position:'absolute', left:'0%'}}>Symbol:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>{MoreTokenInfo? MoreTokenInfo != 'not in db' && MoreTokenInfo.symbol? MoreTokenInfo.symbol:<></>:<></>} </div>
+        <div style={{position:'absolute', top:'55%', width:'65%',}}>
+          <div style={{position:'absolute', left:'0%'}}>Symbol:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>{MoreTokenInfo? MoreTokenInfo.symbol: <>...</>} </div>
         </div>
 
         <div style={{position:'absolute', top:'59%', left:'4%',width:'55%', }}>
