@@ -44,3 +44,6 @@ table {
   .hoverRefreshIcon:hover {
     color:#fff;
   }
+  .clickedUnregisteredToken {
+    border: 2px solid #00ff00;
+  }

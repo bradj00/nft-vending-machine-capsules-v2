@@ -25,7 +25,18 @@ const RegisterInventory2 = () => {
   const {uniqueRegistrationSelectionIds, setuniqueRegistrationSelectionIds}    = useContext(NftMoreInfoContext);
   const {SlotsSelectedArr, setSlotsSelectedArr}     = useContext(NftMoreInfoContext);
   const {SlotshowMenu, setSlotshowMenu}     = useContext(NftMoreInfoContext);
+  const {refreshRegisteredSlotData, setrefreshRegisteredSlotData} = useContext(NftMoreInfoContext);
+
+
+  const [AllSlotsSelectedArr, setAllSlotsSelectedArr] = useState([]);
+  
+  
+  
   const {isWeb3Enabled, account} = useMoralis();
+  
+  
+  
+  
   function returnToMachineView(){
     setmanagingInventory(!managingInventory);
   }
@@ -79,30 +90,42 @@ const RegisterInventory2 = () => {
   //   }
   // },[BuyCapsuleContract]) 
 
-  const getErc721BalanceGTNT = useWeb3Contract({
-      abi: WheelABI,
-      contractAddress: "0x70F49fe6495eC79CEaEF637fB81AC381c4530e8e",
-      functionName: "balanceOf",
-      params:{
-        owner: account
-      }
-    });
-  const getErc721BalanceMCPC = useWeb3Contract({
-      abi: WheelABI,
-      contractAddress: "0x1a7b2b6F7Ad590555CeE80E490EA730aFB4638C6",
-      functionName: "balanceOf",
-      params:{
-        owner: account
-      }
-    });
+
+  function registerTokens(){
+    registerTokensForSlot.runContractFunction({
+      onSuccess : async (tx)=>tx.wait().then(newTx => {
+        console.log('SUCCESS! Check machine',tx)
+        setrefreshRegisteredSlotData(true);
   
-const openChest = useWeb3Contract({
+      
+      }),
+      onComplete : (tx) => {
+        console.log('Submitted to blockchain for confirmation ',tx)
+        // setregisterTokensInfoButton('Awaiting chain confirmation...');
+      },
+      onError: (error) =>{
+      console.log('register inventory:  big ERROR: ',error,"_____"); 
+      },
+    }); 
+  
+  }
+
+
+
+
+
+
+
+
+
+  const registerTokensForSlot = useWeb3Contract({ 
     abi: WheelABI,
-    contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
-    functionName: "openChest",
-    params:{
-      chestId: 3
-    }
+    contractAddress: contractAddressWheel,
+    functionName: "RegisterListOfNftIds",
+    params: {
+        theList: AllSlotsSelectedArr? AllSlotsSelectedArr : 0,
+    },
+    chain: 'rinkeby'
   });
 
 const getAllRegisteredForSlot1 = useWeb3Contract({
@@ -213,10 +236,6 @@ const gamePaused = useWeb3Contract({
   
   },[getAllRegisteredForSlot1.data, getAllRegisteredForSlot2.data, getAllRegisteredForSlot3.data, getAllRegisteredForSlot4.data, getAllRegisteredForSlot5.data, getAllRegisteredForSlot6.data, getAllRegisteredForSlot7.data, getAllRegisteredForSlot8.data, getAllRegisteredForSlot9.data, getAllRegisteredForSlot10.data, ])
 
-  function openTheChest() {
-    openChest.runContractFunction(); 
-  }
-  
   const [totalTokenCount, settotalTokenCount] = useState(0);
   
   function refreshTheData() {
@@ -235,10 +254,6 @@ const gamePaused = useWeb3Contract({
     getAllRegisteredForSlot10.runContractFunction();
 
     
-
-    getErc721BalanceMCPC.runContractFunction();
-    getErc721BalanceGTNT.runContractFunction();
-
     getSlotWinnerOffsets.runContractFunction({
       onError: (error) =>{
         console.log('getSlotWinnerOffsets ERROR: ',error);
@@ -264,12 +279,83 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
   useEffect(()=>{
     console.log('WheelTokensHeldByAddress: ',WheelTokensHeldByAddress)
   },[WheelTokensHeldByAddress]);
+  
+  
+  useEffect(()=>{
+    console.log('HUP DATIN ',uniqueRegistrationSelectionIds)
+    let temp1  = [];
+    let temp2  = [];
+    let temp3  = [];
+    let temp4  = [];
+    let temp5  = [];
+    let temp6  = [];
+    let temp7  = [];
+    let temp8  = [];
+    let temp9  = [];
+    let temp10 = [];
+    let tempAll = [];
 
-
-
+    for (var key in uniqueRegistrationSelectionIds){
+      //for each address, go through 
+      for (var tokenId in uniqueRegistrationSelectionIds[key]){
+          if (uniqueRegistrationSelectionIds[key][tokenId].clicked == true){
+            switch(uniqueRegistrationSelectionIds[key][tokenId].slot){
+              case 1:
+                temp1.push(parseInt(tokenId))
+                break;
+              
+              case 2:
+                temp2.push(parseInt(tokenId))
+                break;
+              
+              case 3:
+                temp3.push(parseInt(tokenId))
+                break;
+              
+              case 4:
+                temp4.push(parseInt(tokenId))
+                break;
+              
+              case 5:
+                temp5.push(parseInt(tokenId))
+                break;
+              
+              case 6:
+                temp6.push(parseInt(tokenId))
+                break;
+              
+              case 7:
+                temp7.push(parseInt(tokenId))
+                break;
+              
+              case 8:
+                temp8.push(parseInt(tokenId))
+                break;
+              
+              case 9:
+                temp9.push(parseInt(tokenId))
+                break;
+              
+              case 10:
+                temp10.push(parseInt(tokenId))
+                break;
+              
+            }
+          }
+      }
+      tempAll.push(temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9, temp10)
+    }
+    setAllSlotsSelectedArr(tempAll);
+  },[uniqueRegistrationSelectionIds]);
+  
+useEffect(()=>{
+  if (AllSlotsSelectedArr) {
+    console.log('AllSlotsSelectedArr: ',AllSlotsSelectedArr);
+  }
+},[AllSlotsSelectedArr]);
 
   function updateClickedTokens(singleImage, slotIndex){
-    console.log('HUP DATIN ', uniqueRegistrationSelectionIds)
+    // console.log('HUP DATIN ', uniqueRegistrationSelectionIds)
     // setSlotshowMenu({...SlotshowMenu, [singleImage.token_id]: !SlotshowMenu[singleImage.token_id]}); // is this even useful in the new format?
 
     // setuniqueRegistrationSelectionIds({ ...uniqueRegistrationSelectionIds, {uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id]}  })
@@ -305,47 +391,7 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
   return (
   <div style={{overflowY:'scroll', backgroundColor :'rgba(165, 221, 255 ,0.15)',top:'9.9vh',alignContent:'center',color: "#fff",height: '90%',marginBottom:'10vh', position:'absolute',display:'flex',alignItems:'center', justifyContent:'center', width:'100%'}}>
     <button style={{zIndex:'555', position:'fixed',top:'2vh',left:'21vw', paddingLeft:'0.2vw',paddingRight:'0.2vw',height:'4vh',cursor:'pointer', fontSize:'0.9vw'}} onClick={()=>{returnToMachineView()}}>View Wheel</button>
-    {/* <div style={{fontSize:'1.5vw',marginLeft:'1.2vw', marginTop:'-0.3vw', color:"#ffff00"}}>
-      Analytics coming soon
-    </div>
     
-    <div style={{width:'58vw',left:'1%', position:'absolute',top:'3%',padding:'10px'}}>
-      <RevenueChart />
-    </div>
-    <div style={{display:'flex', justifyContent:'center', alignItems:'center', height:'90%', width:'40.5vw',right:'1%', position:'absolute',top:'3%',padding:'10px'}}>
-      <div style={{display:'flex', justifyContent:'center',alignItems:'center', fontSize:'3vh', position:'absolute', height:'85%', width:'95%',backgroundColor: 'rgba(0,0,0,0.1)'}}>
-        
-      <button onClick={() => fetchERC20Balances({ params: { address: BuyCapsuleContract } }) }>Refetch</button><br></br>
-
-        <div>
-          {BuyCapsuleContractBalance? BuyCapsuleContractBalance: <></>}
-        </div>
-      </div>
-    </div> */}
-
- 
-    {/* <div onClick={()=>{ refreshTheData()}} style={{border:'1px solid #4444aa', padding:'0.5vw',cursor:'pointer', borderRadius:'15px',backgroundColor:'rgba(0,0,0,0.3)', position:'absolute', top:'5%', left:'3%',fontSize:'3vh'}}>
-      refresh data
-    </div> */}
-   
-    {/* <div onClick={()=>{ openTheChest()}} style={{border:'1px solid #4444aa', padding:'0.5vw',cursor:'pointer', borderRadius:'15px',backgroundColor:'rgba(0,0,0,0.3)', position:'absolute', top:'5%', left:'15%',fontSize:'3vh'}}>
-      open chest
-    </div> */}
-    
-   
-   
-   {/* <div style={{ padding:'0.5vw',cursor:'pointer', position:'absolute', top:'5%', left:'35%',fontSize:'3vh'}}>
-      <div style={{position:'absolute', right:'0', top:'0%',color:gamePaused.data?'#ff0000':'#00ff00' }}>{gamePaused.data?'Paused':'UnPaused'}</div>
-    </div> */}
-
-   {/* <div style={{ padding:'0.5vw',cursor:'pointer', position:'absolute', top:'1%', right:'35%',fontSize:'3vh'}}>
-      <div style={{position:'absolute', right:'0', top:'0%',color:'#00ff00',  }}>MCPC: {getErc721BalanceMCPC.data? parseInt(getErc721BalanceMCPC.data._hex, 16):'...'}</div>
-   </div>
-
-   <div style={{ padding:'0.5vw',cursor:'pointer', position:'absolute', top:'1%', right:'15%',fontSize:'3vh'}}>
-      <div style={{position:'absolute', right:'0', top:'0%',color:'#ff0000',  }}>GTNT: {getErc721BalanceGTNT.data? parseInt(getErc721BalanceGTNT.data._hex, 16):'...'}</div>
-    </div> */}
-
 
     <div style={{position:'absolute', top:'3%',display:'flex', overflow:'scroll', maxHeight:'85vh',width:'75%', left:'1vw',}}>
     
@@ -377,8 +423,8 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
           SlotAccountUnregisteredNFTs[slot+1].sort((a, b) => (a.token_id > b.token_id) ? 1 : -1).map((item, index)=>{
               // console.log('ITEMMMM: ',item);
               return(
-              <tr key={index} onClick={()=>{ updateClickedTokens(item, slot+1)} } style={{zIndex:'9999'}}>                
-                <td className="hoverTD"   style={{cursor:'pointer', backgroundColor: "#333"}}> { parseInt(item.token_id )} </td>
+              <tr key={index}   onClick={()=>{ uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot!= slot+1?<></>: updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1)} } style={{zIndex:'9999', filter: uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot!= slot+1? 'opacity(0.3)':'opacity(1.0)':'opacity(1.0)':'opacity(1.0)':'opacity(1.0)'}}>                
+                <td className={uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot== slot+1? 'clickedUnregisteredToken':'hoverTD':'hoverTD':'hoverTD':'hoverTD'}   style={{cursor:'pointer', backgroundColor: "#333"}}> { parseInt(item.token_id )} </td>
               </tr>
               )
 
@@ -450,8 +496,8 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
         </div>
         
         
-        <div className="hoverEjectToken" style={{display:'flex',justifyContent:'center',border:'1px solid rgba(250,150,150,0.5)', padding:'0.5vh', position:'absolute', width:'35%', bottom:'5%', }}>
-          Eject Token
+        <div className="hoverEjectToken" onClick={()=>{ registerTokens() }} style={{display:'flex',justifyContent:'center',border:'1px solid rgba(250,150,150,0.5)', padding:'0.5vh', fontSize:'2vh', position:'absolute', width:'45%', bottom:'5%', }}>
+          Register Tokens (...)
         </div>
 
 

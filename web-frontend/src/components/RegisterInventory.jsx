@@ -507,7 +507,7 @@ useEffect(()=>{
 
 useEffect(()=>{
   setAllSlotsSelectedArr([Slot1SelectedArr, Slot2SelectedArr, Slot3SelectedArr, Slot4SelectedArr, Slot5SelectedArr, Slot6SelectedArr, Slot7SelectedArr, Slot8SelectedArr, Slot9SelectedArr, Slot10SelectedArr ]);
-  // console.log('---------> ',AllSlotsSelectedArr);
+  console.log('---------> ',AllSlotsSelectedArr);
 },[Slot1SelectedArr, Slot2SelectedArr, Slot3SelectedArr, Slot4SelectedArr, Slot5SelectedArr, Slot6SelectedArr, Slot7SelectedArr, Slot8SelectedArr, Slot9SelectedArr, Slot10SelectedArr ]);
 
 useEffect(()=>{
@@ -518,7 +518,7 @@ useEffect(()=>{
         temp1.push(key);
       }
       setSlot1SelectedArr(temp1);
-      setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[1]: temp1}]) )
+      // setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[1]: temp1}]) )
     }
   }
 
@@ -530,7 +530,7 @@ useEffect(()=>{
         temp2.push(key);
       }
       setSlot2SelectedArr(temp2);
-      setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[2]: temp2}]) )
+      // setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[2]: temp2}]) )
     }
   }
 
@@ -541,7 +541,7 @@ useEffect(()=>{
         temp3.push(key);
       }
       setSlot3SelectedArr(temp3);
-      setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[3]: temp3}]) )
+      // setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[3]: temp3}]) )
     }
   }
 
@@ -552,7 +552,7 @@ useEffect(()=>{
         temp4.push(key);
       }
       setSlot4SelectedArr(temp4);
-      setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[4]: temp4}]) )
+      // setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[4]: temp4}]) )
     }
   }
 
@@ -563,7 +563,7 @@ useEffect(()=>{
         temp5.push(key);
       }
       setSlot5SelectedArr(temp5);
-      setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[5]: temp5}]) )
+      // setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[5]: temp5}]) )
     }
   }
 
@@ -574,7 +574,7 @@ useEffect(()=>{
         temp6.push(key);
       }
       setSlot6SelectedArr(temp6);
-      setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[6]: temp6}]) )
+      // setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[6]: temp6}]) )
     }
   }
 
@@ -586,7 +586,7 @@ useEffect(()=>{
         temp7.push(key);
       }
       setSlot7SelectedArr(temp7);
-      setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[7]: temp7}]) )
+      // setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[7]: temp7}]) )
     }
   }
   
@@ -597,7 +597,7 @@ useEffect(()=>{
         temp8.push(key);
       }
       setSlot8SelectedArr(temp8);
-      setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[8]: temp8}]) )
+      // setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[8]: temp8}]) )
     }
   }
   
@@ -608,7 +608,7 @@ useEffect(()=>{
         temp9.push(key);
       }
       setSlot9SelectedArr(temp9);
-      setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[9]: temp9}]) )
+      // setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[9]: temp9}]) )
     }
   }
   
@@ -619,7 +619,7 @@ useEffect(()=>{
         temp10.push(key);
       }
       setSlot10SelectedArr(temp10);
-      setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[10]: temp10}]) )
+      // setSlotsSelectedArr( SlotsSelectedArr=>([...SlotsSelectedArr, {[10]: temp10}]) )
     }
   }
 

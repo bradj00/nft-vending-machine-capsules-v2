@@ -220,7 +220,7 @@ async function loadNftsForSlot(slotIndex, slotAddress){
     if (registeredFromOnChainByAddress){
       for (var key in registeredFromOnChainByAddress){
         let tempArray = Array.from(new Set(registeredFromOnChainByAddress[key]));
-        console.log('registeredFromOnChainByAddress: ',tempArray);
+        console.log('[ '+key+' ] registeredFromOnChainByAddress: ',tempArray);
       }
     }
 
