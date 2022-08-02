@@ -5,7 +5,8 @@ table {
   }
   
   td {
-    border: 1px solid #dddddd;
+    border: 1px solid #888;
+    margin:1px;
     text-align: center;
     padding: 8px;
   }
@@ -43,6 +44,12 @@ table {
   }
   .hoverRefreshIcon:hover {
     color:#fff;
+  }
+  .tickboxHover:hover {
+    background-color:rgba(255,255,255,0.7);
+  }
+  .tickboxSelected {
+    background-color:rgba(0,255,0,1);
   }
   .clickedUnregisteredToken {
     border: 2px solid #00ff00;

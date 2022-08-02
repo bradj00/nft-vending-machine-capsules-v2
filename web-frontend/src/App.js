@@ -129,7 +129,7 @@ useEffect(() => {
   const [inventoryMap, setinventoryMap] = useState({});
   const [userErc20TokenBalance, setuserErc20TokenBalance] = useState();
   const [TimerOuter, setTimerOuter] = useState({});
-
+  const [loadSlotsCounter, setloadSlotsCounter] = useState(0);
 
   const [displayMetaData, setdisplayMetaData] = useState(false);
   
@@ -601,7 +601,7 @@ useEffect(() => {
     slot8NewContractTokenName, setslot8NewContractTokenName,
     slot9NewContractTokenName, setslot9NewContractTokenName,
     slot10NewContractTokenName, setslot10NewContractTokenName,
-
+    loadSlotsCounter, setloadSlotsCounter,
     selectedSlotContractName, setselectedSlotContractName,
     selectedSlotContractSymbol, setselectedSlotContractSymbol,
 

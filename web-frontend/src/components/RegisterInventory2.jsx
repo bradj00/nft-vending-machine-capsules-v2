@@ -26,7 +26,8 @@ const RegisterInventory2 = () => {
   const {SlotsSelectedArr, setSlotsSelectedArr}     = useContext(NftMoreInfoContext);
   const {SlotshowMenu, setSlotshowMenu}     = useContext(NftMoreInfoContext);
   const {refreshRegisteredSlotData, setrefreshRegisteredSlotData} = useContext(NftMoreInfoContext);
-
+  const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
+  const {clickedSlotObj, setClickedSlotObj} = useContext(NftMoreInfoContext);
 
   const [AllSlotsSelectedArr, setAllSlotsSelectedArr] = useState([]);
   
@@ -95,8 +96,21 @@ const RegisterInventory2 = () => {
     registerTokensForSlot.runContractFunction({
       onSuccess : async (tx)=>tx.wait().then(newTx => {
         console.log('SUCCESS! Check machine',tx)
-        setrefreshRegisteredSlotData(true);
-  
+        setregisteredFromOnChainBySlot({
+          1:[],
+          2:[],
+          3:[],
+          4:[],
+          5:[],
+          6:[],
+          7:[],
+          8:[],
+          9:[],
+          10:[],
+        })
+        setTimeout(()=>{
+          setrefreshRegisteredSlotData(true); //ContractInfoGrabber picks this up and re-loads dapp data
+        },10000);
       
       }),
       onComplete : (tx) => {
@@ -405,16 +419,16 @@ useEffect(()=>{
         </thead>
         
         <tbody>
-        <tr style={{position:'sticky', top:'0',width:'100%',}}>
-          <th style={{height:'5%', fontSize:'4vh',}}>{slot+1}</th>      
+        <tr style={{zIndex:'9999',position:'sticky', top:'0',width:'100%',}}>
+          <th style={{ height:'1vh', fontSize:'4vh',}}>{slot+1}</th>      
         </tr>
         {/* <td style={{height:'5%', backgroundColor:'#333', color:'#00ff00',fontSize:'3vh',}}>
           + {WheelSlotWinnerOffsets[slot]}
         </td> */}
 
         {/* Slot Contract Symbol */}
-        <tr>
-          <td style={{cursor:'pointer', position:'sticky', top:'9%',height:'5%',backgroundColor:'#111', color:'cyan', fontWeight:'bold', fontSize:'1.5vh',}}>
+        <tr style={{zIndex:'1',}}>
+          <td style={{cursor:'pointer', position:'sticky', top:'0',height:'5%',backgroundColor:'#111', color:'cyan', fontWeight:'bold', fontSize:'1.5vh',}}>
             {WheelTokensHeldByAddress? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0]? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0].symbol : <></>: <></>}
           </td>
         </tr>
@@ -423,8 +437,11 @@ useEffect(()=>{
           SlotAccountUnregisteredNFTs[slot+1].sort((a, b) => (a.token_id > b.token_id) ? 1 : -1).map((item, index)=>{
               // console.log('ITEMMMM: ',item);
               return(
-              <tr key={index}   onClick={()=>{ uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot!= slot+1?<></>: updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1)} } style={{zIndex:'9999', filter: uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot!= slot+1? 'opacity(0.3)':'opacity(1.0)':'opacity(1.0)':'opacity(1.0)':'opacity(1.0)'}}>                
-                <td className={uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot== slot+1? 'clickedUnregisteredToken':'hoverTD':'hoverTD':'hoverTD':'hoverTD'}   style={{cursor:'pointer', backgroundColor: "#333"}}> { parseInt(item.token_id )} </td>
+              <tr key={index}  onClick={()=>{setClickedSlotObj(item) }}  style={{zIndex:'9999', filter: uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot!= slot+1? 'opacity(0.1)':'opacity(1.0)':'opacity(1.0)':'opacity(1.0)':'opacity(1.0)'}}>                
+                <td   style={{display:'flex', alignItems:'center', justifyContent:'right',fontSize:'1.5vh', cursor:'pointer', backgroundColor: "rgba(0,0,50,0.4)"}}> 
+                  <div className={uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot== slot+1? 'tickboxSelected':'tickboxHover':'tickboxHover':'tickboxHover':'tickboxHover'} onClick={()=>{ uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot!= slot+1?<></>: updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1)} } style={{position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
+                  { parseInt(item.token_id )} 
+                </td>
               </tr>
               )
 
@@ -443,60 +460,56 @@ useEffect(()=>{
 
 
     </div>
-
+    
 
     {/* More Token Info DIV */}
     {/* ------------------- */}
     <div style={{backgroundColor:'rgba(0,0,0,0.2)', border:'1px solid rgba(0,0,0,0.2)',borderRadius:'5px', position:'absolute', top:'3%',display:'flex', justifyContent:'center', alignItems:'center', width:'22vw', height:'85vh', right:'1vw',}}>
       <div style={{display:'flex', borderRadius:'5px',justifyContent:'center', alignItems:'center', width:'90%',backgroundColor:'rgba(0,0,0,0.5)', height:'40%', top:'2%',position:'absolute'}}>
-        {MoreTokenInfo == 'not in db'?<>ejected from contract</>:<img style={{maxHeight:'100%', objectFit:'scale-down'}} src={MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>:<></>}></img>}
+        {MoreTokenInfo == 'not in db'?<>ejected from contract</>:<img style={{maxHeight:'100%', objectFit:'scale-down'}} src={clickedSlotObj? clickedSlotObj.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>}></img>}
       </div>
       
       <div style={{display:'flex',justifyContent:'center',fontSize:'1vw', backgroundColor:'rgba(0,0,0,0.5)',borderRadius:'5px', position:'absolute', width:'95%', height:'56%', bottom:'0.5%'}}>
         <div style={{position:'absolute', top:'3%', left:'4%',}}>
           View token: 
         </div>
-        <div className="hoverIcon" style={{position:'absolute', top:'3%',height:'7%', left:'30%',}}>
-          <img  style={{maxHeight:'100%',objectFit:'scale-down'}} src="https://etherscan.io/images/brandassets/etherscan-logo-light-circle.png"></img>
-          
+        <div title="View On Etherscan" className="hoverIcon" style={{position:'absolute', top:'3%',height:'7%', left:'30%',}}>
+          <a href={clickedSlotObj? "https://rinkeby.etherscan.io/token/"+clickedSlotObj.token_address+"?a="+clickedSlotObj.token_id+"#inventory" : <></>} target="asdlfksdjf" >
+            <img  style={{maxHeight:'100%',objectFit:'scale-down'}} src="https://etherscan.io/images/brandassets/etherscan-logo-light-circle.png"></img>
+          </a>
         </div>
-        <div className="hoverIcon" style={{position:'absolute', top:'3%', height:'7%', left:'40%',}}>
-          <img  style={{maxHeight:'100%',objectFit:'scale-down'}} src="https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.png"></img>
+        <div title="View On OpenSea" className="hoverIcon" style={{position:'absolute', top:'3%', height:'7%', left:'40%',}}>
+          <a href={clickedSlotObj? "https://testnets.opensea.io/assets/rinkeby/"+clickedSlotObj.token_address+"/"+clickedSlotObj.token_id : <></>} target="asdlfksdjf" >
+            <img  style={{maxHeight:'100%',objectFit:'scale-down'}} src="https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.png"></img>
+          </a>
         </div>
 
         <div className="hoverViewMetadata" style={{border:'1px solid rgba(250,250,250,0.3)',padding:'0.5vh', position:'absolute', top:'2%', right:'3%',}}>
           Metadata 
         </div>
-        <div className="hoverViewMetadata" style={{border:'1px solid rgba(250,250,250,0.3)',padding:'0.5vh', position:'absolute', top:'15%', right:'3%',}}>
-          Carousel View
-        </div>
+
         
         
-        <div style={{color:'magenta',fontWeight:'bold', position:'absolute', top:'15%', left:'4%', width:'55%', }}>
-          ERC-721
+        <div style={{color:'magenta',fontWeight:'bold', position:'absolute', top:'15%', left:'4%', width:'65%', }}>
+          {clickedSlotObj? clickedSlotObj.contract_type.replace(/ERC/, "ERC-"):<></>}
         </div>
 
-        <div style={{ position:'absolute', top:'29%', left:'4%',width:'55%',}}>
-          <div style={{position:'absolute',left:'0%'}}>Token Id:</div>  <div style={{position:'absolute', right:'0%', color:'cyan'}}> {MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.token_id:<></>:<></>} </div>
+        <div style={{ position:'absolute', top:'35%', width:'65%',}}>
+          <div style={{position:'absolute',left:'0%'}}>Token Id:</div>  <div style={{position:'absolute', right:'0%', color:'cyan'}}> {clickedSlotObj? clickedSlotObj.token_id: <>...</>} </div>
         </div>
 
-        <div style={{position:'absolute', top:'39%', left:'4%',width:'55%',}}>
-          <div style={{position:'absolute', left:'0%'}}>Contract:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}> {MoreTokenInfo? MoreTokenInfo != 'not in db'? getEllipsisTxt(MoreTokenInfo.token_address, 4):<></>:<></>} </div> 
+        <div style={{position:'absolute', top:'45%', width:'65%',}}>
+          <div style={{position:'absolute', left:'0%'}}>Contract:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}> {clickedSlotObj? getEllipsisTxt(clickedSlotObj.token_address, 4): <>...</>} </div> 
         </div>
 
-        <div style={{position:'absolute', top:'49%', left:'4%',width:'55%',}}>
-          <div style={{position:'absolute', left:'0%'}}>Symbol:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>{MoreTokenInfo? MoreTokenInfo != 'not in db' && MoreTokenInfo.symbol? MoreTokenInfo.symbol:<></>:<></>} </div>
+        <div style={{position:'absolute', top:'55%', width:'65%',}}>
+          <div style={{position:'absolute', left:'0%'}}>Symbol:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>{clickedSlotObj? clickedSlotObj.symbol: <>...</>} </div>
         </div>
 
-        <div style={{position:'absolute', top:'59%', left:'4%',width:'55%', }}>
-         <div style={{position:'absolute', left:'0%'}}> Slot: </div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}> {MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.slotNumber:<></>:<></>} </div>
-        </div>
-        <div style={{position:'absolute', top:'69%', left:'4%',width:'55%', }}>
-         <div style={{position:'absolute', left:'0%'}}> Position: </div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}> {MoreTokenInfo? MoreTokenInfo != 'not in db'? MoreTokenInfo.indexInSlot - WheelSlotWinnerOffsets[MoreTokenInfo.slotNumber-1]:<></>:<></>} </div>
-        </div>
+  
         
         
-        <div className="hoverEjectToken" onClick={()=>{ registerTokens() }} style={{display:'flex',justifyContent:'center',border:'1px solid rgba(250,150,150,0.5)', padding:'0.5vh', fontSize:'2vh', position:'absolute', width:'45%', bottom:'5%', }}>
+        <div className="hoverEjectToken" onClick={()=>{ registerTokens() }} style={{display:'flex',justifyContent:'center',border:'1px solid rgba(250,150,150,0.5)', padding:'0.5vh', fontSize:'3vh', position:'absolute',  bottom:'5%', }}>
           Register Tokens (...)
         </div>
 

@@ -23,6 +23,7 @@ const ContractInfoGrabber = () => {
     const {MachineContractAddress, setMachineContractAddress,}    = useContext(NftMoreInfoContext);
     const {userErc20TokenBalance, setuserErc20TokenBalance} = useContext(NftMoreInfoContext);
     const {SlotAccountUnregisteredNFTs, setSlotAccountUnregisteredNFTs} = useContext(NftMoreInfoContext);
+    const {loadSlotsCounter, setloadSlotsCounter} = useContext(NftMoreInfoContext);
 
     
     const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
@@ -139,14 +140,14 @@ const ContractInfoGrabber = () => {
 //--------------------------------------------------
 
 
-const [loadSlotsCounter, setloadSlotsCounter] = useState(0);
 
-useEffect(()=>{
-  if ((NftSlotOdds[loadSlotsCounter] != 0) && (isWeb3Enabled) && (NftSlotContractAddresses[0]!='0x0000000000000000000000000000000000000000')){
+
+useEffect(()=>{                                                                                                                               //slot10 to ensure we are waiting for complete list of registereds..
+  if ((NftSlotOdds[loadSlotsCounter] != 0) && (isWeb3Enabled) && (NftSlotContractAddresses[0]!='0x0000000000000000000000000000000000000000')&&(getRegisteredFromOnChainBySlot10.data)){
     console.log('LOADING SLOT: ',loadSlotsCounter+1,'  ',NftSlotContractAddresses[loadSlotsCounter])
     loadNftsForSlot(loadSlotsCounter+1, NftSlotContractAddresses[loadSlotsCounter]) //slotIndex, slotAddress
   }
-},[loadSlotsCounter, isWeb3Enabled, NftSlotContractAddresses])
+},[loadSlotsCounter, isWeb3Enabled, NftSlotContractAddresses, getRegisteredFromOnChainBySlot10.data])
 
 const [loadedAddressTokens, setloadedAddressTokens] = useState({});
 
@@ -184,10 +185,10 @@ async function loadNftsForSlot(slotIndex, slotAddress){
     } 
     // const final = rinkebySlotUnregisteredTokens.result;
 
-    //this filter only filters if it's registered in this particular slot. We need it to filter if it shows in ANY of the slots for that contract address
+
     const final = rinkebySlotUnregisteredTokens.result.filter(item => {
-      if (registeredFromOnChainByAddress[ NftSlotContractAddresses[slotIndex] ]){
-        if (registeredFromOnChainByAddress[ NftSlotContractAddresses[slotIndex] ].filter(e => parseInt(e._hex, 16) == item.token_id).length > 0) {
+      if (registeredFromOnChainByAddress[ NftSlotContractAddresses[slotIndex-1] ]){
+        if (registeredFromOnChainByAddress[ NftSlotContractAddresses[slotIndex-1] ].filter(e => e == parseInt(item.token_id)).length > 0) {
           return false;
         }
         else return true;
@@ -207,7 +208,7 @@ async function loadNftsForSlot(slotIndex, slotAddress){
 
   useEffect(()=>{
     if (registeredFromOnChainBySlot){
-      // console.log('registeredFromOnChainByAddress: ',registeredFromOnChainByAddress,registeredFromOnChainBySlot);
+      console.log('registeredFromOnChainByAddress: ',registeredFromOnChainByAddress,registeredFromOnChainBySlot);
 
       //every time this is updated, trigger a delayed timeout that if succeeds will filter out duplicates from this list
       //WALRUS
@@ -467,7 +468,8 @@ async function loadNftsForSlot(slotIndex, slotAddress){
       if (refreshRegisteredSlotData){
         setrefreshRegisteredSlotData(false);
         getAllRegisteredTokensInAllSlots();
-
+        
+        
         getSlotWinnerOffsets.runContractFunction({
           onError: (error) =>{
             console.log('getSlotWinnerOffsets ERROR: ',error);
@@ -480,15 +482,15 @@ async function loadNftsForSlot(slotIndex, slotAddress){
 
     function getAllRegisteredTokensInAllSlots(){
         setTimeout(()=>{ getRegisteredFromOnChainBySlot1.runContractFunction();  },200 );
-        setTimeout(()=>{ getRegisteredFromOnChainBySlot2.runContractFunction();  },500 );
-        setTimeout(()=>{ getRegisteredFromOnChainBySlot3.runContractFunction();  },800 );
-        setTimeout(()=>{ getRegisteredFromOnChainBySlot4.runContractFunction();  },1200 );
-        setTimeout(()=>{ getRegisteredFromOnChainBySlot5.runContractFunction();  },1600 );
-        setTimeout(()=>{ getRegisteredFromOnChainBySlot6.runContractFunction();  },2000 );
-        setTimeout(()=>{ getRegisteredFromOnChainBySlot7.runContractFunction();  },2400 );
-        setTimeout(()=>{ getRegisteredFromOnChainBySlot8.runContractFunction();  },2800 );
-        setTimeout(()=>{ getRegisteredFromOnChainBySlot9.runContractFunction();  },3200 );
-        setTimeout(()=>{ getRegisteredFromOnChainBySlot10.runContractFunction(); },3600 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot2.runContractFunction();  },400 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot3.runContractFunction();  },600 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot4.runContractFunction();  },800 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot5.runContractFunction();  },1000 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot6.runContractFunction();  },1200 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot7.runContractFunction();  },1400 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot8.runContractFunction();  },1600 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot9.runContractFunction();  },1800 );
+        setTimeout(()=>{ getRegisteredFromOnChainBySlot10.runContractFunction(); },2000 );
       
     }
 
@@ -775,7 +777,7 @@ async function loadNftsForSlot(slotIndex, slotAddress){
 
     useEffect(()=>{
       if (getRegisteredFromOnChainBySlot10.data){
-
+        
         setregisteredFromOnChainBySlot(getRegisteredFromOnChainBySlot => ({
           ...getRegisteredFromOnChainBySlot,
           [10]: getRegisteredFromOnChainBySlot10.data
@@ -797,6 +799,7 @@ async function loadNftsForSlot(slotIndex, slotAddress){
           [ NftSlotContractAddresses[9] ]:  [...temp]
         }) )
 
+        setloadSlotsCounter(0); //testing here to refresh data on token registration 
       }
     },[getRegisteredFromOnChainBySlot10.data]);
 
