@@ -31,7 +31,7 @@ import MachineNameTitle from './components/MachineNameTitle.jsx';
 import DepositToInventory from './components/DepositToInventory.jsx';
 import ManageInventoryViewControlDiv from './components/snippet-components/ManageInventoryViewControlDiv.jsx';
 import ImageControlledLoader from './components/snippet-components/ImageControlledLoader.jsx';
-import RevenueStats from './components/RevenueStats';
+import RevenueStats from './components/ManageRegistered';
 import Manager from './components/Manager.js';
 import StatusMessageDiv from './components/StatusMessageDiv.jsx';
 import RegisterInventory2 from './components/RegisterInventory2.jsx';

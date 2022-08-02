@@ -142,11 +142,11 @@ const ContractInfoGrabber = () => {
 const [loadSlotsCounter, setloadSlotsCounter] = useState(0);
 
 useEffect(()=>{
-  if ((NftSlotOdds[loadSlotsCounter] != 0) && (isWeb3Enabled)){
-    console.log('LOADING SLOT: ',loadSlotsCounter+1)
+  if ((NftSlotOdds[loadSlotsCounter] != 0) && (isWeb3Enabled) && (NftSlotContractAddresses[0]!='0x0000000000000000000000000000000000000000')){
+    console.log('LOADING SLOT: ',loadSlotsCounter+1,'  ',NftSlotContractAddresses[loadSlotsCounter])
     loadNftsForSlot(loadSlotsCounter+1, NftSlotContractAddresses[loadSlotsCounter]) //slotIndex, slotAddress
   }
-},[loadSlotsCounter, isWeb3Enabled])
+},[loadSlotsCounter, isWeb3Enabled, NftSlotContractAddresses])
 
 const [loadedAddressTokens, setloadedAddressTokens] = useState({});
 
@@ -203,13 +203,7 @@ async function loadNftsForSlot(slotIndex, slotAddress){
     
     
   }
-  useEffect(()=>{
-    if (SlotAccountUnregisteredNFTs){
-      //get highest numerical key in SlotAccountUnregisteredNFTs and use that to fetch next highest call of loadNftsForSlot(slotIndex, slotAddress)
 
-      
-    }
-  },[SlotAccountUnregisteredNFTs]);
 
   useEffect(()=>{
     if (registeredFromOnChainBySlot){
@@ -224,7 +218,10 @@ async function loadNftsForSlot(slotIndex, slotAddress){
   
   useEffect(()=>{
     if (registeredFromOnChainByAddress){
-      console.log('registeredFromOnChainByAddress: ',registeredFromOnChainByAddress);
+      for (var key in registeredFromOnChainByAddress){
+        let tempArray = Array.from(new Set(registeredFromOnChainByAddress[key]));
+        console.log('registeredFromOnChainByAddress: ',tempArray);
+      }
     }
 
   },[registeredFromOnChainByAddress]);
@@ -377,10 +374,10 @@ async function loadNftsForSlot(slotIndex, slotAddress){
         setmachineNameString(getWheelInfo.data[2]);
 
         // setNftSlotContractAddresses([]);
-        for (let i = 0; i < getWheelInfo.data[1].length; i++){
+        // for (let i = 0; i < getWheelInfo.data[1].length; i++){
             // console.log(i, getAllCrateSlotAddresses.data[i],'  RRRRRR');
-            setNftSlotContractAddresses(getWheelInfo.data[1]); 
-        }
+            setNftSlotContractAddresses([...getWheelInfo.data[1]]); 
+        // }
 
         setNftSlotOdds([]);
         for (let i = 0; i < getWheelInfo.data[0].length; i++){
@@ -507,7 +504,7 @@ async function loadNftsForSlot(slotIndex, slotAddress){
           console.log(NftSlotContractAddresses.length,' filtered to: ',tempArray.length,' :',tempArray);
           
           for (let i = 0; i < tempArray.length; i++){
-            if (tempArray[i] == '0x0000000000000000000000000000000000000000') { continue; }
+            // if (tempArray[i] == '0x0000000000000000000000000000000000000000') { continue; }
             const fetchUniqueSlotData = async ()=>{
               const options = {
                 chain: "rinkeby",
@@ -529,6 +526,9 @@ async function loadNftsForSlot(slotIndex, slotAddress){
       }
     },[NftSlotContractAddresses, MachineContractAddress]);
 
+//  how I want my registeredFromOnChainByAddress object to look...
+// {0x65bAA849d1A823009ffc2a45CB0f1e3220392d93: [2002,2016,2040,2091] }
+//walrus
 
     useEffect(()=>{
       if (getRegisteredFromOnChainBySlot1.data){
@@ -539,22 +539,21 @@ async function loadNftsForSlot(slotIndex, slotAddress){
           [1]: getRegisteredFromOnChainBySlot1.data
         }));
         
+        const temp = getRegisteredFromOnChainBySlot1.data.map((item)=>{
+          return parseInt(item._hex, 16);
+        })
+
         registeredFromOnChainByAddress[ NftSlotContractAddresses[0]]?
         setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
           ...registeredFromOnChainByAddress,
-             [ NftSlotContractAddresses[0] ]: [...registeredFromOnChainByAddress[ NftSlotContractAddresses[0] ], getRegisteredFromOnChainBySlot1.data.map((item)=>{
-              return item;
-            })
+             [ NftSlotContractAddresses[0] ]: [...registeredFromOnChainByAddress[ NftSlotContractAddresses[0] ], ...temp
             
             ]  
         }) )
-          // {0x65bAA849d1A823009ffc2a45CB0f1e3220392d93: [2002,2016,2040,2091] }
           :
         setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
           ...registeredFromOnChainByAddress,
-          [ NftSlotContractAddresses[0] ]:  getRegisteredFromOnChainBySlot1.data.map((item)=>{
-            return item;
-          })
+          [ NftSlotContractAddresses[0] ]:  [...temp]
         }) )
       }
     },[getRegisteredFromOnChainBySlot1.data]); 
@@ -568,7 +567,22 @@ async function loadNftsForSlot(slotIndex, slotAddress){
           ...getRegisteredFromOnChainBySlot,
           [2]: getRegisteredFromOnChainBySlot2.data
         }));
-        
+        const temp = getRegisteredFromOnChainBySlot2.data.map((item)=>{
+          return parseInt(item._hex, 16);
+        })
+
+        registeredFromOnChainByAddress[ NftSlotContractAddresses[1]]?
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+             [ NftSlotContractAddresses[1] ]: [...registeredFromOnChainByAddress[ NftSlotContractAddresses[1] ], ...temp
+            
+            ]  
+        }) )
+          :
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+          [ NftSlotContractAddresses[1] ]:  [...temp]
+        }) )
       }
     },[getRegisteredFromOnChainBySlot2.data]);
 
@@ -580,7 +594,22 @@ async function loadNftsForSlot(slotIndex, slotAddress){
           [3]: getRegisteredFromOnChainBySlot3.data
         }));
 
-        
+        const temp = getRegisteredFromOnChainBySlot3.data.map((item)=>{
+          return parseInt(item._hex, 16);
+        })
+
+        registeredFromOnChainByAddress[ NftSlotContractAddresses[2]]?
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+             [ NftSlotContractAddresses[2] ]: [...registeredFromOnChainByAddress[ NftSlotContractAddresses[2] ], ...temp
+            
+            ]  
+        }) )
+          :
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+          [ NftSlotContractAddresses[2] ]:  [...temp]
+        }) )
 
       }
     },[getRegisteredFromOnChainBySlot3.data]);
@@ -592,7 +621,22 @@ async function loadNftsForSlot(slotIndex, slotAddress){
           ...getRegisteredFromOnChainBySlot,
           [4]: getRegisteredFromOnChainBySlot4.data
         }));
-        
+        const temp = getRegisteredFromOnChainBySlot4.data.map((item)=>{
+          return parseInt(item._hex, 16);
+        })
+
+        registeredFromOnChainByAddress[ NftSlotContractAddresses[3]]?
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+             [ NftSlotContractAddresses[3] ]: [...registeredFromOnChainByAddress[ NftSlotContractAddresses[3] ], ...temp
+            
+            ]  
+        }) )
+          :
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+          [ NftSlotContractAddresses[3] ]:  [...temp]
+        }) )
       }
     },[getRegisteredFromOnChainBySlot4.data]);
 
@@ -603,7 +647,22 @@ async function loadNftsForSlot(slotIndex, slotAddress){
           ...getRegisteredFromOnChainBySlot,
           [5]: getRegisteredFromOnChainBySlot5.data
         }));
-       
+        const temp = getRegisteredFromOnChainBySlot5.data.map((item)=>{
+          return parseInt(item._hex, 16);
+        })
+
+        registeredFromOnChainByAddress[ NftSlotContractAddresses[4]]?
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+             [ NftSlotContractAddresses[4] ]: [...registeredFromOnChainByAddress[ NftSlotContractAddresses[4] ], ...temp
+            
+            ]  
+        }) )
+          :
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+          [ NftSlotContractAddresses[4] ]:  [...temp]
+        }) )
 
       }
     },[getRegisteredFromOnChainBySlot5.data]);
@@ -615,7 +674,22 @@ async function loadNftsForSlot(slotIndex, slotAddress){
           ...getRegisteredFromOnChainBySlot,
           [6]: getRegisteredFromOnChainBySlot6.data
         }));
-       
+        const temp = getRegisteredFromOnChainBySlot6.data.map((item)=>{
+          return parseInt(item._hex, 16);
+        })
+
+        registeredFromOnChainByAddress[ NftSlotContractAddresses[5]]?
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+             [ NftSlotContractAddresses[5] ]: [...registeredFromOnChainByAddress[ NftSlotContractAddresses[5] ], ...temp
+            
+            ]  
+        }) )
+          :
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+          [ NftSlotContractAddresses[5] ]:  [...temp]
+        }) )
       }
     },[getRegisteredFromOnChainBySlot6.data]);
 
@@ -626,7 +700,22 @@ async function loadNftsForSlot(slotIndex, slotAddress){
           ...getRegisteredFromOnChainBySlot,
           [7]: getRegisteredFromOnChainBySlot7.data
         }));
-       
+        const temp = getRegisteredFromOnChainBySlot7.data.map((item)=>{
+          return parseInt(item._hex, 16);
+        })
+
+        registeredFromOnChainByAddress[ NftSlotContractAddresses[6]]?
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+             [ NftSlotContractAddresses[6] ]: [...registeredFromOnChainByAddress[ NftSlotContractAddresses[6] ], ...temp
+            
+            ]  
+        }) )
+          :
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+          [ NftSlotContractAddresses[6] ]:  [...temp]
+        }) )
 
       }
     },[getRegisteredFromOnChainBySlot7.data]);
@@ -638,7 +727,22 @@ async function loadNftsForSlot(slotIndex, slotAddress){
           ...getRegisteredFromOnChainBySlot,
           [8]: getRegisteredFromOnChainBySlot8.data
         }));
-        
+        const temp = getRegisteredFromOnChainBySlot8.data.map((item)=>{
+          return parseInt(item._hex, 16);
+        })
+
+        registeredFromOnChainByAddress[ NftSlotContractAddresses[7]]?
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+             [ NftSlotContractAddresses[7] ]: [...registeredFromOnChainByAddress[ NftSlotContractAddresses[7] ], ...temp
+            
+            ]  
+        }) )
+          :
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+          [ NftSlotContractAddresses[7] ]:  [...temp]
+        }) )
       }
     },[getRegisteredFromOnChainBySlot8.data]);
 
@@ -649,7 +753,22 @@ async function loadNftsForSlot(slotIndex, slotAddress){
           ...getRegisteredFromOnChainBySlot,
           [9]: getRegisteredFromOnChainBySlot9.data
         }));
-        
+        const temp = getRegisteredFromOnChainBySlot9.data.map((item)=>{
+          return parseInt(item._hex, 16);
+        })
+
+        registeredFromOnChainByAddress[ NftSlotContractAddresses[8]]?
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+             [ NftSlotContractAddresses[8] ]: [...registeredFromOnChainByAddress[ NftSlotContractAddresses[8] ], ...temp
+            
+            ]  
+        }) )
+          :
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+          [ NftSlotContractAddresses[8] ]:  [...temp]
+        }) )
 
       }
     },[getRegisteredFromOnChainBySlot9.data]);
@@ -661,7 +780,22 @@ async function loadNftsForSlot(slotIndex, slotAddress){
           ...getRegisteredFromOnChainBySlot,
           [10]: getRegisteredFromOnChainBySlot10.data
         }));
-        
+        const temp = getRegisteredFromOnChainBySlot10.data.map((item)=>{
+          return parseInt(item._hex, 16);
+        })
+
+        registeredFromOnChainByAddress[ NftSlotContractAddresses[9]]?
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+             [ NftSlotContractAddresses[9] ]: [...registeredFromOnChainByAddress[ NftSlotContractAddresses[9] ], ...temp
+            
+            ]  
+        }) )
+          :
+        setregisteredFromOnChainByAddress(registeredFromOnChainByAddress => ({
+          ...registeredFromOnChainByAddress,
+          [ NftSlotContractAddresses[9] ]:  [...temp]
+        }) )
 
       }
     },[getRegisteredFromOnChainBySlot10.data]);

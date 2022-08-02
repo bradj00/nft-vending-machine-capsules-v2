@@ -62,6 +62,7 @@ const UnregisteredNftSlot = (props) => {
     const {Slot8AccountUnregisteredNFTs, setSlot8AccountUnregisteredNFTs} = useContext(NftMoreInfoContext);
     const {Slot9AccountUnregisteredNFTs, setSlot9AccountUnregisteredNFTs} = useContext(NftMoreInfoContext);
     const {Slot10AccountUnregisteredNFTs, setSlot10AccountUnregisteredNFTs} = useContext(NftMoreInfoContext);
+    const {SlotsSelectedArr, setSlotsSelectedArr} = useContext(NftMoreInfoContext);
     
     const {slotInventory1tokenInfoArray, setslotInventory1tokenInfoArray}    = useContext(NftMoreInfoContext);
     const {slotInventory2tokenInfoArray, setslotInventory2tokenInfoArray}    = useContext(NftMoreInfoContext);
@@ -372,68 +373,27 @@ const UnregisteredNftSlot = (props) => {
                     else { 
                         return(
                         <div style={{border:'1px solid #00ff00',marginBottom:'0.2vw',borderRadius:'10px',border: ActiveNetworkBorderColor?ActiveNetworkBorderColor: '1px solid #666', backgroundColor: ActiveNetworkThemeColorDarker? ActiveNetworkThemeColorDarker: 'rgba(50,50,50,0.6)',}}>
-                        <div key={index} style={{position:'relative', display:'flex',justifyContent:'center', alignItems:'center', marginBottom:'4px', paddingLeft:'6px'}}>
-                            {/* <img width="100%" className="imgBorder" onClick={()=>{clickedThisImage(singleImage, 1, index)}} src={singleImage}></img> */}
-                            {singleImage.metadata?<img width="100%" className="imgBorder" onClick={()=>{props.setSlotshowMenu({...props.SlotshowMenu, [singleImage.token_id]: !props.SlotshowMenu[singleImage.token_id]})}} src={singleImage.metadata? singleImage.metadata.image : "https://i.imgur.com/8LIxN7y.png"}></img>
-                            :<NoImageTokenDescriptionDiv tokenInfo={singleImage}/>}
-                            {props.SlotshowMenu[singleImage.token_id]? 
-                            
-                                <div className="hoverTipNftManagerSelected" onClick={()=>{ props.setSlotshowMenu({...props.SlotshowMenu, [singleImage.token_id]: !props.SlotshowMenu[singleImage.token_id]})}} style={{cursor:'pointer', display:'flex', justifyContent:'center', position:'absolute',height:'100%',width:'100%',}}>
-                                <div  style={{borderRadius:'10px', display:'flex',justifyContent:'center', alignItems:'center', position:'absolute',width:'95%',height:'30%',backgroundColor:'rgba(0,0,0,0.6)', color:'#fff',fontSize:'100%'}}>
-                                    <span style={{fontSize:'100%'}} className="material-icons">cancel</span> &nbsp;( {singleImage.token_id} ) Unselect 
-                                </div>
-                                </div>
-                            :
-                            <div className="hoverTipNftManager"  onClick={()=>{ props.setSlotshowMenu({...props.SlotshowMenu, [singleImage.token_id]: !props.SlotshowMenu[singleImage.token_id]})}} style={{cursor:'pointer', display:'flex', justifyContent:'center', position:'absolute',height:'100%',width:'100%',}}>
-                                <div  style={{borderRadius:'10px', display:'flex',justifyContent:'center', alignItems:'center', position:'absolute',width:'95%',height:'30%',backgroundColor:'rgba(0,0,0,0.6)', color:'#fff',fontSize:'100%'}}>
-                                    <span style={{fontSize:'100%'}} className="material-icons">file_upload</span> &nbsp;( {singleImage.token_id} ) Select to Register 
-                                </div>
-                            </div>}
-                            
+                          <div key={index} style={{position:'relative', display:'flex',justifyContent:'center', alignItems:'center', marginBottom:'4px', paddingLeft:'6px'}}>
+                              {/* <img width="100%" className="imgBorder" onClick={()=>{clickedThisImage(singleImage, 1, index)}} src={singleImage}></img> */}
+                              {singleImage.metadata?<img width="100%" className="imgBorder" onClick={()=>{props.setSlotshowMenu({...props.SlotshowMenu, [singleImage.token_id]: !props.SlotshowMenu[singleImage.token_id]})}} src={singleImage.metadata? singleImage.metadata.image : "https://i.imgur.com/8LIxN7y.png"}></img>
+                              :<NoImageTokenDescriptionDiv tokenInfo={singleImage}/>}
+                              {props.SlotshowMenu[singleImage.token_id]? 
+                              
+                                  <div className="hoverTipNftManagerSelected" onClick={()=>{ props.setSlotshowMenu({...props.SlotshowMenu, [singleImage.token_id]: !props.SlotshowMenu[singleImage.token_id]})}} style={{cursor:'pointer', display:'flex', justifyContent:'center', position:'absolute',height:'100%',width:'100%',}}>
+                                  <div  style={{borderRadius:'10px', display:'flex',justifyContent:'center', alignItems:'center', position:'absolute',width:'95%',height:'30%',backgroundColor:'rgba(0,0,0,0.6)', color:'#fff',fontSize:'100%'}}>
+                                      <span style={{fontSize:'100%'}} className="material-icons">cancel</span> &nbsp;( {singleImage.token_id} ) Unselect 
+                                  </div>
+                                  </div>
+                              :
+                              <div className="hoverTipNftManager"  onClick={()=>{ props.setSlotshowMenu({...props.SlotshowMenu, [singleImage.token_id]: !props.SlotshowMenu[singleImage.token_id]})}} style={{cursor:'pointer', display:'flex', justifyContent:'center', position:'absolute',height:'100%',width:'100%',}}>
+                                  <div  style={{borderRadius:'10px', display:'flex',justifyContent:'center', alignItems:'center', position:'absolute',width:'95%',height:'30%',backgroundColor:'rgba(0,0,0,0.6)', color:'#fff',fontSize:'100%'}}>
+                                      <span style={{fontSize:'100%'}} className="material-icons">file_upload</span> &nbsp;( {singleImage.token_id} ) Select to Register 
+                                  </div>
+                              </div>}
+                              
 
-                        </div>
+                          </div>
 
-                        {isMCPcontract(NftSlotContractAddresses[0]) && displayMetaData? 
-                        <div style={{display:'flex', justifyContent:'center', width:'100%',backgroundColor: ActiveNetworkThemeColorLighter? ActiveNetworkThemeColorLighter: 'rgba(50,50,50,0.6)', borderRadius:'10px', border: ActiveNetworkBorderColor?ActiveNetworkBorderColor: '1px solid #666',padding:'0.1vw'}}>
-                        
-                        <div style={{position:'relative',display:'flex', justifyContent:'center', alignItems:'center',fontSize:'180%',height:'2vw', width:'2vw', backgroundColor: ActiveNetworkThemeColorLighter? ActiveNetworkThemeColorLighter: 'rgba(50,50,50,0.6)',borderRadius:'10px',marginTop:'-22vh',left:'1%',}}>
-                            {singleImage.metadata.attributes[2].value}
-                        </div>
-
-                        <div style={{position:'relative', marginLeft:'-1.5vw',paddingRight:'1vw', width:'1ch'}}>
-                            I
-                            S
-                            C
-                            A
-                            L
-                            E
-                        </div>
-                        
-                        
-                        <div style={{width:'70%',}}>
-                            <MCPCitizenStatBar statValue={singleImage.metadata.attributes[3].value}/>
-                            <MCPCitizenStatBar statValue={singleImage.metadata.attributes[4].value}/>
-                            <MCPCitizenStatBar statValue={singleImage.metadata.attributes[5].value}/>
-                            <MCPCitizenStatBar statValue={singleImage.metadata.attributes[6].value}/>
-                            <MCPCitizenStatBar statValue={singleImage.metadata.attributes[7].value}/>
-                            <MCPCitizenStatBar statValue={singleImage.metadata.attributes[8].value}/>
-                        </div>
-                        
-
-                        <div style={{position:'relative',paddingRight:'1.5vw',paddingLeft:'0.5vw',textAlign:'right',display:'flex', width:'1ch'}}>
-                        
-                        {singleImage.metadata.attributes[3].value}<br></br>
-                        {singleImage.metadata.attributes[4].value}<br></br>
-                        {singleImage.metadata.attributes[5].value}<br></br>
-                        {singleImage.metadata.attributes[6].value}<br></br>
-                        {singleImage.metadata.attributes[7].value}<br></br>
-                        {singleImage.metadata.attributes[8].value}<br></br>
-                        </div>
-
-                        </div>
-                        
-                        :<></>
-                        }
                         
                         </div>
                         
@@ -445,6 +405,9 @@ const UnregisteredNftSlot = (props) => {
                         {/* <img width="100%" className="imgBorder" onClick={()=>{clickedThisImage(singleImage, 1, index)}} src={singleImage}></img> */}
                         {singleImage.metadata?<img  style={{filter: uniqueRegistrationSelectionIds[singleImage.token_address]? uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id]? (uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].clicked &&uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].slot != props.slotIndex) ? 'saturate(0) opacity(0.3)': 'saturate(1)': 'saturate(1)': 'saturate(1)'}} width="100%" className="imgBorder" onClick={()=>{ uniqueRegistrationSelectionIds[singleImage.token_address]? uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id]? (uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].clicked &&uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].slot != props.slotIndex) ? <></>: updateClickedTokens(singleImage): updateClickedTokens(singleImage): updateClickedTokens(singleImage)    }} src={singleImage.metadata? singleImage.metadata.image : "https://i.imgur.com/8LIxN7y.png"}></img>
                         : <NoImageTokenDescriptionDiv tokenInfo={singleImage}/>}
+                        
+                        
+                        
                         {props.SlotshowMenu[singleImage.token_id]? 
                         
                             <div className="hoverTipNftManagerSelected" onClick={()=>{ uniqueRegistrationSelectionIds[singleImage.token_address]? uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id]? (uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].clicked &&uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id].slot != props.slotIndex) ? <></>: updateClickedTokens(singleImage): updateClickedTokens(singleImage): updateClickedTokens(singleImage)    }} style={{cursor:'pointer', display:'flex',  justifyContent:'center', position:'absolute',height:'100%',width:'100%',}}>

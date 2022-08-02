@@ -8,7 +8,7 @@ import '../styles/tempStyles.css';
 import { OddsAndSlotAddys } from '../App';
 import { getEllipsisTxt } from '../helpers/formatters';
 
-const RevenueStats = () => {
+const ManageRegistered = () => {
   const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
   const {BuyCapsuleContract, setBuyCapsuleContract} = useContext(NftMoreInfoContext)
   const { fetchERC20Balances, data, isLoading, isFetching, error } = useERC20Balances();
@@ -413,4 +413,4 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
   )
 }
 
-export default RevenueStats
+export default ManageRegistered

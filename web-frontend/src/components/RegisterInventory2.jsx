@@ -22,8 +22,9 @@ const RegisterInventory2 = () => {
   const [MoreTokenInfo , setMoreTokenInfo] = useState();
   const {NftSlotContractAddresses}    = useContext(OddsAndSlotAddys);
   const {WheelTokensHeldByAddress, setWheelTokensHeldByAddress} = useContext(NftMoreInfoContext);
-
-
+  const {uniqueRegistrationSelectionIds, setuniqueRegistrationSelectionIds}    = useContext(NftMoreInfoContext);
+  const {SlotsSelectedArr, setSlotsSelectedArr}     = useContext(NftMoreInfoContext);
+  const {SlotshowMenu, setSlotshowMenu}     = useContext(NftMoreInfoContext);
   const {isWeb3Enabled, account} = useMoralis();
   function returnToMachineView(){
     setmanagingInventory(!managingInventory);
@@ -34,6 +35,12 @@ const RegisterInventory2 = () => {
       console.log('cached info for token: ', MoreTokenInfo);
     }
   },[MoreTokenInfo]);
+ 
+  useEffect(()=>{
+    if (SlotsSelectedArr){
+      console.log('qqq SlotsSelectedArr: ', SlotsSelectedArr);
+    }
+  },[SlotsSelectedArr]);
  
   function updateClickedToken (tokenId, slotNumber, indexInSlot){
     const isEjected = WheelTokensHeldByAddress[NftSlotContractAddresses[slotNumber - 1] ].result.filter((item)=>{ return tokenId == parseInt(item.token_id) });
@@ -258,6 +265,43 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
     console.log('WheelTokensHeldByAddress: ',WheelTokensHeldByAddress)
   },[WheelTokensHeldByAddress]);
 
+
+
+
+  function updateClickedTokens(singleImage, slotIndex){
+    console.log('HUP DATIN ', uniqueRegistrationSelectionIds)
+    // setSlotshowMenu({...SlotshowMenu, [singleImage.token_id]: !SlotshowMenu[singleImage.token_id]}); // is this even useful in the new format?
+
+    // setuniqueRegistrationSelectionIds({ ...uniqueRegistrationSelectionIds, {uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id]}  })
+    
+    uniqueRegistrationSelectionIds[singleImage.token_address]? 
+    uniqueRegistrationSelectionIds[singleImage.token_address][singleImage.token_id]? 
+    setuniqueRegistrationSelectionIds(prevStyle => ({
+      ...prevStyle,
+      [singleImage.token_address]: { ...prevStyle[singleImage.token_address], [singleImage.token_id]: {clicked: !prevStyle[singleImage.token_address][singleImage.token_id].clicked, slot: slotIndex} }
+    }))
+    :
+    setuniqueRegistrationSelectionIds(prevStyle => ({
+      ...prevStyle,
+      [singleImage.token_address]: { ...prevStyle[singleImage.token_address], [singleImage.token_id]: {clicked: true, slot: slotIndex}   }
+    }))
+    :
+    setuniqueRegistrationSelectionIds(prevStyle => ({
+      ...prevStyle,
+      [singleImage.token_address]: { ...prevStyle[singleImage.token_address], [singleImage.token_id]: {clicked: true, slot: slotIndex}   }
+    }))
+  }
+
+
+
+
+
+
+
+
+
+
+
   return (
   <div style={{overflowY:'scroll', backgroundColor :'rgba(165, 221, 255 ,0.15)',top:'9.9vh',alignContent:'center',color: "#fff",height: '90%',marginBottom:'10vh', position:'absolute',display:'flex',alignItems:'center', justifyContent:'center', width:'100%'}}>
     <button style={{zIndex:'555', position:'fixed',top:'2vh',left:'21vw', paddingLeft:'0.2vw',paddingRight:'0.2vw',height:'4vh',cursor:'pointer', fontSize:'0.9vw'}} onClick={()=>{returnToMachineView()}}>View Wheel</button>
@@ -307,8 +351,14 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
     
 
     {thisArray.map((slot, index1)=>{
+      // console.log('SlotAccountUnregisteredNFTs[ '+(slot+1)+' ]: ',SlotAccountUnregisteredNFTs[slot+1])
       return(
       <table key={index1} style={{ marginRight:'10px',}}>
+        <thead>
+          
+        </thead>
+        
+        <tbody>
         <tr style={{position:'sticky', top:'0',width:'100%',}}>
           <th style={{height:'5%', fontSize:'4vh',}}>{slot+1}</th>      
         </tr>
@@ -317,15 +367,17 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
         </td> */}
 
         {/* Slot Contract Symbol */}
-        <td style={{cursor:'pointer', position:'sticky', top:'9%',height:'5%',backgroundColor:'#111', color:'cyan', fontWeight:'bold', fontSize:'1.5vh',}}>
-          {WheelTokensHeldByAddress? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0]? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0].symbol : <></>: <></>}
-        </td>
-
+        <tr>
+          <td style={{cursor:'pointer', position:'sticky', top:'9%',height:'5%',backgroundColor:'#111', color:'cyan', fontWeight:'bold', fontSize:'1.5vh',}}>
+            {WheelTokensHeldByAddress? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0]? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0].symbol : <></>: <></>}
+          </td>
+        </tr>
+        
         {SlotAccountUnregisteredNFTs && SlotAccountUnregisteredNFTs[slot+1] ? 
-          SlotAccountUnregisteredNFTs[slot+1].map((item, index)=>{
+          SlotAccountUnregisteredNFTs[slot+1].sort((a, b) => (a.token_id > b.token_id) ? 1 : -1).map((item, index)=>{
               // console.log('ITEMMMM: ',item);
               return(
-              <tr key={index}  style={{zIndex:'9999'}}>                
+              <tr key={index} onClick={()=>{ updateClickedTokens(item, slot+1)} } style={{zIndex:'9999'}}>                
                 <td className="hoverTD"   style={{cursor:'pointer', backgroundColor: "#333"}}> { parseInt(item.token_id )} </td>
               </tr>
               )
@@ -333,6 +385,7 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
           })
         : <></>
         }
+      </tbody>
       </table>
 
       )
