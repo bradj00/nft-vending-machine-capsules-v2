@@ -21,6 +21,7 @@ const RegisterInventory2 = () => {
   const {AllRegisteredTokens , setAllRegisteredTokens} = useContext(NftMoreInfoContext);
   const [MoreTokenInfo , setMoreTokenInfo] = useState();
   const {NftSlotContractAddresses}    = useContext(OddsAndSlotAddys);
+  const {NftSlotOdds, setNftSlotOdds}    = useContext(OddsAndSlotAddys);
   const {WheelTokensHeldByAddress, setWheelTokensHeldByAddress} = useContext(NftMoreInfoContext);
   const {uniqueRegistrationSelectionIds, setuniqueRegistrationSelectionIds}    = useContext(NftMoreInfoContext);
   const {SlotsSelectedArr, setSlotsSelectedArr}     = useContext(NftMoreInfoContext);
@@ -249,7 +250,18 @@ const gamePaused = useWeb3Contract({
     setAllRegisteredTokens([getAllRegisteredForSlot1.data, getAllRegisteredForSlot2.data, getAllRegisteredForSlot3.data, getAllRegisteredForSlot4.data, getAllRegisteredForSlot5.data, getAllRegisteredForSlot6.data, getAllRegisteredForSlot7.data, getAllRegisteredForSlot8.data, getAllRegisteredForSlot9.data, getAllRegisteredForSlot10.data]);
   
   },[getAllRegisteredForSlot1.data, getAllRegisteredForSlot2.data, getAllRegisteredForSlot3.data, getAllRegisteredForSlot4.data, getAllRegisteredForSlot5.data, getAllRegisteredForSlot6.data, getAllRegisteredForSlot7.data, getAllRegisteredForSlot8.data, getAllRegisteredForSlot9.data, getAllRegisteredForSlot10.data, ])
-
+  useEffect(()=>{
+    if (clickedSlotObj){
+      console.log('clickedSlotObj: ',clickedSlotObj);
+      if (clickedSlotObj.metadata){
+        if (typeof clickedSlotObj.metadata != "object"){
+          //convert to json object so it will load properly in our panel
+          setClickedSlotObj({...clickedSlotObj, metadata: JSON.parse(clickedSlotObj.metadata)})
+        }
+      }
+    }
+  },[clickedSlotObj])
+  
   const [totalTokenCount, settotalTokenCount] = useState(0);
   
   function refreshTheData() {
@@ -297,6 +309,7 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
   
   useEffect(()=>{
     console.log('HUP DATIN ',uniqueRegistrationSelectionIds)
+    
     let temp1  = [];
     let temp2  = [];
     let temp3  = [];
@@ -308,9 +321,9 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
     let temp9  = [];
     let temp10 = [];
     let tempAll = [];
-
     for (var key in uniqueRegistrationSelectionIds){
       //for each address, go through 
+
       for (var tokenId in uniqueRegistrationSelectionIds[key]){
           if (uniqueRegistrationSelectionIds[key][tokenId].clicked == true){
             switch(uniqueRegistrationSelectionIds[key][tokenId].slot){
@@ -359,6 +372,7 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
       }
       tempAll.push(temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9, temp10)
     }
+    tempAll = tempAll.slice(0,10);
     setAllSlotsSelectedArr(tempAll);
   },[uniqueRegistrationSelectionIds]);
   
@@ -419,8 +433,11 @@ useEffect(()=>{
         </thead>
         
         <tbody>
-        <tr style={{zIndex:'9999',position:'sticky', top:'0',width:'100%',}}>
-          <th style={{ height:'1vh', fontSize:'4vh',}}>{slot+1}</th>      
+        <tr style={{zIndex:'2',position:'sticky', top:'0',width:'100%',}}>
+          <th style={{ height:'1vh', fontSize:'4vh',}}>
+            <div style={{position:'absolute', top:'5%', left:'5%',color:'#ffff00', fontSize:'1.5vh',}}> {NftSlotOdds? parseInt(NftSlotOdds[slot]):<>0</>}% </div>
+            {slot+1}
+          </th>      
         </tr>
         {/* <td style={{height:'5%', backgroundColor:'#333', color:'#00ff00',fontSize:'3vh',}}>
           + {WheelSlotWinnerOffsets[slot]}
@@ -428,7 +445,8 @@ useEffect(()=>{
 
         {/* Slot Contract Symbol */}
         <tr style={{zIndex:'1',}}>
-          <td style={{cursor:'pointer', position:'sticky', top:'0',height:'5%',backgroundColor:'#111', color:'cyan', fontWeight:'bold', fontSize:'1.5vh',}}>
+          <td style={{cursor:'pointer', display:'flex', justifyContent:'right', position:'sticky', top:'0',height:'5%',backgroundColor:'#111', color:'cyan', fontWeight:'bold', fontSize:'1.5vh',}}>
+            <div style={{position:'absolute',  left:'5%',color:'#00ff00', fontSize:'1.5vh',}}> {AllSlotsSelectedArr? AllSlotsSelectedArr[slot].length:<>0</>}</div>
             {WheelTokensHeldByAddress? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0]? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0].symbol : <></>: <></>}
           </td>
         </tr>
@@ -437,9 +455,9 @@ useEffect(()=>{
           SlotAccountUnregisteredNFTs[slot+1].sort((a, b) => (a.token_id > b.token_id) ? 1 : -1).map((item, index)=>{
               // console.log('ITEMMMM: ',item);
               return(
-              <tr key={index}  onClick={()=>{setClickedSlotObj(item) }}  style={{zIndex:'9999', filter: uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot!= slot+1? 'opacity(0.1)':'opacity(1.0)':'opacity(1.0)':'opacity(1.0)':'opacity(1.0)'}}>                
+              <tr key={index}  onClick={()=>{setClickedSlotObj(item) ;console.log(item);}}  style={{zIndex:'9999', filter: uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot!= slot+1? 'opacity(0.1)':'opacity(1.0)':'opacity(1.0)':'opacity(1.0)':'opacity(1.0)'}}>                
                 <td   style={{display:'flex', alignItems:'center', justifyContent:'right',fontSize:'1.5vh', cursor:'pointer', backgroundColor: "rgba(0,0,50,0.4)"}}> 
-                  <div className={uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot== slot+1? 'tickboxSelected':'tickboxHover':'tickboxHover':'tickboxHover':'tickboxHover'} onClick={()=>{ uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot!= slot+1?<></>: updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1)} } style={{position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
+                  <div className={uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot== slot+1? 'tickboxSelected':'tickboxHover':'tickboxHover':'tickboxHover':'tickboxHover'} onClick={()=>{ console.log(item); uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address]? uniqueRegistrationSelectionIds[item.token_address][item.token_id]? uniqueRegistrationSelectionIds[item.token_address][item.token_id].clicked && uniqueRegistrationSelectionIds[item.token_address][item.token_id].slot!= slot+1?<></>: updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1): updateClickedTokens(item, slot+1)} } style={{position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
                   { parseInt(item.token_id )} 
                 </td>
               </tr>
@@ -466,7 +484,7 @@ useEffect(()=>{
     {/* ------------------- */}
     <div style={{backgroundColor:'rgba(0,0,0,0.2)', border:'1px solid rgba(0,0,0,0.2)',borderRadius:'5px', position:'absolute', top:'3%',display:'flex', justifyContent:'center', alignItems:'center', width:'22vw', height:'85vh', right:'1vw',}}>
       <div style={{display:'flex', borderRadius:'5px',justifyContent:'center', alignItems:'center', width:'90%',backgroundColor:'rgba(0,0,0,0.5)', height:'40%', top:'2%',position:'absolute'}}>
-        {MoreTokenInfo == 'not in db'?<>ejected from contract</>:<img style={{maxHeight:'100%', objectFit:'scale-down'}} src={clickedSlotObj? clickedSlotObj.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>}></img>}
+        <img style={{maxHeight:'100%', objectFit:'scale-down'}} src={clickedSlotObj? clickedSlotObj.metadata? clickedSlotObj.metadata.image? clickedSlotObj.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'):<></>:<></>:<></>}></img>
       </div>
       
       <div style={{display:'flex',justifyContent:'center',fontSize:'1vw', backgroundColor:'rgba(0,0,0,0.5)',borderRadius:'5px', position:'absolute', width:'95%', height:'56%', bottom:'0.5%'}}>

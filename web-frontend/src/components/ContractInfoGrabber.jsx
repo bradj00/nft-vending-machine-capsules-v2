@@ -11,10 +11,9 @@ import {ethers} from 'ethers';
 const ContractInfoGrabber = () => {
     
     const {account, isInitialized} = useMoralis();
-    const {NftSlotContractAddresses}    = useContext(OddsAndSlotAddys);
-    const {setNftSlotContractAddresses} = useContext(OddsAndSlotAddys);
-    const {NftSlotOdds}    = useContext(OddsAndSlotAddys);
-    const {setNftSlotOdds} = useContext(OddsAndSlotAddys);
+    const {NftSlotContractAddresses, setNftSlotContractAddresses}    = useContext(OddsAndSlotAddys);
+    const {NftSlotOdds, setNftSlotOdds}    = useContext(OddsAndSlotAddys);
+
     const {contractAddressChainLinkToken, setcontractAddressChainLinkToken} = useContext(NftMoreInfoContext);
     const {winningSlotNumber, setwinningSlotNumber} = useContext(NftMoreInfoContext);
     const {machineLinkBalance, setmachineLinkBalance} = useContext(NftMoreInfoContext);
@@ -24,6 +23,7 @@ const ContractInfoGrabber = () => {
     const {userErc20TokenBalance, setuserErc20TokenBalance} = useContext(NftMoreInfoContext);
     const {SlotAccountUnregisteredNFTs, setSlotAccountUnregisteredNFTs} = useContext(NftMoreInfoContext);
     const {loadSlotsCounter, setloadSlotsCounter} = useContext(NftMoreInfoContext);
+    const [loadedAddressTokens, setloadedAddressTokens] = useState({});
 
     
     const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
@@ -143,13 +143,12 @@ const ContractInfoGrabber = () => {
 
 
 useEffect(()=>{                                                                                                                               //slot10 to ensure we are waiting for complete list of registereds..
-  if ((NftSlotOdds[loadSlotsCounter] != 0) && (isWeb3Enabled) && (NftSlotContractAddresses[0]!='0x0000000000000000000000000000000000000000')&&(getRegisteredFromOnChainBySlot10.data)){
+  if ((loadSlotsCounter <=9)&&(NftSlotOdds[loadSlotsCounter] != 0) && (isWeb3Enabled) && (NftSlotContractAddresses[0]!='0x0000000000000000000000000000000000000000')&&(getRegisteredFromOnChainBySlot10.data)){
     console.log('LOADING SLOT: ',loadSlotsCounter+1,'  ',NftSlotContractAddresses[loadSlotsCounter])
     loadNftsForSlot(loadSlotsCounter+1, NftSlotContractAddresses[loadSlotsCounter]) //slotIndex, slotAddress
   }
 },[loadSlotsCounter, isWeb3Enabled, NftSlotContractAddresses, getRegisteredFromOnChainBySlot10.data])
 
-const [loadedAddressTokens, setloadedAddressTokens] = useState({});
 
 async function loadNftsForSlot(slotIndex, slotAddress){
   // console.log('attempting token load for slot: ',slotIndex, slotAddress)
@@ -157,7 +156,7 @@ async function loadNftsForSlot(slotIndex, slotAddress){
   // console.log('~~ ',loadedAddressTokens[0]);
   
   if (slotAddress in loadedAddressTokens){ //if we have already loaded tokens for a key address 
-    console.log('found existing cached data for ',slotAddress, loadedAddressTokens[slotAddress])
+    // console.log('found existing cached data for ',slotAddress, loadedAddressTokens[slotAddress])
     rinkebySlotUnregisteredTokens = loadedAddressTokens[slotAddress];
     
     setloadedAddressTokens(loadedAddressTokens => ({
@@ -167,7 +166,7 @@ async function loadNftsForSlot(slotIndex, slotAddress){
     
   }
   else { 
-    console.log('bawk bawk need to check it manually ',slotAddress, loadedAddressTokens)
+    console.log('bawk bawk need to check it manually ',slotAddress,"__", loadedAddressTokens)
     rinkebySlotUnregisteredTokens = await Web3Api.account.getNFTsForContract(
       { 
         chain: "rinkeby",
@@ -208,7 +207,7 @@ async function loadNftsForSlot(slotIndex, slotAddress){
 
   useEffect(()=>{
     if (registeredFromOnChainBySlot){
-      console.log('registeredFromOnChainByAddress: ',registeredFromOnChainByAddress,registeredFromOnChainBySlot);
+      // console.log('registeredFromOnChainByAddress: ',registeredFromOnChainByAddress,registeredFromOnChainBySlot);
 
       //every time this is updated, trigger a delayed timeout that if succeeds will filter out duplicates from this list
       //WALRUS
@@ -228,34 +227,7 @@ async function loadNftsForSlot(slotIndex, slotAddress){
   },[registeredFromOnChainByAddress]);
   
   
-  useEffect(()=>{
-    // console.log('*****************\t',MachineContractAddress);
-    if (isInitialized && MachineContractAddress && registeredFromOnChainBySlot){
-      // setTimeout(()=> {NftSlotContractAddresses[0]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(1, NftSlotContractAddresses[0]): <></>}, 100);
-      // setTimeout(()=> {NftSlotContractAddresses[1]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(2, NftSlotContractAddresses[1]): <></>}, 500);
-      // setTimeout(()=> {NftSlotContractAddresses[2]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(3, NftSlotContractAddresses[2]): <></>}, 800);
-      // setTimeout(()=> {NftSlotContractAddresses[3]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(4, NftSlotContractAddresses[3]): <></>}, 1200);
-      // setTimeout(()=> {NftSlotContractAddresses[4]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(5, NftSlotContractAddresses[4]): <></>}, 1800);
-      // setTimeout(()=> {NftSlotContractAddresses[5]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(6, NftSlotContractAddresses[5]): <></>}, 2100);
-      // setTimeout(()=> {NftSlotContractAddresses[6]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(7, NftSlotContractAddresses[6]): <></>}, 2500);
-      // setTimeout(()=> {NftSlotContractAddresses[7]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(8, NftSlotContractAddresses[7]): <></>}, 2900);
-      // setTimeout(()=> {NftSlotContractAddresses[8]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(9, NftSlotContractAddresses[8]): <></>}, 3300);
-      // setTimeout(()=> {NftSlotContractAddresses[9]!='0x0000000000000000000000000000000000000000'?loadNftsForSlot(10, NftSlotContractAddresses[9]): <></>}, 3800);
-      
-      
-      // setTimeout(function(){{loadNftsForSlot(1, NftSlotContractAddresses[0])}},1);
-      // setTimeout(function(){{loadNftsForSlot(2, NftSlotContractAddresses[1])}},1000);
-      // setTimeout(function(){{loadNftsForSlot(3, NftSlotContractAddresses[2])}},1500);
-      // setTimeout(function(){{loadNftsForSlot(4, NftSlotContractAddresses[3])}},2000);
-      // setTimeout(function(){{loadNftsForSlot(5, NftSlotContractAddresses[4])}},2500);
-      // setTimeout(function(){{loadNftsForSlot(6, NftSlotContractAddresses[5])}},3000);
-      // setTimeout(function(){{loadNftsForSlot(7, NftSlotContractAddresses[6])}},3500);
-      // setTimeout(function(){{loadNftsForSlot(8, NftSlotContractAddresses[7])}},4000);
-      // setTimeout(function(){{loadNftsForSlot(9, NftSlotContractAddresses[8])}},4500);
-      // setTimeout(function(){{loadNftsForSlot(10, NftSlotContractAddresses[9])}},5000);
-      
-    }
-  },[isInitialized, MachineContractAddress, registeredFromOnChainBySlot])
+ 
   //--------------------------------------------------
   //--------------------------------------------------
   
@@ -400,7 +372,12 @@ async function loadNftsForSlot(slotIndex, slotAddress){
 
     // },[fetchSlotContractAddressName.data, fetchSlotContractAddressSymbol]);
 
-
+    useEffect(()=>{
+      if (WheelSlotWinnerOffsets){
+        //look up owned tokens by slot contract_address
+        //determine token ID and address, place token Object in an array to be used by the front carousel
+      }
+    },[WheelSlotWinnerOffsets]);
 
     useEffect(()=>{
       if (getSlotWinnerOffsets.data){
