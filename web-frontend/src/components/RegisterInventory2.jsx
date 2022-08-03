@@ -446,7 +446,7 @@ useEffect(()=>{
         {/* Slot Contract Symbol */}
         <tr style={{zIndex:'1',}}>
           <td style={{cursor:'pointer', display:'flex', justifyContent:'right', position:'sticky', top:'0',height:'5%',backgroundColor:'#111', color:'cyan', fontWeight:'bold', fontSize:'1.5vh',}}>
-            <div style={{position:'absolute',  left:'5%',color:'#00ff00', fontSize:'1.5vh',}}> {AllSlotsSelectedArr? AllSlotsSelectedArr[slot].length:<>0</>}</div>
+            <div style={{position:'absolute',  left:'7%',color:'#00ff00', fontSize:'1.5vh',}}> {AllSlotsSelectedArr? AllSlotsSelectedArr[slot]? AllSlotsSelectedArr[slot].length:<>0</>:<>0</>}</div>
             {WheelTokensHeldByAddress? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0]? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0].symbol : <></>: <></>}
           </td>
         </tr>

@@ -15,6 +15,8 @@ const ManageRegistered = () => {
   const {capsuleTokenPaymentContract, setcapsuleTokenPaymentContract} = useContext(NftMoreInfoContext)
   const {Moralis} = useMoralis();
 
+  const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
+
   const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
   const [BuyCapsuleContractBalance , setBuyCapsuleContractBalance] = useState();
   const {WheelSlotWinnerOffsets, setWheelSlotWinnerOffsets} = useContext(NftMoreInfoContext);
@@ -200,6 +202,15 @@ const gamePaused = useWeb3Contract({
   // useEffect(()=>{
   //     console.log('gamePaused.data: ',gamePaused.data);
   // },[gamePaused.data])
+
+  useEffect(()=>{
+    if (AllRegisteredTokens){
+      console.log('AllRegisteredTokens: ',AllRegisteredTokens, registeredFromOnChainBySlot);
+      
+    }
+  },[AllRegisteredTokens]);
+
+
   useEffect(()=>{
     // console.log('slot data: ',' 1:',getAllRegisteredForSlot1.data,' 2:', getAllRegisteredForSlot2.data,' 3:', getAllRegisteredForSlot3.data,' 4:',getAllRegisteredForSlot4.data, ' 5:',getAllRegisteredForSlot5.data,' 6:',getAllRegisteredForSlot6.data, ' 7:',getAllRegisteredForSlot7.data,' 8:', getAllRegisteredForSlot8.data,' 9:', getAllRegisteredForSlot9.data, ' 10:',getAllRegisteredForSlot10.data,)
     setAllRegisteredTokens([getAllRegisteredForSlot1.data, getAllRegisteredForSlot2.data, getAllRegisteredForSlot3.data, getAllRegisteredForSlot4.data, getAllRegisteredForSlot5.data, getAllRegisteredForSlot6.data, getAllRegisteredForSlot7.data, getAllRegisteredForSlot8.data, getAllRegisteredForSlot9.data, getAllRegisteredForSlot10.data]);
@@ -321,8 +332,8 @@ const thisArray = [0,1,2,3,4,5,6,7,8,9];
           {WheelTokensHeldByAddress? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0]? WheelTokensHeldByAddress[ NftSlotContractAddresses[slot] ].result[0].symbol : <></>: <></>}
         </td>
 
-        {AllRegisteredTokens && AllRegisteredTokens[slot] ? 
-          AllRegisteredTokens[slot].map((item, index)=>{
+        {registeredFromOnChainBySlot && registeredFromOnChainBySlot[slot+1] ? 
+          registeredFromOnChainBySlot[slot+1].map((item, index)=>{
               // console.log('ITEMMMM: ',item);
               return(
               <tr key={index}  style={{zIndex:'9999'}}>                
