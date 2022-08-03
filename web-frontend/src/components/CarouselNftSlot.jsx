@@ -75,12 +75,13 @@ const CarouselNftSlot = (props) => {
         if (TokenDisplayed){
         if (TokenDisplayed[0]){
         if (TokenDisplayed[0].metadata){
+            typeof TokenDisplayed[0].metadata != 'object' ? TokenDisplayed[0].metadata = JSON.parse(TokenDisplayed[0].metadata): <></>;
             // console.log(props.slotIndex,'  image URL: ',JSON.parse(TokenDisplayed[0].metadata).image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com'));
             fetch( TokenDisplayed[0].token_uri )
             .then(response => response.json())
             .then(data => {
                 setmetadataObj(data);
-                setImageUrl( JSON.parse(TokenDisplayed[0].metadata).image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com') );
+                setImageUrl( TokenDisplayed[0].metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com') );
             })
         }
         }
@@ -141,7 +142,7 @@ const CarouselNftSlot = (props) => {
             <MegaWorldAppliance metadataObj={metadataObj} displayedTokenId={displayedTokenId} contractAddress={props.slotContractAddress} slotContractAddress={props.slotContractAddress} slotObj={props.slotObj} contractName={props.contractName} contractSymbol={props.contractSymbol} tokenId={props.tokenId} thisStyle={props.thisStyle} slotIndex={props.slotIndex} slotImageUrl={ImageUrl} NftSlotOdds={props.NftSlotOdds} slotStock={props.slotStock}  styleEmpty={props.styleEmpty}/> 
         )
     }
-    else {
+    else { 
         return(
             <StandardMetaData metadataObj={metadataObj} displayedTokenId={displayedTokenId} contractAddress={props.slotContractAddress} slotContractAddress={props.slotContractAddress} slotObj={props.slotObj} contractName={props.contractName} contractSymbol={props.contractSymbol} tokenId={props.tokenId} thisStyle={props.thisStyle} slotIndex={props.slotIndex} slotImageUrl={ImageUrl} NftSlotOdds={props.NftSlotOdds} slotStock={props.slotStock}  styleEmpty={props.styleEmpty} />
         )
