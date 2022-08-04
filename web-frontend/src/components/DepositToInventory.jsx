@@ -385,7 +385,7 @@ const RegisterInventory = () => {
   const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
   
   const {clickedNftImage, setclickedNftImage}     = useContext(NftMoreInfoContext);
-  const {clickedSlotObj, setclickedSlotObj} = useContext(NftMoreInfoContext);
+  const {clickedSlotObj, setClickedSlotObj} = useContext(NftMoreInfoContext);
 
   const [selectedIndexArr, setselectedIndexArr] = useState({});
   const [selectedIndexArrActiveCount, setselectedIndexArrActiveCount] = useState(0);

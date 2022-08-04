@@ -1,103 +1,82 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useContext} from 'react'
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { getEllipsisTxt } from '../../../helpers/formatters';
+import { NftMoreInfoContext } from '../../../App';
+import { Textfit } from 'react-textfit';
+import "../../../styles/tempStyles.css";
 const MIMegaWorldCitizen = (props) => {
 
+    const {clickedSlotObj, setClickedSlotObj} = useContext(NftMoreInfoContext);
+
+
     useEffect(()=>{
-        if (props.metadataObj){
-            console.log('----- ',props.metadataObj)
+        if (clickedSlotObj.metadata){
+            console.log('----- ',clickedSlotObj.metadata)
         }
-    },[props.metadataObj])
+    },[clickedSlotObj.metadata])
 
     return (
     <div style={{display:'flex', justifyContent:'center',}}>
-        
-        <div style={{ width:'100%',paddingLeft:'5%', position:'absolute',height:'85%',  top:'49%', border:'0px solid #ff00ff' }}>
+         {/* clickedSlotObj.metadata.attributes */}
+        <div className="hideScrollbar" style={{ width:'100%',left:'1%', display:'flex',justifyContent:'center', position:'absolute',height:'55%', overflow:'scroll', top:'45%', border:'0px solid #ff00ff' }}>
+        <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gridTemplateRows:'repeat(3, 1fr)',gridColumnGap: '1%', gridRowGap:'3%',width:'90%',   height:'85%',position:'absolute',  top:'8%', border:'0px solid #ff00ff',  }}>
+            {
+                clickedSlotObj.metadata.attributes.map((item, index)=>{
+                    return(
+                        item.max_value? 
+                        <div style={{  backgroundColor:'rgba(50,100,250,0.3)', border:'1px solid #2277cc',   width:'100%', display:'flex', justifyContent:'center', padding:'0.5vh', borderRadius:'10px'}}>
+                            <div style={{width:'100%'}}>
+                                <div style={{borderRadius:'5px 5px 5px 5px', width:'100%', display:'flex', justifyContent:'center',color:'rgba(200,200,255,1)', backgroundColor:'rgba(50,100,250,0.7)', }}>
+                                    <Textfit mode="multi">{item.trait_type} </Textfit>
+                                </div>
+                                <div style={{display:'flex',alignItems:'center',  justifyContent:'center',}}>
+                                <Textfit mode="multi">{item.value} / {item.max_value} </Textfit>
+                                </div>
+                            </div>
+                        </div>
+                        : 
+                        <div style={{backgroundColor:'rgba(60,30,50,0.6)', border:'1px solid #662255',  width:'100%',  display:'flex', justifyContent:'center', padding:'0.5vh', borderRadius:'10px'}}>
+                            <div style={{}}>
+                            <div style={{borderRadius:'5px 5px 5px 5px', width:'100%', display:'flex', justifyContent:'center', backgroundColor:'rgba(150,120,150,0.7)', }}>
+                                    <Textfit mode="multi">{item.trait_type} </Textfit>
+                                </div>
+                                <div style={{display:'flex', alignItems:'center', justifyContent:'center',}}>
+                                <Textfit mode="multi">{item.value} </Textfit>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })
 
-        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #004400'}}>
-            <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes[6].value*10+'%' :0, height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
-            </div>
-            <div style={{position:'absolute',top:'-20%',left:'-5%',float:'right', fontSize:'2vh'}}>
-            I
-            </div>
-            <div style={{position:'absolute',top:'-20%',right:'-12%',float:'right', fontSize:'2vh'}}>
-            {props.metadataObj? props.metadataObj.attributes[6].value:<>0</>}
-            </div>
 
-        </div>
-        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #004400'}}>
-            <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes[3].value*10+'%' :0, height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
-            </div>
-            <div style={{position:'absolute',top:'-20%',left:'-6%',float:'right', fontSize:'2vh'}}>
-            S
-            </div>
-            <div style={{position:'absolute',top:'-20%',right:'-12%',float:'right', fontSize:'2vh'}}>
-            {props.metadataObj? props.metadataObj.attributes[3].value :<>0</>}
-            </div>
-        </div>
-        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #004400'}}>
-            <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes[5].value*10+'%' :0, height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
-            </div>
-            <div style={{position:'absolute',top:'-20%',left:'-6%',float:'right', fontSize:'2vh'}}>
-            C
-            </div>
-            <div style={{position:'absolute',top:'-20%',right:'-12%',float:'right', fontSize:'2vh'}}>
-            {props.metadataObj? props.metadataObj.attributes[5].value :<>0</>}
-            </div>
-        </div>
-        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #004400'}}>
-            <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes[7].value*10+'%' :0, height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
-            </div>
-            <div style={{position:'absolute',top:'-20%',left:'-6%',float:'right', fontSize:'2vh'}}>
-            A
-            </div>
-            <div style={{position:'absolute',top:'-20%',right:'-12%',float:'right', fontSize:'2vh'}}>
-            {props.metadataObj? props.metadataObj.attributes[7].value :<>0</>}
-            </div>
-        </div>
-        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #004400'}}>
-            <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes[8].value*10+'%' :0, height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
-            </div>
-            <div style={{position:'absolute',top:'-20%',left:'-6%',float:'right', fontSize:'2vh'}}>
-            L
-            </div>
-            <div style={{position:'absolute',top:'-20%',right:'-12%',float:'right', fontSize:'2vh'}}>
-            {props.metadataObj? props.metadataObj.attributes[8].value :<>0</>}
-            </div>
-        </div>
-        <div style={{position:'relative', margin:'1%', width:'60%', height:'8%', backgroundColor:'#222', border:'1px solid #004400'}}>
-            <div style={{ position:'absolute',float:'left', width:props.metadataObj? props.metadataObj.attributes[4].value*10+'%' :0, height:'8%', backgroundColor:'#00ff00', height:'100%',border:'1px solid #00ff00'}}>
-            </div>
-            <div style={{position:'absolute',top:'-20%',left:'-6%',float:'right', fontSize:'2vh'}}>
-            E
-            </div>
-            <div style={{position:'absolute',top:'-20%',right:'-12%',float:'right', fontSize:'2vh'}}>
-            {props.metadataObj? props.metadataObj.attributes[4].value :<>0</>}
-            </div>
+
+            }
+
         </div>
         </div>
 
         <div style={{position:'absolute', top:'2%', fontSize:'3vh'}}>
-        {props.metadataObj? props.metadataObj.name:<></>}
+        {clickedSlotObj.metadata? clickedSlotObj.metadata.name:<></>}
         </div>
+
         <div style={{position:'absolute', top:'18%', left:'2%',width:'48%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-        Chance to Pull: <div style={{float:'right', color:'gold'}}>{props.clickedNftSlotOdds? props.clickedNftSlotOdds: <>0%</>}</div>
+            Chance to Pull: <div style={{float:'right', color:'gold'}}>{props.clickedNftSlotOdds? props.clickedNftSlotOdds: <>0%</>}</div>
         </div>
         <div style={{position:'absolute', top:'28%', left:'2%',width:'48%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-        Contract: <div style={{float:'right', color:'gold'}}> <a href={props.contractAddress?("https://rinkeby.etherscan.io/token/"+props.contractAddress):<></>} target="...blank">{props.contractAddress? <>ES</> :<></>}</a> / <a href={props.contractAddress?("https://rinkeby.etherscan.io/token/"+props.contractAddress):<></>} target="...blank">{props.contractAddress? <>OS</> :<></>}</a></div>
+            Contract: <div style={{float:'right', color:'gold'}}> <a href={props.contractAddress?("https://rinkeby.etherscan.io/token/"+props.contractAddress):<></>} target="...blank">{props.contractAddress? <>ES</> :<></>}</a> / <a href={props.contractAddress?("https://rinkeby.etherscan.io/token/"+props.contractAddress):<></>} target="...blank">{props.contractAddress? <>OS</> :<></>}</a></div>
         </div>
         <div style={{position:'absolute', top:'38%', left:'2%',width:'48%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-        Token ID: <div style={{float:'right', color:'gold'}}>{props.tokenId? props.tokenId:<></>}</div>
+            Token ID: <div style={{float:'right', color:'gold'}}>{props.tokenId? props.tokenId:<></>}</div>
         </div>
 
         <div style={{position:'absolute', top:'18%', right:'2%',width:'43%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-        Gen: <div style={{float:'right', color:'gold'}}>{props.clickedNftSlotOdds? props.clickedNftSlotOdds: <>...</>}</div>
+            Gen: <div style={{float:'right', color:'gold'}}>{props.clickedNftSlotOdds? props.clickedNftSlotOdds: <>...</>}</div>
         </div>
         <div style={{position:'absolute', top:'28%', right:'2%',width:'43%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-        Slot#: <div style={{float:'right', color:'gold'}}>{props.slotIndex? props.slotIndex:<></>}</div>
+            Slot#: <div style={{float:'right', color:'gold'}}>{props.slotIndex? props.slotIndex:<></>}</div>
         </div>
         <div style={{position:'absolute', top:'38%', right:'2%',width:'43%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-        Type: <div style={{float:'right', color:'gold'}}>ERC-721</div>
+            Type: <div style={{float:'right', color:'gold'}}>ERC-721</div>
         </div>
 
 

@@ -54,3 +54,7 @@ table {
   .clickedUnregisteredToken {
     border: 2px solid #00ff00;
   }
+
+  .hideScrollbar::-webkit-scrollbar {
+    display: none;
+  }

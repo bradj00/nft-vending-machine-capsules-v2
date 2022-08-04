@@ -11,7 +11,7 @@ const StandardMetaData = (props) => {
     const {NftSlotContractAddresses, setNftSlotContractAddresses}    = useContext(OddsAndSlotAddys);
     const {clickedNftImage, setclickedNftImage}     = useContext(NftMoreInfoContext);
     const {selectedSlotAddress, setselectedSlotAddress}    = useContext(NftMoreInfoContext);
-    const {clickedSlotObj, setclickedSlotObj} = useContext(NftMoreInfoContext);
+    const {clickedSlotObj, setClickedSlotObj} = useContext(NftMoreInfoContext);
     const {selectedSlotContractName, setselectedSlotContractName} = useContext(NftMoreInfoContext);
     const {selectedSlotContractSymbol, setselectedSlotContractSymbol} = useContext(NftMoreInfoContext);
 
@@ -25,7 +25,7 @@ const StandardMetaData = (props) => {
     const [metadataObj, setmetadataObj] = useState();
 
     useEffect(()=>{
-        console.log('AUXILIARY DETERMINING TOKEN TO DISPLAY IN SLOT: ',props.slotIndex);
+        // console.log('AUXILIARY DETERMINING TOKEN TO DISPLAY IN SLOT: ',props.slotIndex);
         determineTokenToDisplay();
 
     },[]);
@@ -33,7 +33,7 @@ const StandardMetaData = (props) => {
     
         useEffect(()=>{
         if(registeredFromOnChainBySlot &&  WheelSlotWinnerOffsets && WheelTokensHeldByAddress){
-            console.log('DETERMINING TOKEN TO DISPLAY IN SLOT: ',props.slotIndex,'**',NftSlotContractAddresses[ props.slotIndex-1 ],"**", registeredFromOnChainBySlot, '**', WheelSlotWinnerOffsets, "***", WheelTokensHeldByAddress);
+            // console.log('DETERMINING TOKEN TO DISPLAY IN SLOT: ',props.slotIndex,'**',NftSlotContractAddresses[ props.slotIndex-1 ],"**", registeredFromOnChainBySlot, '**', WheelSlotWinnerOffsets, "***", WheelTokensHeldByAddress);
             determineTokenToDisplay();
         }
     },[registeredFromOnChainBySlot,WheelSlotWinnerOffsets,WheelTokensHeldByAddress])
@@ -60,7 +60,7 @@ const StandardMetaData = (props) => {
 
             }
         }else {
-            console.log('baaaaad time')
+            // console.log('baaaaad time')
         }
         
         displayedTokenObj? displayedTokenObj[0]?displayedTokenObj[0].metadata? typeof displayedTokenObj[0].metadata != 'object'? displayedTokenObj[0].metadata = JSON.parse(displayedTokenObj[0].metadata):<></>:<></>:<></>:<></>;
@@ -70,7 +70,7 @@ const StandardMetaData = (props) => {
             console.log('[ '+props.slotIndex+' ] displayedTokenObj: ',displayedTokenObj? displayedTokenObj[0]? (displayedTokenObj[0]): <></>: <></>);
             console.log('[ '+props.slotIndex+' ] displayedTokenObj: ',displayedTokenObj? displayedTokenObj[0]? (displayedTokenObj[0].token_id+' '+displayedTokenObj[0].metadata.image): <></>: <></>);
         }else {
-            console.log('empty dempty doopy')
+            // console.log('empty')
         }
     }
 
@@ -81,7 +81,7 @@ const StandardMetaData = (props) => {
         console.log('#################### ',imageUrl, slotNumber);
         setclickedNftImage(imageUrl);
         setselectedSlotAddress( NftSlotContractAddresses[ props.slotIndex-1 ] );
-        setclickedSlotObj(props.slotObj);
+        setClickedSlotObj(TokenObject);
         setselectedSlotContractName(props.contractName);
         setselectedSlotContractSymbol(props.contractSymbol);
       }
@@ -89,7 +89,7 @@ const StandardMetaData = (props) => {
         <>
         {NftSlotContractAddresses[props.slotIndex-1] != "0x0000000000000000000000000000000000000000"?
            <span className=" " style={props.thisStyle}>
-               <img className="imgBorder" style={{objectFit:'scale-down'}} onClick={()=>{clickedThisImage(props.slotImageUrl, props.slotIndex)}}  src={TokenObject? TokenObject.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com') : "https://i.imgur.com/4lpxSNZ.png"}></img>
+               <img className="imgBorder" style={{objectFit:'scale-down'}} onClick={()=>{clickedThisImage(TokenObject? TokenObject.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com') : 0 , props.slotIndex)}}  src={TokenObject? TokenObject.metadata.image.replace(/gateway.pinata.cloud/, 'gateway.moralisipfs.com') : "https://i.imgur.com/4lpxSNZ.png"}></img>
                <br></br>
                <div style={{display:'flex', fontFamily:'Roboto',justifyContent:'center', color:'#fff',  zIndex:'-1',position:'absolute',borderRadius:'10px', width:'100%', height:'150%', backgroundColor:'rgba(100,100,150,0.1)', top:'-50%'}}>
                 <div style={{position:'absolute', display:'flex', justifyContent:'center', paddingTop:'5%', backgroundColor:'rgba(255,255,255,0.05)',width:'95%',height:'30%',top:'2%', borderRadius:'10px',}}>

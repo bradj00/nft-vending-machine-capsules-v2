@@ -83,7 +83,7 @@ const NftMoreInfoDiv = () => {
 
     useEffect(()=>{
         if(clickedSlotObj){
-            // console.log('TUBULAR DUDE: ',clickedSlotObj);
+            console.log('TUBULAR DUDE: ',clickedSlotObj);
             setselectedSlotBorderColor(ActiveNetworkBorderColor); //HARD CODED
             setselectedSlotBackgroundColor(ActiveNetworkThemeColorDarker);
             setselectedFontColor("#fff");
@@ -234,7 +234,7 @@ const NftMoreInfoDiv = () => {
             </div>
 
             <div style={{color:'#fff', position:'absolute', width:'95%', height:'45%', top:'2%',borderRadius:'15px', backgroundColor:'rgba(50,50,50,0.2)'}}>
-                {/* view token metadata:<br></br><JSONTree hideRoot={true} theme={theme} invertTheme={false} data={clickedmetadataObj}/> */}
+                {/* view token metadata:<br></br><JSONTree hideRoot={false} theme={theme} invertTheme={false} data={clickedSlotObj}/> */}
                 <div style={{position:'absolute', height:'100%',width:'100%',bottom:'2%'}}>
                     <MIMegaWorldCitizen tokenId={clickedDisplayedTokenId} slotIndex={clickedSlotIndex} NftSlotOdds={clickedNftSlotOdds} contractAddress={clickedSlotContractAddress} metadataObj={clickedmetadataObj}/>
                 </div>
