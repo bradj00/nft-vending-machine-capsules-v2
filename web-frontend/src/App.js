@@ -35,6 +35,7 @@ import RevenueStats from './components/ManageRegistered';
 import Manager from './components/Manager.js';
 import StatusMessageDiv from './components/StatusMessageDiv.jsx';
 import RegisterInventory2 from './components/RegisterInventory2.jsx';
+import DepositToInventory2 from './components/DepositToInventory2.jsx';
 
 
 export const OddsAndSlotAddys = React.createContext({});
@@ -159,6 +160,7 @@ useEffect(() => {
   const [Slot9showMenuUnregistered, setSlot9showMenuUnregistered] = useState({});
   const [Slot10showMenuUnregistered, setSlot10showMenuUnregistered] = useState({});
   const [registeredFromOnChainByAddress, setregisteredFromOnChainByAddress] = useState({});
+  const [ReducedNftSlotContractAddys, setReducedNftSlotContractAddys] = useState({});
 
   const [Slot1AccountDepositNFTs, setSlot1AccountDepositNFTs] = useState([]);
   const [Slot2AccountDepositNFTs, setSlot2AccountDepositNFTs] = useState([]);
@@ -170,6 +172,7 @@ useEffect(() => {
   const [Slot8AccountDepositNFTs, setSlot8AccountDepositNFTs] = useState([]);
   const [Slot9AccountDepositNFTs, setSlot9AccountDepositNFTs] = useState([]);
   const [Slot10AccountDepositNFTs, setSlot10AccountDepositNFTs] = useState([]);
+  const [WheelTokensHeldByAccount, setWheelTokensHeldByAccount] = useState([]);
 
   const [Slot1AccountNFTs, setSlot1AccountNFTs]   = useState();
   const [Slot2AccountNFTs, setSlot2AccountNFTs]   = useState();
@@ -489,7 +492,7 @@ useEffect(() => {
     slot10Inventory, setslot10Inventory,
 
     WheelSlotWinnerOffsets, setWheelSlotWinnerOffsets,
-
+    WheelTokensHeldByAccount, setWheelTokensHeldByAccount,
     slot1Stock, setslot1Stock,
     slot2Stock, setslot2Stock,
     slot3Stock, setslot3Stock,
@@ -715,7 +718,7 @@ useEffect(() => {
     uniqueRegistrationSelectionIds, setuniqueRegistrationSelectionIds,
     imageUrlToCachedBlobObject, setimageUrlToCachedBlobObject,
     domainThrottleSettings, setdomainThrottleSettings,
-
+    ReducedNftSlotContractAddys, setReducedNftSlotContractAddys,
     slotIdFilter, setslotIdFilter,
 
     showTokenSelector, setshowTokenSelector,
@@ -915,6 +918,15 @@ useEffect(() => {
                 showRegisteredInventory==2? 
                   <div >
                     <DepositToInventory />
+                  </div>
+                : 
+                  <></>
+                  : <></>
+            }
+            { managingInventory?
+                showRegisteredInventory==22? 
+                  <div >
+                    <DepositToInventory2 />
                   </div>
                 : 
                   <></>

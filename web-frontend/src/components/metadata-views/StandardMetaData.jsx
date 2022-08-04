@@ -51,7 +51,7 @@ const StandardMetaData = (props) => {
         if (registeredFromOnChainBySlot && WheelSlotWinnerOffsets){
             if (registeredFromOnChainBySlot[props.slotIndex]){
                 displayTokenId = registeredFromOnChainBySlot[props.slotIndex][ WheelSlotWinnerOffsets[props.slotIndex-1] ]
-                console.log('[ '+props.slotIndex+' ] want to display token: ',displayTokenId,' with offset of: ',WheelSlotWinnerOffsets[props.slotIndex-1]);
+                // console.log('[ '+props.slotIndex+' ] want to display token: ',displayTokenId,' with offset of: ',WheelSlotWinnerOffsets[props.slotIndex-1]);
                 if (WheelTokensHeldByAddress){
                     if (WheelTokensHeldByAddress[ NftSlotContractAddresses[ props.slotIndex-1 ] ]){
                         displayedTokenObj = WheelTokensHeldByAddress[ NftSlotContractAddresses[ props.slotIndex-1 ] ].result.filter(e => { return e.token_id == displayTokenId })
@@ -67,8 +67,8 @@ const StandardMetaData = (props) => {
         setTokenObject(displayedTokenObj[0]);
         // console.log('[ '+props.slotIndex+' ] -----',registeredFromOnChainBySlot, WheelTokensHeldByAddress)
         if (displayedTokenObj.length > 0){
-            console.log('[ '+props.slotIndex+' ] displayedTokenObj: ',displayedTokenObj? displayedTokenObj[0]? (displayedTokenObj[0]): <></>: <></>);
-            console.log('[ '+props.slotIndex+' ] displayedTokenObj: ',displayedTokenObj? displayedTokenObj[0]? (displayedTokenObj[0].token_id+' '+displayedTokenObj[0].metadata.image): <></>: <></>);
+            // console.log('[ '+props.slotIndex+' ] displayedTokenObj: ',displayedTokenObj? displayedTokenObj[0]? (displayedTokenObj[0]): <></>: <></>);
+            // console.log('[ '+props.slotIndex+' ] displayedTokenObj: ',displayedTokenObj? displayedTokenObj[0]? (displayedTokenObj[0].token_id+' '+displayedTokenObj[0].metadata.image): <></>: <></>);
         }else {
             // console.log('empty')
         }

@@ -26,12 +26,14 @@ const ContractInfoGrabber = () => {
     const [loadedAddressTokens, setloadedAddressTokens] = useState({});
 
     
+    const {ReducedNftSlotContractAddys, setReducedNftSlotContractAddys} = useContext(NftMoreInfoContext);
     const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
     const {registeredFromOnChainByAddress, setregisteredFromOnChainByAddress} = useContext(NftMoreInfoContext);
 
     const {refreshRegisteredSlotData, setrefreshRegisteredSlotData} = useContext(NftMoreInfoContext);
 
 
+    const {WheelTokensHeldByAccount, setWheelTokensHeldByAccount} = useContext(NftMoreInfoContext);
     const {WheelTokensHeldByAddress, setWheelTokensHeldByAddress} = useContext(NftMoreInfoContext);
     const {WheelSlotWinnerOffsets, setWheelSlotWinnerOffsets} = useContext(NftMoreInfoContext);
 
@@ -220,7 +222,7 @@ async function loadNftsForSlot(slotIndex, slotAddress){
     if (registeredFromOnChainByAddress){
       for (var key in registeredFromOnChainByAddress){
         let tempArray = Array.from(new Set(registeredFromOnChainByAddress[key]));
-        console.log('[ '+key+' ] registeredFromOnChainByAddress: ',tempArray);
+        // console.log('[ '+key+' ] registeredFromOnChainByAddress: ',tempArray);
       }
     }
 
@@ -471,15 +473,59 @@ async function loadNftsForSlot(slotIndex, slotAddress){
       
     }
 
-    async function preLoadSlotContractTokenInfo(){
-      //
+    // async function preLoadSlotContractTokenInfo(){
+    //   //
+    // }
 
+
+    useEffect(()=>{
+      if (WheelTokensHeldByAccount){
+        console.log('WheelTokensHeldByAccount: ',WheelTokensHeldByAccount);
+      }
+    },[WheelTokensHeldByAccount])
+
+    useEffect(()=>{
+      if (ReducedNftSlotContractAddys){
+        Object.keys(ReducedNftSlotContractAddys).map((address)=>{
+          getAdminOwnedTokensFromSlotAddys(ReducedNftSlotContractAddys[address]);
+        })
+      }
+    },[ReducedNftSlotContractAddys])
+    
+    async function getAdminOwnedTokensFromSlotAddys(tokenAddress) {
+      if (!WheelTokensHeldByAddress[tokenAddress]){
+        console.log('looking up WheelTokensHeldByAddress: ',tokenAddress, ReducedNftSlotContractAddys)
+        const options = {
+          chain: "rinkeby",
+          address: account? account: '0x0000000000000000000000000000000000000000',
+          token_address: tokenAddress,
+        };
+    
+        const rinkebySlot1AccountUnregisteredNFTs = await Web3Api.account.getNFTsForContract(options);
+        // console.log('!!!!!!!!! 1\t',rinkebySlot1AccountUnregisteredNFTs);
+        let tempArray = [];
+        rinkebySlot1AccountUnregisteredNFTs.result.map((item, index)=>{
+          if (typeof item.metadata != "object"){item.metadata = JSON.parse(item.metadata);}
+          tempArray.push(item);
+          tempArray = Array.from(new Set(tempArray));
+        });
+        setWheelTokensHeldByAccount(WheelTokensHeldByAccount => ({
+          ...WheelTokensHeldByAccount,
+          [tokenAddress]: tempArray
+        }));
+
+
+      }else {
+        console.log('already have held tokens for : ',tokenAddress,'  : ',WheelTokensHeldByAddress[tokenAddress])
+      }
     }
+    
 
     useEffect(()=>{
       if (NftSlotContractAddresses && MachineContractAddress){
         let tempArray = Array.from(new Set(NftSlotContractAddresses));
         if (tempArray[0]!='0x0000000000000000000000000000000000000000'){
+          setReducedNftSlotContractAddys(tempArray);
           console.log(NftSlotContractAddresses.length,' filtered to: ',tempArray.length,' :',tempArray);
           
           for (let i = 0; i < tempArray.length; i++){

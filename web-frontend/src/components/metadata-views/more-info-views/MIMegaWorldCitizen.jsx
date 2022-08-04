@@ -9,11 +9,11 @@ const MIMegaWorldCitizen = (props) => {
     const {clickedSlotObj, setClickedSlotObj} = useContext(NftMoreInfoContext);
 
 
-    useEffect(()=>{
-        if (clickedSlotObj.metadata){
-            console.log('----- ',clickedSlotObj.metadata)
-        }
-    },[clickedSlotObj.metadata])
+    // useEffect(()=>{
+    //     if (clickedSlotObj.metadata){
+    //         console.log('----- ',clickedSlotObj.metadata)
+    //     }
+    // },[clickedSlotObj.metadata])
 
     return (
     <div style={{display:'flex', justifyContent:'center',}}>
@@ -21,7 +21,7 @@ const MIMegaWorldCitizen = (props) => {
         <div className="hideScrollbar" style={{ width:'100%',left:'1%', display:'flex',justifyContent:'center', position:'absolute',height:'55%', overflow:'scroll', top:'45%', border:'0px solid #ff00ff' }}>
         <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gridTemplateRows:'repeat(3, 1fr)',gridColumnGap: '1%', gridRowGap:'3%',width:'90%',   height:'85%',position:'absolute',  top:'8%', border:'0px solid #ff00ff',  }}>
             {
-                clickedSlotObj.metadata.attributes.map((item, index)=>{
+                clickedSlotObj? clickedSlotObj.metadata? clickedSlotObj.metadata.attributes.map((item, index)=>{
                     return(
                         item.max_value? 
                         <div style={{  backgroundColor:'rgba(50,100,250,0.3)', border:'1px solid #2277cc',   width:'100%', display:'flex', justifyContent:'center', padding:'0.5vh', borderRadius:'10px'}}>
@@ -47,7 +47,8 @@ const MIMegaWorldCitizen = (props) => {
                         </div>
                     )
                 })
-
+                :<></>
+                :<></>
 
 
             }
@@ -56,22 +57,17 @@ const MIMegaWorldCitizen = (props) => {
         </div>
 
         <div style={{position:'absolute', top:'2%', fontSize:'3vh'}}>
-        {clickedSlotObj.metadata? clickedSlotObj.metadata.name:<></>}
+        {clickedSlotObj? clickedSlotObj.metadata? clickedSlotObj.metadata.name:<></>:<></>}
         </div>
 
-        <div style={{position:'absolute', top:'18%', left:'2%',width:'48%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-            Chance to Pull: <div style={{float:'right', color:'gold'}}>{props.clickedNftSlotOdds? props.clickedNftSlotOdds: <>0%</>}</div>
-        </div>
+
         <div style={{position:'absolute', top:'28%', left:'2%',width:'48%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-            Contract: <div style={{float:'right', color:'gold'}}> <a href={props.contractAddress?("https://rinkeby.etherscan.io/token/"+props.contractAddress):<></>} target="...blank">{props.contractAddress? <>ES</> :<></>}</a> / <a href={props.contractAddress?("https://rinkeby.etherscan.io/token/"+props.contractAddress):<></>} target="...blank">{props.contractAddress? <>OS</> :<></>}</a></div>
+        Chance to Pull: <div style={{float:'right', color:'gold'}}> {props.clickedNftSlotOdds? props.clickedNftSlotOdds: <>0%</>}</div>
         </div>
         <div style={{position:'absolute', top:'38%', left:'2%',width:'48%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
             Token ID: <div style={{float:'right', color:'gold'}}>{props.tokenId? props.tokenId:<></>}</div>
         </div>
 
-        <div style={{position:'absolute', top:'18%', right:'2%',width:'43%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
-            Gen: <div style={{float:'right', color:'gold'}}>{props.clickedNftSlotOdds? props.clickedNftSlotOdds: <>...</>}</div>
-        </div>
         <div style={{position:'absolute', top:'28%', right:'2%',width:'43%', fontSize:'2vh', backgroundColor:'rgba(0,0,0,0.4)',padding:'0 0.3vw 0 0.3vw'}}>
             Slot#: <div style={{float:'right', color:'gold'}}>{props.slotIndex? props.slotIndex:<></>}</div>
         </div>
