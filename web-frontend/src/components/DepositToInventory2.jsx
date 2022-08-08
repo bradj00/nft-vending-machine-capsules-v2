@@ -471,20 +471,23 @@ useEffect(()=>{
         
         <tbody>
         <tr style={{zIndex:'2',position:'sticky', top:'0',width:'100%',}}>
-          <th style={{ height:'5vh', fontSize:'3vh',}}>
+          <th style={{display:'flex', justifyContent:'center', height:'5vh', fontSize:'3vh',}}>
             
-            <div style={{position:'absolute', width:'100%',height:'5vh', textAlign:'right',paddingRight:'2.5vw', top:'0', right:'0',backgroundColor:'rgba(0,0,0,0.5)'}}>
+            <div  onClick={()=>{} } style={{position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
+            <div  onClick={()=>{} } style={{position:'absolute', left:'8%', fontSize:'1.25vh'}}>select all</div>
+
+            <div style={{position:'absolute', width:'100%',height:'5vh', textAlign:'center', top:'0', right:'0',backgroundColor:'rgba(0,0,0,0.5)'}}>
               {index1+1}
             </div>
-            <div style={{fontStyle:'italic', position:'absolute', right:'3%', bottom:'5%', color:'#fff', fontSize:'1.25vh'}}>
+            <div style={{fontStyle:'italic', position:'absolute',width:'100%', textAlign:'center', bottom:'5%', color:'#fff',right:'0', fontSize:'1.25vh'}}>
               {getEllipsisTxt(slotAddress, 6)}
             </div>
 
 
-            <div style={{position:'absolute', left:'1%', width:'50%',top:'15%'}}>
+            <div style={{position:'absolute', right:'1%', top:'15%'}}>
               <ToggleSlider />
             </div>
-            <div style={{color:'cyan', fontSize:'2vh', position:'absolute', left:'9%', width:'50%',top:'15%', textAlign:'left'}}>
+            <div style={{color:'cyan', fontSize:'2vh', position:'absolute', right:'9%', width:'50%',top:'15%', textAlign:'right'}}>
               Bulk Deposit
             </div>
           </th>      
@@ -519,7 +522,7 @@ useEffect(()=>{
       </tbody>
       </table>
 
-      <div style={{display:'flex', justifyContent:'center', padding:'1vh',backgroundColor:'rgba(0,0,0,0.9)',zIndex:'2',position:'sticky', bottom:'0',width:'90%',margin:'auto'}}>
+      <div style={{display:'flex', justifyContent:'center', padding:'1vh',backgroundColor:'rgba(0,0,0,0.9)',zIndex:'2',position:'sticky', bottom:'0',width:'100%',margin:'auto'}}>
         Deposit Button
       </div>
 
