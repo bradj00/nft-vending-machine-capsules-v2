@@ -457,11 +457,11 @@ useEffect(()=>{
   },[ uniqueRegistrationSelectionIdsForDeposit ]);
 
 
-  function updateClickedTokensToDeposit (tokenObj){
+  function updateClickedTokensToDeposit (tokenObj, selectAllToggle){
     uniqueRegistrationSelectionIdsForDeposit? uniqueRegistrationSelectionIdsForDeposit[ tokenObj.token_address ]? uniqueRegistrationSelectionIdsForDeposit[ tokenObj.token_address ][ tokenObj.token_id ]?
     setuniqueRegistrationSelectionIdsForDeposit(prevStyle => ({
       ...prevStyle,
-      [tokenObj.token_address]: { ...prevStyle[ tokenObj.token_address ], [tokenObj.token_id]: {clicked: !uniqueRegistrationSelectionIdsForDeposit[ tokenObj.token_address ][ tokenObj.token_id ].clicked  }   }
+      [tokenObj.token_address]: { ...prevStyle[ tokenObj.token_address ], [tokenObj.token_id]: {clicked: selectAllToggle? selectAllToggle==1? true : selectAllToggle==0? false : !uniqueRegistrationSelectionIdsForDeposit[ tokenObj.token_address ][ tokenObj.token_id ].clicked : !uniqueRegistrationSelectionIdsForDeposit[ tokenObj.token_address ][ tokenObj.token_id ].clicked }   }
     }))
     :
     setuniqueRegistrationSelectionIdsForDeposit(prevStyle => ({
@@ -480,8 +480,25 @@ useEffect(()=>{
     }))
   }
 
+  const [SelectAllToggler, setSelectAllToggler] = useState({});
+  function selectAllDepositTokensForAddress(slotAddress){
+    console.log('selecting all tokens for: ',slotAddress, SelectAllToggler);
 
+    SelectAllToggler[ slotAddress ] == 1 ? 
+    setSelectAllToggler(SelectAllToggler => ({
+      ...SelectAllToggler,
+      [slotAddress]:  0  
+    }))
+    :
+    setSelectAllToggler(SelectAllToggler => ({
+      ...SelectAllToggler,
+      [slotAddress]:  1  
+    }))
 
+    WheelTokensHeldByAccount[slotAddress].map((item, index)=>{
+      updateClickedTokensToDeposit(item, SelectAllToggler[slotAddress]); 
+    });
+  }
 
   return (
   <div style={{overflowY:'scroll', backgroundColor :'rgba(165, 221, 255 ,0.15)',top:'9.9vh',alignContent:'center',color: "#fff",height: '90%',marginBottom:'10vh', position:'absolute',display:'flex',alignItems:'center', justifyContent:'center', width:'100%'}}>
@@ -505,7 +522,7 @@ useEffect(()=>{
         <tr style={{zIndex:'2',position:'sticky', top:'0',width:'100%',}}>
           <th style={{display:'flex', justifyContent:'center', height:'5vh', fontSize:'3vh',}}>
             
-            <div  onClick={()=>{} } style={{position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
+            <div  onClick={()=>{selectAllDepositTokensForAddress(slotAddress) } } style={{zIndex:'9999',position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
             <div  style={{position:'absolute', left:'10%', top:'25%', fontSize:'1.25vh'}}>select all</div>
 
             <div style={{position:'absolute', width:'100%',height:'5vh', textAlign:'center', top:'0', right:'0',backgroundColor:'rgba(0,0,0,0.5)'}}>
