@@ -31,6 +31,7 @@ const DepositToInventory2 = () => {
   const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
   const {clickedSlotObj, setClickedSlotObj} = useContext(NftMoreInfoContext);
 
+  const [uniqueRegistrationSelectionIdsForDeposit, setuniqueRegistrationSelectionIdsForDeposit] = useState({});
   const [AllSlotsSelectedArr, setAllSlotsSelectedArr] = useState([]);
   const [BulkDepositToggle, setBulkDepositToggle] = useState(false);
   
@@ -447,7 +448,37 @@ useEffect(()=>{
     }
   },[ approvalSlot ]);
 
+  useEffect(()=>{
+    if (uniqueRegistrationSelectionIdsForDeposit){
+      
+     console.log('uniqueRegistrationSelectionIdsForDeposit: ', uniqueRegistrationSelectionIdsForDeposit)
 
+    }
+  },[ uniqueRegistrationSelectionIdsForDeposit ]);
+
+
+  function updateClickedTokensToDeposit (tokenObj){
+    uniqueRegistrationSelectionIdsForDeposit? uniqueRegistrationSelectionIdsForDeposit[ tokenObj.token_address ]? uniqueRegistrationSelectionIdsForDeposit[ tokenObj.token_address ][ tokenObj.token_id ]?
+    setuniqueRegistrationSelectionIdsForDeposit(prevStyle => ({
+      ...prevStyle,
+      [tokenObj.token_address]: { ...prevStyle[ tokenObj.token_address ], [tokenObj.token_id]: {clicked: !uniqueRegistrationSelectionIdsForDeposit[ tokenObj.token_address ][ tokenObj.token_id ].clicked  }   }
+    }))
+    :
+    setuniqueRegistrationSelectionIdsForDeposit(prevStyle => ({
+      ...prevStyle,
+      [tokenObj.token_address]: { ...prevStyle[ tokenObj.token_address ], [tokenObj.token_id]: {clicked: true  }   }
+    }))
+    :
+    setuniqueRegistrationSelectionIdsForDeposit(prevStyle => ({
+      ...prevStyle,
+      [tokenObj.token_address]: { ...prevStyle[ tokenObj.token_address ], [tokenObj.token_id]: {clicked: true  }   }
+    }))
+    :
+    setuniqueRegistrationSelectionIdsForDeposit(prevStyle => ({
+      ...prevStyle,
+      [tokenObj.token_address]: { ...prevStyle[ tokenObj.token_address ], [tokenObj.token_id]: {clicked: true  }   }
+    }))
+  }
 
 
 
@@ -475,7 +506,7 @@ useEffect(()=>{
           <th style={{display:'flex', justifyContent:'center', height:'5vh', fontSize:'3vh',}}>
             
             <div  onClick={()=>{} } style={{position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
-            <div  onClick={()=>{} } style={{position:'absolute', left:'10%', top:'25%', fontSize:'1.25vh'}}>select all</div>
+            <div  style={{position:'absolute', left:'10%', top:'25%', fontSize:'1.25vh'}}>select all</div>
 
             <div style={{position:'absolute', width:'100%',height:'5vh', textAlign:'center', top:'0', right:'0',backgroundColor:'rgba(0,0,0,0.5)'}}>
               {index1+1}
@@ -509,12 +540,15 @@ useEffect(()=>{
           WheelTokensHeldByAccount[slotAddress].sort((a, b) => (a.token_id > b.token_id) ? 1 : -1).map((item, index)=>{
               // console.log('ITEMMMM: ',item);
               return(
-              <tr key={index}  onClick={()=>{setClickedSlotObj(item) ;console.log(item);}}  style={{}}>                
-                <td   style={{position:'relative',display:'flex', alignItems:'center', justifyContent:'right',fontSize:'1.5vh', cursor:'pointer', backgroundColor: "rgba(0,0,50,0.4)"}}> 
-                  <div  onClick={()=>{} } style={{position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
-                  { parseInt(item.token_id )} 
-                </td>
-              </tr>
+                <tr key={index}  onClick={()=>{setClickedSlotObj(item)}}  style={{}}>                
+                  <td   style={{position:'relative',display:'flex', alignItems:'center', justifyContent:'right',fontSize:'1.5vh', cursor:'pointer', backgroundColor: "rgba(0,0,50,0.4)"}}> 
+                    <div className={uniqueRegistrationSelectionIdsForDeposit?uniqueRegistrationSelectionIdsForDeposit[item.token_address]?uniqueRegistrationSelectionIdsForDeposit[item.token_address][item.token_id]?uniqueRegistrationSelectionIdsForDeposit[item.token_address][item.token_id].clicked==true? "clickedDepositItem":"":"":"":""} onClick={()=>{ updateClickedTokensToDeposit(item) } } style={{zIndex:'555',position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}>
+
+                    </div>
+                    
+                    { parseInt(item.token_id )} 
+                  </td>
+                </tr>
               )
 
           })
@@ -561,9 +595,9 @@ useEffect(()=>{
           </a>
         </div>
 
-        <div className="hoverViewMetadata" style={{border:'1px solid rgba(250,250,250,0.3)',padding:'0.5vh', position:'absolute', top:'2%', right:'3%',}}>
+        {/* <div className="hoverViewMetadata" style={{border:'1px solid rgba(250,250,250,0.3)',padding:'0.5vh', position:'absolute', top:'2%', right:'3%',}}>
           Metadata 
-        </div>
+        </div> */}
 
         
         

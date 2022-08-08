@@ -58,3 +58,6 @@ table {
   .hideScrollbar::-webkit-scrollbar {
     display: none;
   }
+  .clickedDepositItem {
+    background-color:#fff;
+  }
