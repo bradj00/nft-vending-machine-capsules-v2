@@ -228,12 +228,12 @@ const NftMoreInfoDiv = () => {
 
 
     return(
-        <div style={{position:'absolute', width:'25vw',display:'flex',alignItems:'end', justifyContent:'center', height:'70vh',border: ActiveNetworkBorderColor? ActiveNetworkBorderColor: '0px solid #fff', borderRadius:'15px', backgroundColor:ActiveNetworkThemeColorDarker?ActiveNetworkThemeColorDarker:'rgba(255,255,255,0.15)', left:'1%', bottom:'1%',width:'25%',}}>
-            <div style={{height:'50%', width:'60%', marginBottom:'1vh',}}>
+        <div style={{position:'absolute', width:'25vw',display:'flex',alignItems:'end', justifyContent:'center', height:'75vh',border: ActiveNetworkBorderColor? ActiveNetworkBorderColor: '0px solid #fff', borderRadius:'15px', backgroundColor:ActiveNetworkThemeColorDarker?ActiveNetworkThemeColorDarker:'rgba(255,255,255,0.15)', left:'1%', top:'11vh',width:'25%',}}>
+            <div style={{height:'45%', width:'60%', marginBottom:'1vh',}}>
                 <img style={{maxHeight:'100%', objectFit:'scale-down', width:'100%'}} src={clickedNftImage?clickedNftImage:<></>}></img>
             </div>
 
-            <div style={{color:'#fff', position:'absolute', width:'95%', height:'45%', top:'2%',borderRadius:'15px', backgroundColor:'rgba(50,50,150,0.2)'}}>
+            <div style={{color:'#fff', position:'absolute', width:'95%', height:'50%', top:'2%',borderRadius:'15px', backgroundColor:'rgba(50,50,150,0.2)'}}>
                 {/* view token metadata:<br></br><JSONTree hideRoot={false} theme={theme} invertTheme={false} data={clickedSlotObj}/> */}
                 <div style={{position:'absolute', height:'100%',width:'100%',bottom:'2%'}}>
                     <MIMegaWorldCitizen tokenId={clickedDisplayedTokenId} slotIndex={clickedSlotIndex} NftSlotOdds={clickedNftSlotOdds} contractAddress={clickedSlotContractAddress} metadataObj={clickedmetadataObj}/>

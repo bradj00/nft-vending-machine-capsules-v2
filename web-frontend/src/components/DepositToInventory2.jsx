@@ -408,9 +408,43 @@ useEffect(()=>{
   }
 
 
+  async function GetApprovalForAllBulkDepositer (SlotContractAddress){
+    return useWeb3Contract({
+      abi: WheelABI,
+      contractAddress: SlotContractAddress? SlotContractAddress: "0x0000000000000000000000000000000000000000",
+      functionName: "isApprovedForAll",
+      params: {
+        owner: account? account: "0x0000000000000000000000000000000000000000",
+        operator: SlotContractAddress
+      }
+    });
 
+  }
 
+  const [approvalSlot, setapprovalSlot] = useState( {} );
 
+  useEffect(()=>{
+    if (WheelTokensHeldByAccount){
+      // if ( Object.keys(WheelTokensHeldByAccount) ) {
+        Object.keys(WheelTokensHeldByAccount).map((slotAddress, index1)=>{
+          console.log('SLOT ADDRESS: ',slotAddress, WheelTokensHeldByAccount[slotAddress])
+          
+          // setapprovalSlot(prevObj => ({
+          //   ...prevObj,
+          //   [slotAddress]:   GetApprovalForAllBulkDepositer(slotAddress)  
+          // }))
+        });
+      // }
+    }
+  },[ WheelTokensHeldByAccount ]);
+
+  useEffect(()=>{
+    if (approvalSlot){
+      
+     console.log('approvalSlot: ', approvalSlot)
+
+    }
+  },[ approvalSlot ]);
 
 
 
@@ -429,6 +463,7 @@ useEffect(()=>{
     Object.keys(WheelTokensHeldByAccount).map((slotAddress, index1)=>{
       // console.log('WheelTokensHeldByAccount[ '+slotAddress+' ] ',WheelTokensHeldByAccount[slotAddress] );
       return(
+      <div style={{margin:'1vh', width:'100%'}}>
       <table key={index1} style={{ marginRight:'10px',}}>
         <thead>
           
@@ -436,8 +471,22 @@ useEffect(()=>{
         
         <tbody>
         <tr style={{zIndex:'2',position:'sticky', top:'0',width:'100%',}}>
-          <th style={{ height:'1vh', fontSize:'4vh',}}>
-            {index1+1}
+          <th style={{ height:'5vh', fontSize:'3vh',}}>
+            
+            <div style={{position:'absolute', width:'100%',height:'5vh', textAlign:'right',paddingRight:'2.5vw', top:'0', right:'0',backgroundColor:'rgba(0,0,0,0.5)'}}>
+              {index1+1}
+            </div>
+            <div style={{fontStyle:'italic', position:'absolute', right:'3%', bottom:'5%', color:'#fff', fontSize:'1.25vh'}}>
+              {getEllipsisTxt(slotAddress, 6)}
+            </div>
+
+
+            <div style={{position:'absolute', left:'1%', width:'50%',top:'15%'}}>
+              <ToggleSlider />
+            </div>
+            <div style={{color:'cyan', fontSize:'2vh', position:'absolute', left:'9%', width:'50%',top:'15%', textAlign:'left'}}>
+              Bulk Deposit
+            </div>
           </th>      
         </tr>
         {/* <td style={{height:'5%', backgroundColor:'#333', color:'#00ff00',fontSize:'3vh',}}>
@@ -470,6 +519,11 @@ useEffect(()=>{
       </tbody>
       </table>
 
+      <div style={{display:'flex', justifyContent:'center', padding:'1vh',backgroundColor:'rgba(0,0,0,0.9)',zIndex:'2',position:'sticky', bottom:'0',width:'90%',margin:'auto'}}>
+        Deposit Button
+      </div>
+
+      </div>
       )
     })
     
@@ -526,21 +580,11 @@ useEffect(()=>{
         </div>
 
   
-        <div style={{position:'absolute',  bottom:'30%',width:'60%'}}>
-          <div style={{position:'absolute',  left:'0',}}>
-              <ToggleSlider onToggle={state => setBulkDepositToggle(state)}/>
-          </div>
-          
-          <div title="Useful for depositing multiple tokens from a contract in a single transaction. Requires approval first." style={{cursor:'help', fontSize:'2vh', position:'absolute', right:'0', color:BulkDepositToggle ?'#00ff00':'#ff0000'}}>
-            Bulk Deposit 
-          </div>
-            
-          
-        </div>
         
-        <div className="hoverEjectToken" onClick={()=>{ registerTokens() }} style={{display:'flex',justifyContent:'center',border:'1px solid rgba(250,150,150,0.5)', padding:'0.5vh', fontSize:'3vh', position:'absolute',  bottom:'5%', }}>
+        
+        {/* <div className="hoverEjectToken" onClick={()=>{ registerTokens() }} style={{display:'flex',justifyContent:'center',border:'1px solid rgba(250,150,150,0.5)', padding:'0.5vh', fontSize:'3vh', position:'absolute',  bottom:'5%', }}>
           Bulk Deposit Tokens (...)
-        </div>
+        </div> */}
 
 
 
