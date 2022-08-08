@@ -7,8 +7,9 @@ import { WheelFactoryContractAddress, WheelFactoryABI, WheelABI } from '../Contr
 import '../styles/tempStyles.css';
 import { OddsAndSlotAddys } from '../App';
 import { getEllipsisTxt } from '../helpers/formatters';
-import { ToggleSlider }  from "react-toggle-slider";
+
 import { Textfit } from 'react-textfit';
+import BulkDepositToggler from './snippet-components/BulkDepositToggler';
 const DepositToInventory2 = () => {
   const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
   const {BuyCapsuleContract, setBuyCapsuleContract} = useContext(NftMoreInfoContext)
@@ -529,21 +530,23 @@ useEffect(()=>{
           <th style={{zIndex:'10',display:'flex', justifyContent:'center', height:'5vh', fontSize:'3vh',}}>
             
             <div className={SelectAllToggler[slotAddress] && SelectAllToggler[slotAddress]!=1?"clickedDepositItem" :""} onClick={()=>{selectAllDepositTokensForAddress(slotAddress); } } style={{cursor:'pointer', zIndex:'1',position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
-            <div  style={{position:'absolute', left:'10%', top:'25%', fontSize:'1.25vh'}}>select all</div>
+            <div  style={{position:'absolute', left:'10%', top:'25%', fontSize:'1.5vh'}}>select all</div>
 
-            <div style={{position:'absolute', width:'100%',height:'5vh', textAlign:'center', top:'0', right:'0',backgroundColor:'rgba(0,0,0,0.5)'}}>
-              {index1+1}
+            <div style={{position:'absolute',  width:'100%',height:'5vh', textAlign:'left', top:'0', left:'0',backgroundColor:'rgba(0,0,0,0.5)'}}>
+              {/* <div style={{fontSize:'4vh',position:'absolute', height:'100%',width:'5%', top:'10%', left:'35%',}}>
+                {index1+1}
+              </div> */}
+            </div>
+            <div style={{fontStyle:'italic', position:'absolute',width:'100%', textAlign:'center', bottom:'35%', color:'#fff',right:'0', fontSize:'2vh'}}>
+              {WheelTokensHeldByAccount? WheelTokensHeldByAccount[slotAddress]? WheelTokensHeldByAccount[slotAddress][0]?WheelTokensHeldByAccount[slotAddress][0].symbol : "..." : "...": "..." }
             </div>
             <div style={{fontStyle:'italic', position:'absolute',width:'100%', textAlign:'center', bottom:'5%', color:'#fff',right:'0', fontSize:'1.25vh'}}>
               {getEllipsisTxt(slotAddress, 6)}
             </div>
 
-
+            
             <div style={{position:'absolute', right:'1%', top:'15%'}}>
-              <ToggleSlider />
-            </div>
-            <div style={{color:'cyan', fontSize:'2vh', position:'absolute', right:'9%', width:'50%',top:'15%', textAlign:'right'}}>
-              Bulk Deposit
+              <BulkDepositToggler theAddress={slotAddress} />
             </div>
           </th>      
         </tr>

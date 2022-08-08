@@ -54,6 +54,9 @@ const ContractInfoGrabber = () => {
 
 
 
+
+
+
     const getRegisteredFromOnChainBySlot1 = useWeb3Contract({
       abi: WheelABI,
       contractAddress: contractAddressWheel? contractAddressWheel: "0x0000000000000000000000000000000000000000",
@@ -205,6 +208,9 @@ async function loadNftsForSlot(slotIndex, slotAddress){
     
     
   }
+
+
+
 
 
   useEffect(()=>{
