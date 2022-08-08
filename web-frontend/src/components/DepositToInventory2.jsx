@@ -39,7 +39,7 @@ const DepositToInventory2 = () => {
   
   const {isWeb3Enabled, account} = useMoralis();
   
-  
+  const [SelectAllToggler, setSelectAllToggler] = useState({});
   
   
   function returnToMachineView(){
@@ -480,19 +480,25 @@ useEffect(()=>{
     }))
   }
 
-  const [SelectAllToggler, setSelectAllToggler] = useState({});
+
   function selectAllDepositTokensForAddress(slotAddress){
     console.log('selecting all tokens for: ',slotAddress, SelectAllToggler);
 
+    SelectAllToggler[ slotAddress ]?
     SelectAllToggler[ slotAddress ] == 1 ? 
     setSelectAllToggler(SelectAllToggler => ({
       ...SelectAllToggler,
-      [slotAddress]:  0  
+      [slotAddress]:  2  
     }))
     :
     setSelectAllToggler(SelectAllToggler => ({
       ...SelectAllToggler,
       [slotAddress]:  1  
+    }))
+    :
+    setSelectAllToggler(SelectAllToggler => ({
+      ...SelectAllToggler,
+      [slotAddress]:  2  
     }))
 
     WheelTokensHeldByAccount[slotAddress].map((item, index)=>{
@@ -519,10 +525,10 @@ useEffect(()=>{
         </thead>
         
         <tbody>
-        <tr style={{zIndex:'2',position:'sticky', top:'0',width:'100%',}}>
-          <th style={{display:'flex', justifyContent:'center', height:'5vh', fontSize:'3vh',}}>
+        <tr style={{zIndex:'4',position:'sticky', top:'0',width:'100%',}}>
+          <th style={{zIndex:'10',display:'flex', justifyContent:'center', height:'5vh', fontSize:'3vh',}}>
             
-            <div  onClick={()=>{selectAllDepositTokensForAddress(slotAddress) } } style={{zIndex:'9999',position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
+            <div className={SelectAllToggler[slotAddress] && SelectAllToggler[slotAddress]!=1?"clickedDepositItem" :""} onClick={()=>{selectAllDepositTokensForAddress(slotAddress); } } style={{cursor:'pointer', zIndex:'1',position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
             <div  style={{position:'absolute', left:'10%', top:'25%', fontSize:'1.25vh'}}>select all</div>
 
             <div style={{position:'absolute', width:'100%',height:'5vh', textAlign:'center', top:'0', right:'0',backgroundColor:'rgba(0,0,0,0.5)'}}>
@@ -559,7 +565,7 @@ useEffect(()=>{
               return(
                 <tr key={index}  onClick={()=>{setClickedSlotObj(item)}}  style={{}}>                
                   <td   style={{position:'relative',display:'flex', alignItems:'center', justifyContent:'right',fontSize:'1.5vh', cursor:'pointer', backgroundColor: "rgba(0,0,50,0.4)"}}> 
-                    <div className={uniqueRegistrationSelectionIdsForDeposit?uniqueRegistrationSelectionIdsForDeposit[item.token_address]?uniqueRegistrationSelectionIdsForDeposit[item.token_address][item.token_id]?uniqueRegistrationSelectionIdsForDeposit[item.token_address][item.token_id].clicked==true? "clickedDepositItem":"":"":"":""} onClick={()=>{ updateClickedTokensToDeposit(item) } } style={{zIndex:'555',position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}>
+                    <div className={uniqueRegistrationSelectionIdsForDeposit?uniqueRegistrationSelectionIdsForDeposit[item.token_address]?uniqueRegistrationSelectionIdsForDeposit[item.token_address][item.token_id]?uniqueRegistrationSelectionIdsForDeposit[item.token_address][item.token_id].clicked==true? "clickedDepositItem":"":"":"":""} onClick={()=>{ updateClickedTokensToDeposit(item) } } style={{zIndex:'2',position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}>
 
                     </div>
                     
@@ -574,7 +580,7 @@ useEffect(()=>{
       </tbody>
       </table>
 
-      <div style={{display:'flex', justifyContent:'center', padding:'1vh',backgroundColor:'rgba(0,0,0,0.9)',zIndex:'2',position:'sticky', bottom:'0',width:'100%',margin:'auto'}}>
+      <div style={{zIndex:'3', display:'flex', justifyContent:'center', padding:'1vh',backgroundColor:'rgba(0,0,0,0.9)',position:'sticky', bottom:'0',width:'100%',margin:'auto'}}>
         Deposit Button
       </div>
 
