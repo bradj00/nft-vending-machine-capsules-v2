@@ -8,6 +8,7 @@ import '../styles/tempStyles.css';
 import { OddsAndSlotAddys } from '../App';
 import { getEllipsisTxt } from '../helpers/formatters';
 import { ToggleSlider }  from "react-toggle-slider";
+import { Textfit } from 'react-textfit';
 const DepositToInventory2 = () => {
   const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
   const {BuyCapsuleContract, setBuyCapsuleContract} = useContext(NftMoreInfoContext)
@@ -474,7 +475,7 @@ useEffect(()=>{
           <th style={{display:'flex', justifyContent:'center', height:'5vh', fontSize:'3vh',}}>
             
             <div  onClick={()=>{} } style={{position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
-            <div  onClick={()=>{} } style={{position:'absolute', left:'8%', fontSize:'1.25vh'}}>select all</div>
+            <div  onClick={()=>{} } style={{position:'absolute', left:'10%', top:'25%', fontSize:'1.25vh'}}>select all</div>
 
             <div style={{position:'absolute', width:'100%',height:'5vh', textAlign:'center', top:'0', right:'0',backgroundColor:'rgba(0,0,0,0.5)'}}>
               {index1+1}
@@ -570,21 +571,51 @@ useEffect(()=>{
           {clickedSlotObj? clickedSlotObj.contract_type.replace(/ERC/, "ERC-"):<></>}
         </div>
 
-        <div style={{ position:'absolute', top:'35%', width:'65%',}}>
+        <div style={{ position:'absolute', top:'25%', width:'65%',}}>
           <div style={{position:'absolute',left:'0%'}}>Token Id:</div>  <div style={{position:'absolute', right:'0%', color:'cyan'}}> {clickedSlotObj? clickedSlotObj.token_id: <>...</>} </div>
         </div>
 
-        <div style={{position:'absolute', top:'45%', width:'65%',}}>
+        <div style={{position:'absolute', top:'35%', width:'65%',}}>
           <div style={{position:'absolute', left:'0%'}}>Contract:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}> {clickedSlotObj? getEllipsisTxt(clickedSlotObj.token_address, 4): <>...</>} </div> 
         </div>
 
-        <div style={{position:'absolute', top:'55%', width:'65%',}}>
+        <div style={{position:'absolute', top:'45%', width:'65%',}}>
           <div style={{position:'absolute', left:'0%'}}>Symbol:</div>  <div style={{position:'absolute', right:'0%',color:'cyan'}}>{clickedSlotObj? clickedSlotObj.symbol: <>...</>} </div>
         </div>
 
-  
-        
-        
+        <div className="hideScrollbar" style={{position:'absolute',top:'55%', height:'45%', overflow:'scroll', width:'95%',}}>
+        {clickedSlotObj? clickedSlotObj.metadata? clickedSlotObj.metadata.attributes.map((item, index)=>{
+          return(
+              item.max_value? 
+              <div style={{  backgroundColor:'rgba(50,100,250,0.3)', border:'1px solid #2277cc',   width:'100%', display:'flex', justifyContent:'center', padding:'0.5vh', borderRadius:'10px'}}>
+                  <div style={{width:'100%'}}>
+                      <div style={{borderRadius:'5px 5px 5px 5px', width:'100%', display:'flex', justifyContent:'center',color:'rgba(200,200,255,1)', backgroundColor:'rgba(50,100,250,0.7)', }}>
+                          <Textfit mode="multi">{item.trait_type} </Textfit>
+                      </div>
+                      <div style={{display:'flex',alignItems:'center',  justifyContent:'center',}}>
+                      <Textfit mode="multi">{item.value} / {item.max_value} </Textfit>
+                      </div>
+                  </div>
+              </div>
+              : 
+              <div style={{backgroundColor:'rgba(60,30,50,0.6)', border:'1px solid #662255',  width:'100%',  display:'flex', justifyContent:'center', padding:'0.5vh', borderRadius:'10px'}}>
+                  <div style={{}}>
+                  <div style={{borderRadius:'5px 5px 5px 5px', width:'100%', display:'flex', justifyContent:'center', backgroundColor:'rgba(150,120,150,0.7)', }}>
+                          <Textfit mode="multi">{item.trait_type} </Textfit>
+                      </div>
+                      <div style={{display:'flex', alignItems:'center', justifyContent:'center',}}>
+                      <Textfit mode="multi">{item.value} </Textfit>
+                      </div>
+                  </div>
+              </div>
+          )
+      })
+      :<></>
+      :<></>}
+      
+      </div>
+
+
         {/* <div className="hoverEjectToken" onClick={()=>{ registerTokens() }} style={{display:'flex',justifyContent:'center',border:'1px solid rgba(250,150,150,0.5)', padding:'0.5vh', fontSize:'3vh', position:'absolute',  bottom:'5%', }}>
           Bulk Deposit Tokens (...)
         </div> */}
