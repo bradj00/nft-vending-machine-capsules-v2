@@ -34,6 +34,7 @@
     "react-slider": "^2.0.0",
     "react-textfit": "^1.1.1",
     "react-time-ago": "^7.1.9",
+    "react-toggle-slider": "^0.4.0",
     "react-use": "^17.3.2",
     "use-fit-text": "^2.4.0",
     "use-google-fonts": "^1.0.2",

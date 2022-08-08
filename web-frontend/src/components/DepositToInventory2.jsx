@@ -7,7 +7,7 @@ import { WheelFactoryContractAddress, WheelFactoryABI, WheelABI } from '../Contr
 import '../styles/tempStyles.css';
 import { OddsAndSlotAddys } from '../App';
 import { getEllipsisTxt } from '../helpers/formatters';
-
+import { ToggleSlider }  from "react-toggle-slider";
 const DepositToInventory2 = () => {
   const {managingInventory, setmanagingInventory} = useContext(NftMoreInfoContext);
   const {BuyCapsuleContract, setBuyCapsuleContract} = useContext(NftMoreInfoContext)
@@ -31,6 +31,7 @@ const DepositToInventory2 = () => {
   const {clickedSlotObj, setClickedSlotObj} = useContext(NftMoreInfoContext);
 
   const [AllSlotsSelectedArr, setAllSlotsSelectedArr] = useState([]);
+  const [BulkDepositToggle, setBulkDepositToggle] = useState(false);
   
   const {WheelTokensHeldByAccount, setWheelTokensHeldByAccount} = useContext(NftMoreInfoContext);
   
@@ -426,7 +427,7 @@ useEffect(()=>{
 
     {
     Object.keys(WheelTokensHeldByAccount).map((slotAddress, index1)=>{
-      console.log('WheelTokensHeldByAccount[ '+slotAddress+' ] ',WheelTokensHeldByAccount[slotAddress] );
+      // console.log('WheelTokensHeldByAccount[ '+slotAddress+' ] ',WheelTokensHeldByAccount[slotAddress] );
       return(
       <table key={index1} style={{ marginRight:'10px',}}>
         <thead>
@@ -525,7 +526,17 @@ useEffect(()=>{
         </div>
 
   
-        
+        <div style={{position:'absolute',  bottom:'30%',width:'60%'}}>
+          <div style={{position:'absolute',  left:'0',}}>
+              <ToggleSlider onToggle={state => setBulkDepositToggle(state)}/>
+          </div>
+          
+          <div title="Useful for depositing multiple tokens from a contract in a single transaction. Requires approval first." style={{cursor:'help', fontSize:'2vh', position:'absolute', right:'0', color:BulkDepositToggle ?'#00ff00':'#ff0000'}}>
+            Bulk Deposit 
+          </div>
+            
+          
+        </div>
         
         <div className="hoverEjectToken" onClick={()=>{ registerTokens() }} style={{display:'flex',justifyContent:'center',border:'1px solid rgba(250,150,150,0.5)', padding:'0.5vh', fontSize:'3vh', position:'absolute',  bottom:'5%', }}>
           Bulk Deposit Tokens (...)

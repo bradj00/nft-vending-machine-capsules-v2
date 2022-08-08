@@ -217,17 +217,17 @@ const ManageInventoryViewControlDiv = () => {
 
   return ( 
     <div style={{display:'flex', justifyContent:'center', gap:'5%',  zIndex:'0',position:'absolute',bottom:'0%',left:'0%',fontSize:'1vw',width:'100%',height:'100%',}}>
-        <div className="adminButton" onClick={()=>{showDepositInventory()}} style={{width:'95%', height:'80%', backgroundColor:'rgba(255,255,255,0.1)',borderRadius:'5px', display:'flex', justifyContent:'center', alignItems:'center', zIndex:'1', cursor:'pointer', color: DepositInventoryColor }}>
+        {/* <div className="adminButton" onClick={()=>{showDepositInventory()}} style={{width:'95%', height:'80%', backgroundColor:'rgba(255,255,255,0.1)',borderRadius:'5px', display:'flex', justifyContent:'center', alignItems:'center', zIndex:'1', cursor:'pointer', color: DepositInventoryColor }}>
+        Deposit
+        </div> */}
+        <div className="adminButton" onClick={()=>{showDepositInventory2()}} style={{width:'95%', height:'80%', backgroundColor:'rgba(255,255,255,0.1)',borderRadius:'5px', display:'flex', justifyContent:'center', alignItems:'center', zIndex:'1', cursor:'pointer', color: DepositInventoryColor }}>
         Deposit
         </div>
-        <div className="adminButton" onClick={()=>{showDepositInventory2()}} style={{width:'95%', height:'80%', backgroundColor:'rgba(255,255,255,0.1)',borderRadius:'5px', display:'flex', justifyContent:'center', alignItems:'center', zIndex:'1', cursor:'pointer', color: DepositInventoryColor }}>
-        D2
-        </div>
-        <div className="adminButton" onClick={()=>{showUnregistered()}} style={{width:'95%', height:'80%', backgroundColor:'rgba(255,255,255,0.1)',borderRadius:'5px', display:'flex', justifyContent:'center', alignItems:'center', zIndex:'1', cursor:'pointer', color: RegisteredInventoryColor }}>
+        {/* <div className="adminButton" onClick={()=>{showUnregistered()}} style={{width:'95%', height:'80%', backgroundColor:'rgba(255,255,255,0.1)',borderRadius:'5px', display:'flex', justifyContent:'center', alignItems:'center', zIndex:'1', cursor:'pointer', color: RegisteredInventoryColor }}>
         Register
-        </div>
+        </div> */}
         <div className="adminButton" onClick={()=>{showUnregistered2()}} style={{width:'95%', height:'80%', backgroundColor:'rgba(255,255,255,0.1)',borderRadius:'5px', display:'flex', justifyContent:'center', alignItems:'center', zIndex:'1', cursor:'pointer', color: RegisteredInventoryColor }}>
-        R2
+        Register
         </div>
         {/* <div className="adminButton" onClick={()=>{showRegistered()}}  style={{width:'95%', height:'80%', backgroundColor:'rgba(255,255,255,0.1)',borderRadius:'15px', display:'flex', justifyContent:'center', alignItems:'center', zIndex:'1',cursor:'pointer',  color: UnRegisteredInventoryColor }}>
         Manage

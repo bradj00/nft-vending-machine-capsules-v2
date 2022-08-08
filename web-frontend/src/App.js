@@ -315,7 +315,7 @@ useEffect(() => {
   const [selectedFontColor, setselectedFontColor] = useState('#fff');
   
   
-  const [showRegisteredInventory, setshowRegisteredInventory] = useState(2); //WALRUS - start with Deposit page when clicking Manage Machine
+  const [showRegisteredInventory, setshowRegisteredInventory] = useState(22); //WALRUS - start with Deposit page when clicking Manage Machine
   
   const [managingInventory, setmanagingInventory] = useState(false);
   
