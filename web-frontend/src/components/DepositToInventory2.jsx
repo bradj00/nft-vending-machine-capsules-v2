@@ -3,10 +3,11 @@ import { NftMoreInfoContext } from '../App';
 import RevenueChart from './Admin Panels/Revenue Panel/RevenueChart.jsx';
 import { useERC20Balances, useMoralis, useWeb3Contract } from "react-moralis";
 import { useEffect } from 'react';
-import { WheelFactoryContractAddress, WheelFactoryABI, WheelABI } from '../ContractInfo/ContractInfo';
+import { BulkDepositorABI, BulkDepositorContractAddress, WheelFactoryContractAddress, WheelFactoryABI, WheelABI } from '../ContractInfo/ContractInfo';
 import '../styles/tempStyles.css';
 import { OddsAndSlotAddys } from '../App';
 import { getEllipsisTxt } from '../helpers/formatters';
+// import Web3 from 'web3'
 
 import { Textfit } from 'react-textfit';
 import BulkDepositToggler from './snippet-components/BulkDepositToggler';
@@ -41,7 +42,8 @@ const DepositToInventory2 = () => {
   const {isWeb3Enabled, account} = useMoralis();
   
   const [SelectAllToggler, setSelectAllToggler] = useState({});
-  
+  const [DepositTokensArrayBySlotAddy, setDepositTokensArrayBySlotAddy] = useState();
+  // const web3 = new Web3()
   
   function returnToMachineView(){
     setmanagingInventory(!managingInventory);
@@ -131,10 +133,10 @@ const DepositToInventory2 = () => {
 
 
 
-
-
-
-
+  
+  const makeBulkTokenDeposit = useWeb3Contract({ 
+  
+  });
 
 
   const registerTokensForSlot = useWeb3Contract({ 
@@ -451,9 +453,25 @@ useEffect(()=>{
 
   useEffect(()=>{
     if (uniqueRegistrationSelectionIdsForDeposit){
-      
-     console.log('uniqueRegistrationSelectionIdsForDeposit: ', uniqueRegistrationSelectionIdsForDeposit)
+    if ( Object.keys(uniqueRegistrationSelectionIdsForDeposit).length > 0 ){
+      let temp = {};
+      // console.log('uniqueRegistrationSelectionIdsForDeposit: ', uniqueRegistrationSelectionIdsForDeposit)
+      Object.keys(uniqueRegistrationSelectionIdsForDeposit).map((slotAddress)=>{
+        
+        // console.log('item: ', slotAddress)
+        temp[slotAddress.toUpperCase()] = [];
+        Object.keys(uniqueRegistrationSelectionIdsForDeposit[slotAddress]).map((tokenId)=>{
+          // console.log('ID: ', tokenId)
+          
+          if (uniqueRegistrationSelectionIdsForDeposit[slotAddress][tokenId].clicked == true){
+            temp[slotAddress.toUpperCase()].push(parseInt(tokenId))
+          }
+        });
 
+      })
+      console.log('TEMP ASDLKSAJAA array: ',temp);
+      setDepositTokensArrayBySlotAddy(temp);
+    }
     }
   },[ uniqueRegistrationSelectionIdsForDeposit ]);
 
@@ -510,6 +528,38 @@ useEffect(()=>{
     });
   }
 
+  function makeTokenDeposit(slotAddress){
+    console.log('depositing tokens for: ',slotAddress,' + ', DepositTokensArrayBySlotAddy[slotAddress.toUpperCase()],' + ', contractAddressWheel);
+
+    makeBulkTokenDeposit.runContractFunction({
+      params: {
+        abi: BulkDepositorABI,
+        contractAddress: BulkDepositorContractAddress,
+        functionName: "makeBulkDeposit",
+        chain: 'rinkeby',
+
+        params: {
+          tokenContractAddress: slotAddress,
+          tokenIdList: DepositTokensArrayBySlotAddy[slotAddress.toUpperCase()],
+          sendTo: contractAddressWheel
+        },
+      },
+      onSuccess : async (tx)=>tx.wait().then(newTx => {
+        console.log('SUCCESS! Check machine',tx)
+      
+      }),
+      onComplete : (tx) => {
+        console.log('Submitted to blockchain for confirmation ',tx)
+        // setregisterTokensInfoButton('Awaiting chain confirmation...');
+      },
+      onError: (error) =>{
+      console.log('bulk token deposit:  big ERROR: ',error,"_____"); 
+      },
+    }); 
+
+  }
+
+
   return (
   <div style={{overflowY:'scroll', backgroundColor :'rgba(165, 221, 255 ,0.15)',top:'9.9vh',alignContent:'center',color: "#fff",height: '90%',marginBottom:'10vh', position:'absolute',display:'flex',alignItems:'center', justifyContent:'center', width:'100%'}}>
     <button style={{zIndex:'555', position:'fixed',top:'2vh',left:'21vw', paddingLeft:'0.2vw',paddingRight:'0.2vw',height:'4vh',cursor:'pointer', fontSize:'0.9vw'}} onClick={()=>{returnToMachineView()}}>View Wheel</button>
@@ -538,11 +588,17 @@ useEffect(()=>{
           
         <tr style={{zIndex:'4',position:'sticky', top:'0',width:'100%',}}>
           <th style={{zIndex:'10',display:'flex', justifyContent:'center', height:'5vh', fontSize:'3vh',}}>
-            {BulkApprovalByContract[slotAddress][slotAddress]?
+            {
+            BulkApprovalByContract?
+            BulkApprovalByContract[slotAddress]?
+            BulkApprovalByContract[slotAddress][slotAddress]?
             <>
             <div className={SelectAllToggler[slotAddress] && SelectAllToggler[slotAddress]!=1?"clickedDepositItem" :""} onClick={()=>{selectAllDepositTokensForAddress(slotAddress); } } style={{cursor:'pointer', zIndex:'1',position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
             <div  style={{position:'absolute', left:'10%', top:'25%', fontSize:'1.5vh'}}>select all</div>
-            </>: <></>
+            </>
+            : <></>
+            : <></>
+            : <></>
             }
 
             <div style={{position:'absolute',  width:'100%',height:'5vh', textAlign:'left', top:'0', left:'0',backgroundColor:'rgba(0,0,0,0.5)'}}>
@@ -565,6 +621,8 @@ useEffect(()=>{
         </tr>
 
         {
+          BulkApprovalByContract?
+          BulkApprovalByContract[slotAddress]?
           BulkApprovalByContract[slotAddress][slotAddress]?
           WheelTokensHeldByAccount[slotAddress].sort((a, b) => (a.token_id > b.token_id) ? 1 : -1).map((item, index)=>{
               // console.log('ITEMMMM: ',item);
@@ -591,6 +649,26 @@ useEffect(()=>{
               
             </td>
           </tr>
+          :
+          <tr  style={{}}>                
+            <td   style={{fontSize:'2vh', height:'80vh', position:'relative',display:'flex', alignItems:'center', justifyContent:'center',  backgroundColor: "rgba(0,0,50,0.4)"}}> 
+              <div>
+                <p style={{display:'flex', justifyContent:'center', width:'100%'}}> Enable&nbsp; <p style={{color:'#f00',}}>Bulk Deposit</p>&nbsp;to transfer multiple tokens in a single transaction.</p><br></br><br></br>
+                <p style={{display:'flex', justifyContent:'center', width:'100%'}}> Disable once done to revoke wheel access to manage your tokens. </p>
+              </div>
+              
+            </td>
+          </tr>
+          :
+          <tr  style={{}}>                
+            <td   style={{fontSize:'2vh', height:'80vh', position:'relative',display:'flex', alignItems:'center', justifyContent:'center',  backgroundColor: "rgba(0,0,50,0.4)"}}> 
+              <div>
+                <p style={{display:'flex', justifyContent:'center', width:'100%'}}> Enable&nbsp; <p style={{color:'#f00',}}>Bulk Deposit</p>&nbsp;to transfer multiple tokens in a single transaction.</p><br></br><br></br>
+                <p style={{display:'flex', justifyContent:'center', width:'100%'}}> Disable once done to revoke wheel access to manage your tokens. </p>
+              </div>
+              
+            </td>
+          </tr>
         
         }
 
@@ -598,7 +676,7 @@ useEffect(()=>{
         </tbody>
         </table>
 
-        <div style={{zIndex:'3', display:'flex', justifyContent:'center', padding:'1vh',backgroundColor:'rgba(0,0,0,0.9)',position:'sticky', bottom:'0',width:'100%',margin:'auto'}}>
+        <div onClick={ ()=>{ makeTokenDeposit(slotAddress) } } style={{cursor:'pointer', zIndex:'3', display:'flex', justifyContent:'center', padding:'1vh',backgroundColor:'rgba(0,0,0,0.9)',position:'sticky', bottom:'0',width:'100%',margin:'auto'}}>
           Deposit Button
         </div>
 

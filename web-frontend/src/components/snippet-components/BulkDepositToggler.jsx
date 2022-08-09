@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useContext, useState} from 'react';
 import { useERC20Balances, useMoralis, useWeb3Contract } from "react-moralis";
-import { WheelFactoryContractAddress, WheelFactoryABI, WheelABI } from '../../ContractInfo/ContractInfo';
+import { BulkDepositorContractAddress, WheelFactoryContractAddress, WheelFactoryABI, WheelABI } from '../../ContractInfo/ContractInfo';
 import { NftMoreInfoContext } from '../../App';
 
 
@@ -23,7 +23,7 @@ const BulkDepositToggler = (props) => {
         functionName: "setApprovalForAll",
         chain: 'rinkeby',
         params: {
-            operator: contractAddressWheel,
+            operator: BulkDepositorContractAddress,
             approved: true
         }
       });
@@ -33,7 +33,7 @@ const BulkDepositToggler = (props) => {
         functionName: "setApprovalForAll",
         chain: 'rinkeby',
         params: {
-            operator: contractAddressWheel,
+            operator: BulkDepositorContractAddress,
             approved: false
         }
       });
@@ -45,7 +45,7 @@ const BulkDepositToggler = (props) => {
         chain: 'rinkeby',
         params: {
             owner: account,
-            operator: contractAddressWheel
+            operator: BulkDepositorContractAddress
         }
       });
 

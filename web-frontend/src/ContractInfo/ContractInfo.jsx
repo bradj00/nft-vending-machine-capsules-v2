@@ -28,9 +28,35 @@
 
 
 
-
+export const BulkDepositorContractAddress = "0x8fB0865F1eCA95c4f68730C5e77aEAA1734317f6";
 
 export const WheelFactoryContractAddress = "0x4c0763f24933505fEeF19f32e37F56EDf5A09e7C";
+
+export const BulkDepositorABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "tokenContractAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "tokenIdList",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "address",
+				"name": "sendTo",
+				"type": "address"
+			}
+		],
+		"name": "makeBulkDeposit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
 
 export const BuyCapsuleContractABI = [
 	{
