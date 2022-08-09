@@ -310,6 +310,7 @@ useEffect(() => {
   const [selectedSlotContractSymbol, setselectedSlotContractSymbol] = useState();
   
   const [UserMachinesArray, setUserMachinesArray] = useState([]);
+  const [BulkApprovalByContract, setBulkApprovalByContract] = useState([]);
   
   
   const [selectedFontColor, setselectedFontColor] = useState('#fff');
@@ -673,6 +674,8 @@ useEffect(() => {
     ToolTipTextSlot9, setToolTipTextSlot9,
     ToolTipTextSlot10, setToolTipTextSlot10,
     
+    BulkApprovalByContract, setBulkApprovalByContract,
+
     RinkebyNFTsState, setRinkebyNFTsState,
     
     displayMetaData, setdisplayMetaData,

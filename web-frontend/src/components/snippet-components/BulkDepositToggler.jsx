@@ -9,6 +9,7 @@ import { NftMoreInfoContext } from '../../App';
 const BulkDepositToggler = (props) => {
     const {isWeb3Enabled, account} = useMoralis();
     const {contractAddressWheel, setcontractAddressWheel} = useContext(NftMoreInfoContext);
+    const {BulkApprovalByContract, setBulkApprovalByContract} = useContext(NftMoreInfoContext);
 
 
 
@@ -61,10 +62,14 @@ const BulkDepositToggler = (props) => {
       },[isWeb3Enabled, account]);
 
       useEffect(()=>{
-        if (getApprovalToBulkDeposit.data){ 
+        // if (getApprovalToBulkDeposit.data){ 
             console.log('['+props.theAddress+'] getApprovalToBulkDeposit.data: ',getApprovalToBulkDeposit.data);
-            setActive(2);
-        }
+
+            setBulkApprovalByContract(prevStyle => ({
+            ...prevStyle,
+            [props.theAddress]: { ...prevStyle[ props.theAddress ], [props.theAddress]: getApprovalToBulkDeposit.data   }
+            }))
+        // }
       },[getApprovalToBulkDeposit.data]);
 
 

@@ -31,7 +31,7 @@ const DepositToInventory2 = () => {
   const {refreshRegisteredSlotData, setrefreshRegisteredSlotData} = useContext(NftMoreInfoContext);
   const {registeredFromOnChainBySlot, setregisteredFromOnChainBySlot} = useContext(NftMoreInfoContext);
   const {clickedSlotObj, setClickedSlotObj} = useContext(NftMoreInfoContext);
-
+  const {BulkApprovalByContract, setBulkApprovalByContract} = useContext(NftMoreInfoContext);
   const [uniqueRegistrationSelectionIdsForDeposit, setuniqueRegistrationSelectionIdsForDeposit] = useState({});
   const [AllSlotsSelectedArr, setAllSlotsSelectedArr] = useState([]);
   const [BulkDepositToggle, setBulkDepositToggle] = useState(false);
@@ -481,6 +481,9 @@ useEffect(()=>{
     }))
   }
 
+  useEffect(()=>{
+    console.log('BulkApprovalByContract: ',BulkApprovalByContract);
+  },[BulkApprovalByContract])
 
   function selectAllDepositTokensForAddress(slotAddress){
     console.log('selecting all tokens for: ',slotAddress, SelectAllToggler);
@@ -514,23 +517,33 @@ useEffect(()=>{
 
     <div style={{position:'absolute', top:'3%',display:'flex', overflow:'scroll', maxHeight:'85vh',width:'75%', left:'1vw',}}>
     
-
+    
     {
-    Object.keys(WheelTokensHeldByAccount).map((slotAddress, index1)=>{
+      Object.keys(WheelTokensHeldByAccount).map((slotAddress, index1)=>{
+      
       // console.log('WheelTokensHeldByAccount[ '+slotAddress+' ] ',WheelTokensHeldByAccount[slotAddress] );
+      
       return(
       <div style={{margin:'1vh', width:'100%'}}>
+      
+
+      
       <table key={index1} style={{ marginRight:'10px',}}>
         <thead>
           
         </thead>
         
+          
         <tbody>
+          
         <tr style={{zIndex:'4',position:'sticky', top:'0',width:'100%',}}>
           <th style={{zIndex:'10',display:'flex', justifyContent:'center', height:'5vh', fontSize:'3vh',}}>
-            
+            {BulkApprovalByContract[slotAddress][slotAddress]?
+            <>
             <div className={SelectAllToggler[slotAddress] && SelectAllToggler[slotAddress]!=1?"clickedDepositItem" :""} onClick={()=>{selectAllDepositTokensForAddress(slotAddress); } } style={{cursor:'pointer', zIndex:'1',position:'absolute', left:'5%', width:'1vw',height:'2vh',border:'1px solid #fff',}}></div>
             <div  style={{position:'absolute', left:'10%', top:'25%', fontSize:'1.5vh'}}>select all</div>
+            </>: <></>
+            }
 
             <div style={{position:'absolute',  width:'100%',height:'5vh', textAlign:'left', top:'0', left:'0',backgroundColor:'rgba(0,0,0,0.5)'}}>
               {/* <div style={{fontSize:'4vh',position:'absolute', height:'100%',width:'5%', top:'10%', left:'35%',}}>
@@ -550,19 +563,9 @@ useEffect(()=>{
             </div>
           </th>      
         </tr>
-        {/* <td style={{height:'5%', backgroundColor:'#333', color:'#00ff00',fontSize:'3vh',}}>
-          + {WheelSlotWinnerOffsets[slot]}
-        </td> */}
 
-        {/* Slot Contract Symbol */}
-        {/* <tr style={{zIndex:'1',}}>
-          <td style={{cursor:'pointer', display:'flex', justifyContent:'right', position:'sticky', top:'0',height:'5%',backgroundColor:'#111', color:'cyan', fontWeight:'bold', fontSize:'1.5vh',}}>
-            <div style={{position:'absolute',  left:'7%',color:'#00ff00', fontSize:'1.5vh',}}> {AllSlotsSelectedArr? AllSlotsSelectedArr[slot]? AllSlotsSelectedArr[slot].length:<>0</>:<>0</>}</div>
-            {WheelTokensHeldByAccount[slotAddress][0]? WheelTokensHeldByAccount[slotAddress][0].symbol? WheelTokensHeldByAccount[slotAddress][0].symbol:<></>:<></>}
-          </td>
-        </tr> */}
-        
         {
+          BulkApprovalByContract[slotAddress][slotAddress]?
           WheelTokensHeldByAccount[slotAddress].sort((a, b) => (a.token_id > b.token_id) ? 1 : -1).map((item, index)=>{
               // console.log('ITEMMMM: ',item);
               return(
@@ -578,19 +581,32 @@ useEffect(()=>{
               )
 
           })
+          :
+          <tr  style={{}}>                
+            <td   style={{fontSize:'2vh', height:'80vh', position:'relative',display:'flex', alignItems:'center', justifyContent:'center',  backgroundColor: "rgba(0,0,50,0.4)"}}> 
+              <div>
+                <p style={{display:'flex', justifyContent:'center', width:'100%'}}> Enable&nbsp; <p style={{color:'#f00',}}>Bulk Deposit</p>&nbsp;to transfer multiple tokens in a single transaction.</p><br></br><br></br>
+                <p style={{display:'flex', justifyContent:'center', width:'100%'}}> Disable once done to revoke wheel access to manage your tokens. </p>
+              </div>
+              
+            </td>
+          </tr>
         
         }
-      </tbody>
-      </table>
 
-      <div style={{zIndex:'3', display:'flex', justifyContent:'center', padding:'1vh',backgroundColor:'rgba(0,0,0,0.9)',position:'sticky', bottom:'0',width:'100%',margin:'auto'}}>
-        Deposit Button
-      </div>
+       
+        </tbody>
+        </table>
 
-      </div>
+        <div style={{zIndex:'3', display:'flex', justifyContent:'center', padding:'1vh',backgroundColor:'rgba(0,0,0,0.9)',position:'sticky', bottom:'0',width:'100%',margin:'auto'}}>
+          Deposit Button
+        </div>
+
+        </div>
+
       )
     })
-    
+
     
     }
     
