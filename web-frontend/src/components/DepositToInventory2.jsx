@@ -570,15 +570,18 @@ useEffect(()=>{
     
     {
       Object.keys(WheelTokensHeldByAccount).map((slotAddress, index1)=>{
-      
+      if (slotAddress == "0x0000000000000000000000000000000000000000") {
+        return (<></>)
+      }
       // console.log('WheelTokensHeldByAccount[ '+slotAddress+' ] ',WheelTokensHeldByAccount[slotAddress] );
       
       return(
-      <div style={{margin:'1vh', width:'100%'}}>
+        // this should be a grid to auto scale for number of unique contracts to deposit from
+      <div style={{margin:'1vh', maxWidth:'50%'}}>
       
 
       
-      <table key={index1} style={{ marginRight:'10px',}}>
+      <table key={index1} style={{maxWidth:'1000%', minWidth:'500%', marginRight:'10px',}}>
         <thead>
           
         </thead>
