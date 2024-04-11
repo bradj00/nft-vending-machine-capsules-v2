@@ -1,3 +1,8 @@
+https://devpost.com/software/nifty-wheel
+
+
+https://www.youtube.com/watch?v=Yxgq3nfndNA
+
 ## Inspiration
 
 I have spent a few years participating in web3 communities utilizing a wide variety of token standards and I saw an opportunity to provide a useful service to empower users to market and sell their tokens to others. Using modern tools like Moralis SDK and Chainlink VRF the groundwork is laid for micro-services to promote engagement in smaller retail communities as well as avenues for targeting b2b commerce.
