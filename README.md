@@ -1,7 +1,15 @@
+Chainlink Hackathon entry:
+
 https://devpost.com/software/nifty-wheel
 
+Demo:
 
 https://www.youtube.com/watch?v=Yxgq3nfndNA
+
+![image](https://github.com/bradj00/nft-vending-machine-capsules-v2/assets/99688245/e6e7c528-34fb-4fdf-a599-2a1d2e096b7f)
+![image](https://github.com/bradj00/nft-vending-machine-capsules-v2/assets/99688245/c6a1bcb5-85fc-4e7c-aedf-5e93195ad2ba)
+
+
 
 ## Inspiration
 
